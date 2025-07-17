@@ -6,39 +6,27 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/17 01:48:58 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:24:56 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+
 #include "./tokenizer.h"
 
-void print_token_list(t_token *head)
+void	print_token_list(t_token *head)
 {
 	while (head)
 	{
-		printf("token: '%s', type: %d\n", head->token, head->token_type);
+		printf("token: %s type: %d\n", head->token, head->token_type);
 		head = head->next;
 	}
 }
 
-/*
-int main()
+int	main()
 {
-	char *input = "echo -n 'hello' > output.txt || grep \"hello\" && ls -l";
-	t_token *t_list = tokenize(input);
-	if (!t_list) {
-		printf("Tokenization failed.\n");
-		return 1;
-	}
-	print_token_list(t_list);
-}
-*/
-
-int main()
-{
-
 	char *inputs[] = {
-		"echo -n hello > output.txt | grep hello && ls -l",
+		"ls -l > output.txt | grep hello && ls -l",
 		"ls",
 		"cat < infile | sort > outfile",
 		"echo \"hello world\" && echo '42'",
@@ -54,6 +42,11 @@ int main()
 		"echo \"escaped \\\" quote\"",
 		"echo 'escaped \\' quote'",
 		"$(echo Hello; echo World)",
+		"$$",
+		"(((())))",
+		"echo hello\"fghjkl\"",
+		"export var=100",
+		"export var+=\"100\"",
 		NULL
 	};
 
@@ -64,4 +57,18 @@ int main()
 		printf("\n\n");
 	}
 	return 0;
+
 }
+*/
+
+/*
+int main()
+{
+	char *argv[] = {"echo", "nested 'quotes' and | pipes", NULL};
+	char *envp[] = {NULL};
+
+	execve("/bin/echo", argv, envp);
+	perror("execve failed");
+	return 1;
+}
+*/

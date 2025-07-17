@@ -6,30 +6,11 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:56:45 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/17 02:48:36 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:23:37 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-
-int	handle_quoted_token(t_token **head, char *str, int i)
-{
-	int	j;
-
-	j = 0;
-	if (str[i] == '\'' || str[i] == '\"')
-	{
-		char quote = str[i];
-		++j;
-		while (str[i + j] && str[i + j] != quote)
-			++j;
-		if (str[i + j] == quote)
-			++j;
-		add_token(head, ft_substr(str, i, j));
-		return (i + j);
-	}
-	return (i);
-}
 
 int	get_parenthesis_token_type(char *value)
 {
@@ -37,7 +18,7 @@ int	get_parenthesis_token_type(char *value)
 		return (TK_L_PARENTHESIS);
 	else if (ft_strlen(value) == 1 && *value == ')')
 		return (TK_R_PARENTHESIS);
-	else if(ft_strcmp("<<", value) == 0)
+	else if (ft_strcmp("<<", value) == 0)
 		return (TK_HEREDOC);
 	else if (ft_strcmp(">>", value) == 0)
 		return (TK_APPEND);
@@ -50,20 +31,24 @@ int	get_parenthesis_token_type(char *value)
 
 int	get_token_type(char *value)
 {
-	if (ft_isalpha(value[0]))
+	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
 		return (TK_WORD);
 	else if (ft_strlen(value) == 1 && *value == '|')
 		return (TK_PIPE);
-	else if (ft_strlen(value) == 1 && *value == ';')
-		return (TK_SEMI_COLON);
 	else if (ft_strlen(value) == 1 && *value == '$')
 		return (TK_DOLLAR);
-	else if (ft_strlen(value) >= 2 && *value == '-')
-		return (TK_FLAG_SIGN);
 	else if (ft_strlen(value) >= 1 && *value == '\'')
-		return (TK_SINGLE_QUOTE);
+	{
+		if (value[0] == '\'' && value[ft_strlen(value) - 1] == '\'')
+			return (TK_SINGLE_QUOTE);
+		return (TK_ERROR);
+	}
 	else if (ft_strlen(value) >= 1 && *value == '\"')
-		return (TK_DOUBLE_QUOTE);
+	{
+		if (value[0] == '\'' && value[ft_strlen(value) - 1] == '\'')
+			return (TK_DOUBLE_QUOTE);
+		return (TK_ERROR);
+	}
 	else if (ft_strcmp("&&", value) == 0)
 		return (TK_AND);
 	else if (ft_strcmp("||", value) == 0)
@@ -113,23 +98,14 @@ t_token	*tokenize(char *str)
 		while (str[i] && ft_isspace(str[i]))
 			++i;
 		if (str[i] == '\'' || str[i] == '\"')
-			i = handle_quoted_token(&head, str, i);
-		while (str[i + j] && (ft_isalpha(str[i + j]) || ft_inset(str[i + j], "^-_*.$\\0123456789")))
-			++j;
-		if (j > 0)
-		{
-			add_token(&head, ft_substr(str, i, j));
-			i += j;
-			j = 0;
-		}
-		while (str[i + j] && ft_inset(str[i + j], "|&<>();"))
-			++j;
-		if (j > 0)
-		{
-			add_token(&head, ft_substr(str, i, j));
-			i += j;
-		}
+			i = make_quoted_token(&head, str, i);
+		else if (ft_isalpha(str[i + j]) || ft_inset(str[i + j],
+				"^-_*.$+=\\0123456789"))
+			i = make_word_token(&head, str, i);
+		else if (ft_inset(str[i + j], "|&<>();"))
+			i = make_specials_token(&head, str, i);
+		else
+			++i;
 	}
 	return (head);
 }
-
