@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:56:45 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/17 02:48:36 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:09:49 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ int	handle_quoted_token(t_token **head, char *str, int i)
 	{
 		char quote = str[i];
 		++j;
-		while (str[i + j] && str[i + j] != quote)
+		while (str[i + j])
+		{
+			if (str[i + j] == quote && str[i + (j - 1)] != '\\')
+				break;
 			++j;
+		}
 		if (str[i + j] == quote)
 			++j;
 		add_token(head, ft_substr(str, i, j));
@@ -30,7 +34,7 @@ int	handle_quoted_token(t_token **head, char *str, int i)
 	}
 	return (i);
 }
-
+ 
 int	get_parenthesis_token_type(char *value)
 {
 	if (ft_strlen(value) == 1 && *value == '(')
@@ -54,8 +58,6 @@ int	get_token_type(char *value)
 		return (TK_WORD);
 	else if (ft_strlen(value) == 1 && *value == '|')
 		return (TK_PIPE);
-	else if (ft_strlen(value) == 1 && *value == ';')
-		return (TK_SEMI_COLON);
 	else if (ft_strlen(value) == 1 && *value == '$')
 		return (TK_DOLLAR);
 	else if (ft_strlen(value) >= 2 && *value == '-')
@@ -122,13 +124,15 @@ t_token	*tokenize(char *str)
 			i += j;
 			j = 0;
 		}
-		while (str[i + j] && ft_inset(str[i + j], "|&<>();"))
+		while (str[i + j] && ft_inset(str[i + j], "|&<>()"))
 			++j;
 		if (j > 0)
 		{
 			add_token(&head, ft_substr(str, i, j));
 			i += j;
 		}
+		else
+			++i;
 	}
 	return (head);
 }
