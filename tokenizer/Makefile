@@ -3,7 +3,7 @@ NAME	=	token
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3
 
-SRCS	=	main.c tokenizer_utils.c tokenizer.c
+SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 

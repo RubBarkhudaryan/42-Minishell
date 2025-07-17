@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/17 00:21:44 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:36:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_isspace(char c)
 int	ft_inset(char c, char *set)
 {
 	int	i;
+
 	if (!set)
 		return (0);
 	i = 0;
@@ -37,14 +38,13 @@ int	ft_inset(char c, char *set)
 	return (0);
 }
 
-int		ft_strcmp(char *str1, char *str2)
+int	ft_strcmp(char *str1, char *str2)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-
 	while (str1[i] || str2[j])
 	{
 		if (str1[i] != str2[j])
