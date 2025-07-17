@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   bulit_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/13 14:31:23 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/14 22:49:22 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/07/17 16:40:05 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#ifndef BULIT_IN_H
+# define BULIT_IN_H
+
+#include <stdio.h>
+int	builtin_echo(char **args);
+
+#endif

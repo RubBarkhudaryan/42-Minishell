@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_list.c                                      :+:      :+:    :+:   */
+/*   bulit_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 15:05:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/16 14:13:47 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/07/17 22:30:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#ifndef BULIT_IN_H
+# define BULIT_IN_H
 
-t_token	*ft_new_list_token(char *data, int type)
-{
-	t_token	*list;
+# include <stdio.h>
+int	ft_echo(char **args);
 
-	list = malloc(sizeof(t_token));
-	if (!list)
-		return (NULL);
-	list->data = data;
-	list->type = type;
-	list->next = NULL;
-	return (list);
-}
+#endif
