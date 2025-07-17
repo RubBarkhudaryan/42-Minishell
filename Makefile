@@ -3,7 +3,7 @@ NAME		= minishell
 CC	= cc
 RM	= rm -f
 
-SRC	= src/main.c parsing/parsing.c parsing/tokenizer.c utils/utils.c parsing/helper_list.c
+SRC	= src/main.c utils/utils.c built_in/echo.c
 OBJ_DIR	= obj
 OBJ	= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
