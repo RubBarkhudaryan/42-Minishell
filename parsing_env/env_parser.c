@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/19 17:15:15 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:40:46 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ char	**convert_envp_to_string(t_env *head)
 	}
 	ret[i] = NULL;
 	return (ret);
+}
+
+char	*get_value_from_env(t_env *head, char *key)
+{
+	t_env	*tmp;
+
+	tmp = head;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 t_env	*parse_environment(char **envp)

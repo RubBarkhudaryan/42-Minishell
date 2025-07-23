@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"stdio.h": "c",
+		"env_parser.h": "c",
+		"bulit_in.h": "c"
+	}
+}

@@ -6,40 +6,110 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:10:01 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/17 23:50:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:06:55 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-
-// Helper to print a header before each test
-void	print_test_header(int num, char **args)
+char	*getcwd_wrapper(void)
 {
-	printf("\nTest %d: ", num);
-	for (int i = 0; args[i]; i++)
-		printf("\"%s\" ", args[i]);
-	printf("Output: ");
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("getcwd");
+		return (NULL);
+	}
+	return (cwd);
 }
 
-int	main(void)
+void	print_pwd(t_env *env)
 {
-	char	*test1[] = {"echo", NULL};
-	char	*test2[] = {"echo", "-n", "hello", "world", NULL };
-	char	*test3[] = {"echo", "-nnn", "foo", NULL };
-
-	char	**tests[] = {test1, test2, test3,  NULL};
-
-	for (int i = 0; tests[i]; i++)
+	while (env)
 	{
-		print_test_header(i + 1, tests[i]);
-		ft_echo(tests[i]);
-		// printf("\n"); // Add separation line after each test output
+		if (strcmp(env->key, "PWD") == 0)
+			printf("PWD: %s\n", env->value);
+		if (strcmp(env->key, "OLDPWD") == 0)
+			printf("OLDPWD: %s\n", env->value);
+		env = env->next;
 	}
+}
+
+// Test wrapper
+void	test_cd(char *desc, char **cmd, t_env *env)
+{
+	char	*cwd;
+
+	printf("\n==== %s ====\n", desc);
+	ft_cd(cmd, env);
+	cwd = getcwd_wrapper();
+	if (cwd)
+	{
+		printf("Current dir: %s\n", cwd);
+		free(cwd);
+	}
+	print_pwd(env);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_env	*env;
+	char	*cmd1[] = {"cd", NULL};
+	char	*cmd2[] = {"cd", "/tmp", NULL};
+	char	*cmd3[] = {"cd", "/not/real/path", NULL};
+	char	*cmd4[] = {"cd", "-", NULL};
+	char	*cmd5[] = {"cd", "", NULL};
+
+	(void)argc;
+	(void)argv;
+	env = parse_environment(envp);
+	// Test 1: cd with no args (should go to $HOME)
+	test_cd("cd with no args", cmd1, env);
+	// Test 2: cd /tmp
+	test_cd("cd to /tmp", cmd2, env);
+	// Test 3: cd to non-existing directory
+	test_cd("cd to invalid path", cmd3, env);
+	// Test 4: cd -
+	test_cd("cd - (OLDPWD)", cmd4, env);
+	// Test 5: cd ..
+	test_cd("cd "
+			"",
+			cmd5,
+			env);
+	free_env_list(env);
 	return (0);
 }
+
+// // Helper to print a header before each test
+// void	print_test_header(int num, char **args)
+// {
+// 	printf("\nTest %d: ", num);
+// 	for (int i = 0; args[i]; i++)
+// 		printf("\"%s\" ", args[i]);
+// 	printf("Output: ");
+// }
+
+// int	main(void)
+// {
+// 	char	*test1[] = {"echo", NULL};
+// 	char	*test2[] = {"echo", "-n", "hello", "world", NULL};
+// 	char	*test3[] = {"echo", "-nnn", "foo", NULL};
+// 	char	**tests[] = {test1, test2, test3, NULL};
+
+// 	for (int i = 0; tests[i]; i++)
+// 	{
+// 		print_test_header(i + 1, tests[i]);
+// 		ft_echo(tests[i]);
+// 		// printf("\n"); // Add separation line after each test output
+// 	}
+// 	return (0);
+// }
 
 // #include <stdio.h>
 // #include <stdlib.h>
@@ -64,7 +134,8 @@ int	main(void)
 //  *                unless you include it here)
 //  *   add_nl    — set to 1 if you expect ft_echo to always append a '\n'
 //  */
-// void run_test(const char *name, char *args[], const char *expected, int add_nl)
+// void run_test(const char *name, char *args[], const char *expected,
+// int add_nl)
 // {
 //     int   pipefd[2];
 //     pid_t pid;
@@ -154,6 +225,5 @@ int	main(void)
 //     printf("\n" YELLOW "Summary:" RESET " %d/%d passed\n",
 //            passed_tests, test_count);
 
-//     return (passed_tests == test_count) ? 0 : 1;
+//     return ((passed_tests == test_count) ? 0 : 1);
 // }
-

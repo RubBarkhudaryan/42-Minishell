@@ -1,32 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 13:32:51 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/22 14:01:01 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/07/23 17:07:25 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_parser.h"
+#include "bulit_in.h"
 
-int	main(int argc, char **argv, char **env)
+int	args_len(char **args)
 {
-	t_env	*head;
-	int		i;
-	char	**this;
+	int	i;
 
-	(void)argc;
-	(void)argv;
-	head = parse_environment(env);
-	this = convert_envp_to_string(head);
-	i = -1;
-	while (this[++i])
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
+}
+
+int	ft_pwd(char **args) //??
+{
+	char	*cwd;
+
+	if (args_len(args) > 1)
 	{
-		printf("%s\n", this[i]);
+		perror("pwd: too many arguments\n");
+		return (1);
 	}
-	free_split(this);
-	free_env_list(head);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("pwd: PWD not set\n");
+		return (1);
+	}
+	printf("%s\n", cwd);
+	free(cwd);
+	return (0);
 }
