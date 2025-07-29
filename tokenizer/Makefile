@@ -2,15 +2,16 @@ NAME	=	token
 
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3
+LDFLAGS	=	-lreadline -lncurses
 
-SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c
+SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c int_funcs.c str_funcs.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

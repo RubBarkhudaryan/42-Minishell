@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
+/*   int_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/29 16:11:48 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/07/28 18:36:29 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/07/28 18:36:29 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "./tokenizer.h"
 
-void	print_token_list(t_token *head)
+int	tk_strcmp(char *str1, char *str2)
 {
-	while (head)
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str1[i] || str2[j])
 	{
-		printf("token: %s type: %d\n", head->token, head->token_type);
-		head = head->next;
+		if (str1[i] != str2[j])
+			return (str1[i] - str2[j]);
+		++i;
+		++j;
 	}
+	return (0);
 }
 
-void	free_token_list(t_token *head)
+int	tk_strlen(char *str)
 {
-	t_token	*temp;
+	int	i;
 
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp->token);
-		free(temp);
-	}
+	i = 0;
+	while (str[i])
+		++i;
+	return (i);
 }

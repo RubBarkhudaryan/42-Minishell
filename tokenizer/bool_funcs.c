@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
+/*   bool_funcs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/29 16:11:48 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:36:18 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-void	print_token_list(t_token *head)
+int	tk_isalpha(char c)
 {
-	while (head)
-	{
-		printf("token: %s type: %d\n", head->token, head->token_type);
-		head = head->next;
-	}
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
-void	free_token_list(t_token *head)
+int	tk_isspace(char c)
 {
-	t_token	*temp;
+	return ((c >= 9 && c <= 13) || c == ' ');
+}
 
-	while (head)
+int	tk_inset(char c, char *set)
+{
+	int	i;
+
+	if (!set)
+		return (0);
+	i = 0;
+	while (set[i])
 	{
-		temp = head;
-		head = head->next;
-		free(temp->token);
-		free(temp);
+		if (c == set[i])
+			return (1);
+		++i;
 	}
+	return (0);
 }
