@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/21 11:40:46 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:12:48 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,23 @@
 char	**convert_envp_to_string(t_env *head)
 {
 	char	**ret;
-	t_env	*tmp_head;
 	char	*tmp;
 	int		i;
 	int		len;
 
 	i = 0;
-	tmp_head = head;
 	len = env_list_size(head);
-	if (!tmp_head || !len)
+	if (!head || !len)
 		return (NULL); //??
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!ret)
 		return (NULL);
-	while (tmp_head)
+	while (head)
 	{
-		tmp = ft_strjoin(tmp_head->key, "=");
-		ret[i] = ft_strjoin(tmp, tmp_head->value);
+		tmp = ft_strjoin(head->key, "=");
+		ret[i] = ft_strjoin(tmp, head->value);
 		free(tmp);
-		tmp_head = tmp_head->next;
+		head = head->next;
 		++i;
 	}
 	ret[i] = NULL;
@@ -80,14 +78,14 @@ t_env	*parse_environment(char **envp)
 		}
 		if (!head)
 		{
-			head = new_node(key, value);
+			head = env_new_node(key, value);
 			if (!head)
 				return (NULL); // make error int
 			current = head;
 		}
 		else
 		{
-			current->next = new_node(key, value);
+			current->next = env_new_node(key, value);
 			if (!current->next)
 				return (NULL); // make error print
 			current = current->next;

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:31 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/22 20:53:30 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:57:46 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,26 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
+
+// flag -> 0 - not exported, 1 - exported
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	int flag; // 0 - not exported, 1 - exported
+	int				flag;
 	struct s_env	*next;
 }					t_env;
 
 t_env				*parse_environment(char **envp);
-char	*get_value_from_env(t_env *head, char *key); // this is new
-int					replace_env_value(char *key, char *value, t_env *head,
-						int flag);
+t_env				*search_node(char *key, t_env *env);
+t_env				*env_new_node(char *key, char *value);
 char				**convert_envp_to_string(t_env *head);
-t_env				*new_node(char *key, char *value);
-
+char				*get_value_from_env(t_env *head, char *key);
+int					add_env_end(t_env **env, char *key, char *value);
+int					replace_env_value(char *key, char *value, t_env *head);
+// The function gives the length of the arguments.
+int					args_len(char **args);
 void				free_split(char **ret);
 void				free_env_list(t_env *head);
 int					env_list_size(t_env *head);
-int	args_len(char **args); // The function gives the length of the arguments.
 #endif

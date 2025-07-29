@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/23 17:06:18 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:05:48 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	change_directory(char *path, t_env *env)
 		return (1);
 	}
 	old_pwd = get_value_from_env(env, "PWD");
-	if (replace_env_value("OLDPWD", old_pwd, env, 0) || replace_env_value("PWD",
-			cwd, env, 0))
+	if (replace_env_value("OLDPWD", old_pwd, env) || replace_env_value("PWD",
+			cwd, env))
 	{
 		free(cwd);
 		return (1);
@@ -43,7 +43,7 @@ int	ft_cd(char **args, t_env *env)
 {
 	char	*path;
 
-	if (args_len(args) > 2)
+	if (args_len(args) > 2 && args_len(args))
 	{
 		perror("cd: too many arguments\n");
 		return (1);

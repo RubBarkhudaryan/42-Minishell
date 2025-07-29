@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/23 17:07:04 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:39:06 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@
 int	ft_echo(char **args);
 int	ft_pwd(char **args); //??
 int	ft_cd(char **args, t_env *env);
-int	args_len(char **args);
+int	ft_env(char **args, t_env *env_list);
+int	print_export(t_env *env);
+int	ft_export(char **args, t_env *env);
 #endif

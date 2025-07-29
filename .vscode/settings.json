@@ -2,6 +2,12 @@
 	"files.associations": {
 		"stdio.h": "c",
 		"env_parser.h": "c",
-		"bulit_in.h": "c"
+		"bulit_in.h": "c",
+		"system_error": "c",
+		"array": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c"
 	}
 }
