@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/17 18:21:16 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:51:39 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	make_quoted_token(t_token **head, char *str, int i)
 	}
 	if (str[i + j] == quote)
 		++j;
-	add_token(head, ft_substr(str, i, j));
+	add_token(head, tk_substr(str, i, j));
 	return (i + j);
 }
 
@@ -38,13 +38,13 @@ int	make_word_token(t_token **head, char *str, int i)
 	j = 1;
 	while (str[i + j])
 	{
-		if (ft_isalpha(str[i + j]) || ft_inset(str[i + j],
-				"^-_*.$+=\\0123456789"))
+		if (tk_isalpha(str[i + j]) || tk_inset(str[i + j],
+				"!@#$%^*-_+=~`;\\/0123456789"))
 			++j;
 		else
 			break ;
 	}
-	add_token(head, ft_substr(str, i, j));
+	add_token(head, tk_substr(str, i, j));
 	return (i + j);
 }
 
@@ -55,11 +55,11 @@ int	make_specials_token(t_token **head, char *str, int i)
 	j = 1;
 	while (str[i + j])
 	{
-		if (ft_inset(str[i + j], "|&<>();"))
+		if (tk_inset(str[i + j], "|&<>();"))
 			++j;
 		else
 			break ;
 	}
-	add_token(head, ft_substr(str, i, j));
+	add_token(head, tk_substr(str, i, j));
 	return (i + j);
 }

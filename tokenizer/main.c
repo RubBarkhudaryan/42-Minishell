@@ -6,23 +6,39 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/17 18:24:56 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:45:12 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-
 #include "./tokenizer.h"
+#include <readline/readline.h>
 
-void	print_token_list(t_token *head)
+int	main(void)
 {
-	while (head)
+	char	*line;
+	t_token	*token_list;
+
+	while (true)
 	{
-		printf("token: %s type: %d\n", head->token, head->token_type);
-		head = head->next;
+		line = readline("minishell> ");
+		if (!line)
+			break ;
+		token_list = tokenize(line);
+		if (token_list)
+		{
+			print_token_list(token_list);
+			free_token_list(token_list);
+		}
+		else
+		{
+			printf("Tokenization failed.\n");
+		}
+		free(line);
 	}
+	return (0);
 }
 
+/*
 int	main()
 {
 	char *inputs[] = {
