@@ -9,6 +9,7 @@ SRCS	=	main.c \
 			cd.c \
 			env.c\
 			export.c\
+			export_utils.c\
 			../parsing_env/env_parser.c\
 			../parsing_env/env_utils.c
 

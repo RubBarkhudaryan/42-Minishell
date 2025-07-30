@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:23 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/28 19:01:28 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:23:53 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_env	*env_new_node(char *key, char *value)
 	if (!value || !*value)
 		tmp->flag = 1;
 	else
-		tmp->flag = 0; // Default flag value
+		tmp->flag = 0;
 	tmp->key = key;
 	tmp->value = value;
 	tmp->next = NULL;
@@ -114,7 +114,7 @@ int	add_env_end(t_env **env, char *key, char *value)
 	t_env	*new;
 
 	new = env_new_node(key, value);
-	if (!new || !*env)
+	if (!new)
 		return (1);
 	tmp = *env;
 	while (tmp->next)

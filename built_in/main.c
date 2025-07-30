@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:10:01 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/28 19:04:50 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:32:16 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,98 @@
 #include <string.h>
 #include <unistd.h>
 
+// Helper to find env value
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
-	char	*args[] = {"export", "A", "A=aloooo","ls+=bbbbb", NULL};
+	char	*test3[] = {"export", "PWD+=1", "B=2", NULL};
+	char	*test5[] = {"export", NULL};
 
 	(void)argc;
 	(void)argv;
 	env = parse_environment(envp);
-	ft_export(args, env);
-	print_export(env);
+	ft_export(test3, env);
+	ft_export(test5, env);
 	free_env_list(env);
+	return (0);
 }
-
-// char	*getcwd_wrapper(void)
+// char	*get_env_value(t_env *env, const char *key)
 // {
+// 	while (env)
+// 	{
+// 		if (strcmp(env->key, key) == 0)
+// 			return (env->value);
+// 		env = env->next;
+// 	}
+// 	return (NULL);
+// }
+
+// // Helper to print environment list
+// void	print_env_list(t_env *env)
+// {
+// 	printf("Current environment:\n");
+// 	while (env)
+// 	{
+// 		printf("%s=%s\n", env->key, env->value);
+// 		env = env->next;
+// 	}
+// 	printf("---------------------\n");
+// }
+
+// // Export test runner
+// void	run_export_test(const char *desc, char **args, t_env *env,
+// 		const char *check_key, const char *expected_value)
+// {
+// 	char	*val;
+
+// 	printf("Test: %s\n", desc);
+// 	ft_export(args, env);
+// 	val = check_key ? get_env_value(env, check_key) : NULL;
+// 	if (check_key == NULL)
+// 	{
+// 		printf("  (No key to check, just printing env)\n");
+// 		print_env_list(env);
+// 		printf("  PASS\n");
+// 		return ;
+// 	}
+// 	if ((expected_value == NULL && val == NULL) || (val && expected_value
+// 			&& strcmp(val, expected_value) == 0))
+// 	{
+// 		printf("  PASS\n");
+// 	}
+// 	else
+// 	{
+// 		printf("  FAIL\n");
+// 		printf("    Expected %s=%s, got %s\n", check_key,
+// 			expected_value ? expected_value : "(none)", val ? val : "(none)");
+// 	}
+// 	print_env_list(env);
+// }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_env	*env;
+// 	char	*test1[] = {"export", "FOO=bar", NULL};
+// 	char	*test2[] = {"export", "FOO=baz", NULL};
+// 	char	*test3[] = {"export", "PWD=1", "B=2", NULL};
+// 	char	*test4[] = {"export", "INVALID", NULL};
+// 	char	*test5[] = {"export", NULL};
+
+// 	(void)argc;
+// 	(void)argv;
+// 	(void)envp;
+// 	env = parse_environment(envp);
+// 	run_export_test("Add new variable FOO=bar", test1, env, "FOO", "bar");
+// 	run_export_test("Update variable FOO=baz", test2, env, "FOO", "baz");
+// 	run_export_test("Add multiple variables A=1 B=2", test3, env, "A", "1");
+// 	run_export_test("Add multiple variables A=1 B=2", test3, env, "B", "2");
+// 	run_export_test("Invalid format (should not add INVALID)", test4, env,
+// 		"INVALID", NULL);
+// 	run_export_test("No arguments (should print env)", test5, env, NULL, NULL);
+// 	free_env_list(env);
+// 	return (0);
+// }
 // 	char	*cwd;
 
 // 	cwd = getcwd(NULL, 0);
