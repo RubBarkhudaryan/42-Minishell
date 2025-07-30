@@ -1,43 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/24 13:46:30 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/07/23 20:03:20 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/07/24 13:46:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
 
-int	args_len(char **args)
+int	ft_env(char **args, t_env *env_list)
 {
-	int	i;
+	char	**env_string;
+	int		i;
+	t_env	*tmp;
 
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
-
-int	ft_pwd(char **args) //??
-{
-	char *cwd;
-
+	tmp = env_list;
 	if (args_len(args) > 1 && args_len(args))
 	{
-		perror("pwd: too many arguments\n");
+		perror("env: too many arguments\n");
 		return (1);
 	}
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
+	env_string = convert_envp_to_string(env_list);
+	if (!env_string || !*env_string)
+		return (1);
+	i = -1;
+	while (env_string[++i])
 	{
-		perror("pwd: PWD not set\n");
-		return (1);
+		if (!tmp->flag)
+			printf("%s\n", env_string[i]);
+		tmp = tmp->next;
 	}
-	printf("%s\n", cwd);
-	free(cwd);
+	free_split(env_string);
 	return (0);
 }

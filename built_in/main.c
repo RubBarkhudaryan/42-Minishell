@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:10:01 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/23 17:06:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/30 20:32:16 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,75 +16,165 @@
 #include <string.h>
 #include <unistd.h>
 
-char	*getcwd_wrapper(void)
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		perror("getcwd");
-		return (NULL);
-	}
-	return (cwd);
-}
-
-void	print_pwd(t_env *env)
-{
-	while (env)
-	{
-		if (strcmp(env->key, "PWD") == 0)
-			printf("PWD: %s\n", env->value);
-		if (strcmp(env->key, "OLDPWD") == 0)
-			printf("OLDPWD: %s\n", env->value);
-		env = env->next;
-	}
-}
-
-// Test wrapper
-void	test_cd(char *desc, char **cmd, t_env *env)
-{
-	char	*cwd;
-
-	printf("\n==== %s ====\n", desc);
-	ft_cd(cmd, env);
-	cwd = getcwd_wrapper();
-	if (cwd)
-	{
-		printf("Current dir: %s\n", cwd);
-		free(cwd);
-	}
-	print_pwd(env);
-}
+// Helper to find env value
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
-	char	*cmd1[] = {"cd", NULL};
-	char	*cmd2[] = {"cd", "/tmp", NULL};
-	char	*cmd3[] = {"cd", "/not/real/path", NULL};
-	char	*cmd4[] = {"cd", "-", NULL};
-	char	*cmd5[] = {"cd", "", NULL};
+	char	*test3[] = {"export", "PWD+=1", "B=2", NULL};
+	char	*test5[] = {"export", NULL};
 
 	(void)argc;
 	(void)argv;
 	env = parse_environment(envp);
-	// Test 1: cd with no args (should go to $HOME)
-	test_cd("cd with no args", cmd1, env);
-	// Test 2: cd /tmp
-	test_cd("cd to /tmp", cmd2, env);
-	// Test 3: cd to non-existing directory
-	test_cd("cd to invalid path", cmd3, env);
-	// Test 4: cd -
-	test_cd("cd - (OLDPWD)", cmd4, env);
-	// Test 5: cd ..
-	test_cd("cd "
-			"",
-			cmd5,
-			env);
+	ft_export(test3, env);
+	ft_export(test5, env);
 	free_env_list(env);
 	return (0);
 }
+// char	*get_env_value(t_env *env, const char *key)
+// {
+// 	while (env)
+// 	{
+// 		if (strcmp(env->key, key) == 0)
+// 			return (env->value);
+// 		env = env->next;
+// 	}
+// 	return (NULL);
+// }
+
+// // Helper to print environment list
+// void	print_env_list(t_env *env)
+// {
+// 	printf("Current environment:\n");
+// 	while (env)
+// 	{
+// 		printf("%s=%s\n", env->key, env->value);
+// 		env = env->next;
+// 	}
+// 	printf("---------------------\n");
+// }
+
+// // Export test runner
+// void	run_export_test(const char *desc, char **args, t_env *env,
+// 		const char *check_key, const char *expected_value)
+// {
+// 	char	*val;
+
+// 	printf("Test: %s\n", desc);
+// 	ft_export(args, env);
+// 	val = check_key ? get_env_value(env, check_key) : NULL;
+// 	if (check_key == NULL)
+// 	{
+// 		printf("  (No key to check, just printing env)\n");
+// 		print_env_list(env);
+// 		printf("  PASS\n");
+// 		return ;
+// 	}
+// 	if ((expected_value == NULL && val == NULL) || (val && expected_value
+// 			&& strcmp(val, expected_value) == 0))
+// 	{
+// 		printf("  PASS\n");
+// 	}
+// 	else
+// 	{
+// 		printf("  FAIL\n");
+// 		printf("    Expected %s=%s, got %s\n", check_key,
+// 			expected_value ? expected_value : "(none)", val ? val : "(none)");
+// 	}
+// 	print_env_list(env);
+// }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_env	*env;
+// 	char	*test1[] = {"export", "FOO=bar", NULL};
+// 	char	*test2[] = {"export", "FOO=baz", NULL};
+// 	char	*test3[] = {"export", "PWD=1", "B=2", NULL};
+// 	char	*test4[] = {"export", "INVALID", NULL};
+// 	char	*test5[] = {"export", NULL};
+
+// 	(void)argc;
+// 	(void)argv;
+// 	(void)envp;
+// 	env = parse_environment(envp);
+// 	run_export_test("Add new variable FOO=bar", test1, env, "FOO", "bar");
+// 	run_export_test("Update variable FOO=baz", test2, env, "FOO", "baz");
+// 	run_export_test("Add multiple variables A=1 B=2", test3, env, "A", "1");
+// 	run_export_test("Add multiple variables A=1 B=2", test3, env, "B", "2");
+// 	run_export_test("Invalid format (should not add INVALID)", test4, env,
+// 		"INVALID", NULL);
+// 	run_export_test("No arguments (should print env)", test5, env, NULL, NULL);
+// 	free_env_list(env);
+// 	return (0);
+// }
+// 	char	*cwd;
+
+// 	cwd = getcwd(NULL, 0);
+// 	if (!cwd)
+// 	{
+// 		perror("getcwd");
+// 		return (NULL);
+// 	}
+// 	return (cwd);
+// }
+
+// void	print_pwd(t_env *env)
+// {
+// 	while (env)
+// 	{
+// 		if (strcmp(env->key, "PWD") == 0)
+// 			printf("PWD: %s\n", env->value);
+// 		if (strcmp(env->key, "OLDPWD") == 0)
+// 			printf("OLDPWD: %s\n", env->value);
+// 		env = env->next;
+// 	}
+// }
+
+// // Test wrapper
+// void	test_cd(char *desc, char **cmd, t_env *env)
+// {
+// 	char	*cwd;
+
+// 	printf("\n==== %s ====\n", desc);
+// 	ft_cd(cmd, env);
+// 	cwd = getcwd_wrapper();
+// 	if (cwd)
+// 	{
+// 		printf("Current dir: %s\n", cwd);
+// 		free(cwd);
+// 	}
+// 	print_pwd(env);
+// }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_env	*env;
+// 	char	*cmd1[] = {"cd", NULL};
+// 	char	*cmd2[] = {"cd", "/tmp", NULL};
+// 	char	*cmd3[] = {"cd", "/not/real/path", NULL};
+// 	char	*cmd4[] = {"cd", "-", NULL};
+// 	char	*cmd5[] = {"cd", "", NULL};
+
+// 	(void)argc;
+// 	(void)argv;
+// 	env = parse_environment(envp);
+// 	// Test 1: cd with no args (should go to $HOME)
+// 	test_cd("cd with no args", cmd1, env);
+// 	// Test 2: cd /tmp
+// 	test_cd("cd to /tmp", cmd2, env);
+// 	// Test 3: cd to non-existing directory
+// 	test_cd("cd to invalid path", cmd3, env);
+// 	// Test 4: cd -
+// 	test_cd("cd - (OLDPWD)", cmd4, env);
+// 	// Test 5: cd ..
+// 	test_cd("cd "
+// 			"",
+// 			cmd5,
+// 			env);
+// 	free_env_list(env);
+// 	return (0);
+// }
 
 // // Helper to print a header before each test
 // void	print_test_header(int num, char **args)

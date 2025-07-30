@@ -7,8 +7,11 @@ SRCS	=	main.c \
 			pwd.c\
 			echo.c \
 			cd.c \
-			../parsing_env/env_parser.c #for testing cd and pwd
-			../parsing_env/env_utils.c  
+			env.c\
+			export.c\
+			export_utils.c\
+			../parsing_env/env_parser.c\
+			../parsing_env/env_utils.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 

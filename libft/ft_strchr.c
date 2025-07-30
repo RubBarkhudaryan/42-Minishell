@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:12:03 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/04/17 20:12:00 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:22:59 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ char	*ft_strchr(const char *s, int c)
 	while (ret_s[i])
 	{
 		if (ret_s[i] == (char)c)
-		{
 			return (&ret_s[i]);
-		}
 		++i;
 	}
 	if (ret_s[i] == (char)c)
