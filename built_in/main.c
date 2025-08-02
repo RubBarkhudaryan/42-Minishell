@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:10:01 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/30 20:32:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:21:24 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
 
 // Helper to find env value
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_env	*env;
-	char	*test3[] = {"export", "PWD+=1", "B=2", NULL};
-	char	*test5[] = {"export", NULL};
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_env	*env;
+// 	char	*test5[] = {"export", NULL};
 
-	(void)argc;
-	(void)argv;
-	env = parse_environment(envp);
-	ft_export(test3, env);
-	ft_export(test5, env);
-	free_env_list(env);
-	return (0);
-}
+// 	// char	*test3[] = {"export", "PWD+=1", "B=2", NULL};
+// 	(void)argc;
+// 	(void)argv;
+// 	env = parse_environment(envp);
+// 	ft_export(NULL, env);
+// 	ft_export(test5, env);
+// 	free_env_list(env);
+// 	return (0);
+// }
 // char	*get_env_value(t_env *env, const char *key)
 // {
 // 	while (env)
