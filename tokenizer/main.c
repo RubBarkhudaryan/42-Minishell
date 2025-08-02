@@ -6,12 +6,22 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/28 18:45:12 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:05:46 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./tokenizer.h"
+#include "../syntax_analysis/syntax.h"
+#include <readline/history.h>
 #include <readline/readline.h>
+
+static void	print_token_list(t_token *head)
+{
+	while (head)
+	{
+		printf("token: %s type: %d\n", head->token, head->token_type);
+		head = head->next;
+	}
+}
 
 int	main(void)
 {
@@ -24,9 +34,14 @@ int	main(void)
 		if (!line)
 			break ;
 		token_list = tokenize(line);
+		add_history(line);
 		if (token_list)
 		{
 			print_token_list(token_list);
+			if (analyze(token_list))
+				printf("Syntax analysis passed.\n");
+			else
+				printf("Syntax analysis failed.\n");
 			free_token_list(token_list);
 		}
 		else
@@ -35,11 +50,12 @@ int	main(void)
 		}
 		free(line);
 	}
+	rl_clear_history();
 	return (0);
 }
 
 /*
-int	main()
+int	main(void)
 {
 	char *inputs[] = {
 		"ls -l > output.txt | grep hello && ls -l",
@@ -65,26 +81,24 @@ int	main()
 		"export var+=\"100\"",
 		NULL
 	};
-
 	for (int i = 0; inputs[i]; i++)
 	{
 		printf("Test case %d: %s\n\n", i + 1, inputs[i]);
 		print_token_list(tokenize(inputs[i]));
 		printf("\n\n");
 	}
-	return 0;
-
+	return (0);
 }
 */
 
 /*
-int main()
+int	main(void)
 {
-	char *argv[] = {"echo", "nested 'quotes' and | pipes", NULL};
-	char *envp[] = {NULL};
+	char	*argv[] = {"echo", "nested 'quotes' and | pipes", NULL};
+	char	*envp[] = {NULL};
 
 	execve("/bin/echo", argv, envp);
 	perror("execve failed");
-	return 1;
+	return (1);
 }
 */

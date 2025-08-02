@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/28 18:44:36 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:15:10 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 # define TOKENIZER_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
 # include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 /*token list*/
 typedef struct s_token
@@ -56,10 +56,10 @@ int		make_specials_token(t_token **head, char *str, int i);
 
 /*tokenizer utils*/
 void	add_token(t_token **last_elem, char *value);
-void	print_token_list(t_token *head);
 void	free_token_list(t_token *head);
 int		get_parenthesis_token_type(char *value);
 int		get_token_type(char *value);
+int		get_quoted_token_type(char *value);
 
 /*tk functions*/
 int		tk_strcmp(char *str1, char *str2);
