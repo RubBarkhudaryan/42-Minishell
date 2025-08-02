@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/28 18:51:39 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:36:43 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	make_word_token(t_token **head, char *str, int i)
 	while (str[i + j])
 	{
 		if (tk_isalpha(str[i + j]) || tk_inset(str[i + j],
-				"!@#$%^*-_+=~`;\\/0123456789"))
+				"!@#$%^*-_+=~`;.?,{}[]\\/0123456789"))
 			++j;
 		else
 			break ;
