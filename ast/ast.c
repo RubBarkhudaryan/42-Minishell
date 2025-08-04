@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/04 17:41:29 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:49:42 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_ast(t_ast *node, int level)
 	case NODE_COMMAND:
 		printf("COMMAND: ");
 		t = node->cmd;
-		while (t && (node->type == NODE_COMMAND)
+		while (t && (node->type == NODE_COMMAND))
 		{
 			printf("%s ", t->token);
 			t = t->next;
@@ -56,7 +56,7 @@ t_ast	*pars_cmd(t_token **token_list)
 	t_ast	*subshell;
 
 	token = *token_list;
-	if (token && token == TK_L_PARENTHESIS)
+	if (token && token->token_type == TK_L_PARENTHESIS)
 	{
 		token = token->next;
 		subshell = build_ast(&token);
@@ -132,7 +132,7 @@ t_ast	*pars_ast(t_token **token_list)
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;
-		if (node->type == TK_OR)
+		if (type == TK_OR)
 			node->type = NODE_OR;
 		else
 			node->type = NODE_AND;
