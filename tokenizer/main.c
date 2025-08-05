@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/04 17:08:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/05 11:12:38 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(void)
 			// printf("Syntax analysis passed.\n");
 			// else
 			// printf("Syntax analysis failed.\n");
-			print_ast(ast->left, 0);
+			print_ast(ast, 0);
 			free_token_list(token_list);
 		}
 		else
