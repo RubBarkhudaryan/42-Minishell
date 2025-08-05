@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"tokenizer.h": "c",
-		"syntax.h": "c"
+		"syntax.h": "c",
+		"ast.h": "c",
+		"stdio.h": "c"
 	}
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/02 16:05:46 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/05 11:12:38 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../syntax_analysis/syntax.h"
+#include "tokenizer.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 
@@ -27,6 +27,7 @@ int	main(void)
 {
 	char	*line;
 	t_token	*token_list;
+	t_ast	*ast;
 
 	while (true)
 	{
@@ -38,10 +39,12 @@ int	main(void)
 		if (token_list)
 		{
 			print_token_list(token_list);
-			if (analyze(token_list))
-				printf("Syntax analysis passed.\n");
-			else
-				printf("Syntax analysis failed.\n");
+			ast = build_ast(&token_list);
+			// if (analyze(token_list))
+			// printf("Syntax analysis passed.\n");
+			// else
+			// printf("Syntax analysis failed.\n");
+			print_ast(ast, 0);
 			free_token_list(token_list);
 		}
 		else
