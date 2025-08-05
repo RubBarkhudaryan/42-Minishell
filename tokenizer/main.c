@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 11:12:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:09:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-static void	print_token_list(t_token *head)
+void	print_token_list(t_token *head)
 {
 	while (head)
 	{
@@ -40,10 +40,10 @@ int	main(void)
 		{
 			print_token_list(token_list);
 			ast = build_ast(&token_list);
-			// if (analyze(token_list))
-			// printf("Syntax analysis passed.\n");
-			// else
-			// printf("Syntax analysis failed.\n");
+			if (analyze(token_list))
+				printf("Syntax analysis passed.\n");
+			else
+				printf("Syntax analysis failed.\n");
 			print_ast(ast, 0);
 			free_token_list(token_list);
 		}
