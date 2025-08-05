@@ -3,6 +3,7 @@
 		"tokenizer.h": "c",
 		"syntax.h": "c",
 		"ast.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"history.h": "c"
 	}
 }

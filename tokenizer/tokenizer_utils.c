@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/01 13:02:07 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:00:53 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	get_parenthesis_token_type(char *value)
 {
 	if (tk_strlen(value) == 1 && *value == '(')
 		return (TK_L_PARENTHESIS);
-	else if (tk_strlen(value) == 1 && *value == ')')
+	else if (tk_strlen(value) >= 1 && *value == ')')
 		return (TK_R_PARENTHESIS);
 	else if (tk_strcmp("<<", value) == 0)
 		return (TK_HEREDOC);
