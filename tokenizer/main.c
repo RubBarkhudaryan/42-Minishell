@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-#include <readline/history.h>
-#include <readline/readline.h>
+
 
 void	print_token_list(t_token *head)
 {
@@ -45,6 +44,7 @@ int	main(void)
 			else
 				printf("Syntax analysis failed.\n");
 			print_ast(ast, 0);
+			free_ast(ast);
 			free_token_list(token_list);
 		}
 		else

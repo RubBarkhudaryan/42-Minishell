@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/04 17:17:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:07:19 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_ast
 }						t_ast;
 
 /*AST builder*/
+void					free_ast(t_ast *node);
 t_ast					*build_ast(t_token **token_list);
 void					print_ast(t_ast *node, int level);
 

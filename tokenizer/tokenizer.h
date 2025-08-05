@@ -16,6 +16,8 @@
 # include "../ast/ast.h"
 # include "../syntax_analysis/syntax.h"
 # include "../tokenizer/tokenizer.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>

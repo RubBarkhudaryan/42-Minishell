@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/08/05 20:32:45 by rbarkhud         ###   ########.fr       */
