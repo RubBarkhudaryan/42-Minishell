@@ -6,11 +6,23 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 15:43:48 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:16:06 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
+
+void	free_ast(t_ast *node)
+{
+	t_ast	*tmp;
+
+	if (!node)
+		return ;
+	tmp = node;
+	free_ast(node->left);
+	free_ast(node->right);
+	free(tmp);
+}
 
 void	print_ast(t_ast *node, int level)
 {
@@ -67,10 +79,10 @@ t_ast	*pars_cmd(t_token **token_list)
 		if (*token_list)
 			*token_list = (*token_list)->next;
 		if (*token_list && (*token_list)->token_type != TK_R_PARENTHESIS)
-			return (NULL); // malloc	fail
+			return (NULL);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (NULL);
+			return (NULL); // malloc	fail
 		node->cmd = NULL;
 		node->left = subshell;
 		node->right = NULL;
@@ -92,9 +104,7 @@ t_ast	*pars_cmd(t_token **token_list)
 			|| (*token_list)->token_type == TK_REDIR_INPUT
 			|| (*token_list)->token_type == TK_REDIR_OUTPUT
 			|| (*token_list)->token_type == TK_APPEND))
-	{
 		(*token_list) = (*token_list)->next;
-	}
 	return (node);
 }
 

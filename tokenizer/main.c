@@ -6,13 +6,12 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 11:12:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:02:37 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-#include <readline/history.h>
-#include <readline/readline.h>
+
 
 static void	print_token_list(t_token *head)
 {
@@ -45,6 +44,7 @@ int	main(void)
 			// else
 			// printf("Syntax analysis failed.\n");
 			print_ast(ast, 0);
+			free_ast(ast);
 			free_token_list(token_list);
 		}
 		else

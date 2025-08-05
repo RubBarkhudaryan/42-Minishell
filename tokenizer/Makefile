@@ -1,3 +1,5 @@
+
+
 NAME	=	token
 
 CC		=	cc
@@ -9,20 +11,38 @@ SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c int_funcs
 
 OBJS	=	$(SRCS:%.c=%.o)
 
-all: $(NAME)
+LIBFT_DIR	=	../libft
+LIBFT_A		=	$(LIBFT_DIR)/libft.a
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+PARS_ENV = ../parsing_env
+
+all: $(LIBFT_A) $(NAME)
+
+
+$(LIBFT_A):
+	$(MAKE) -C $(LIBFT_DIR)
+
+$(NAME): $(OBJS) $(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
 clean:
 	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
+
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
