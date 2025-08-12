@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:22:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/30 16:24:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:19:31 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	sort_string_array(char **arr)
 
 int	print_export(t_env *env)
 {
+	char	*tmp;
 	char	**env_string;
 	int		i;
 
@@ -110,7 +111,15 @@ int	print_export(t_env *env)
 	sort_string_array(env_string);
 	i = -1;
 	while (env_string[++i])
-		printf("declare -x %s\n", env_string[i]);
+	{
+		tmp = ft_strjoin("declare -x ", env_string[i]);
+		if (!tmp)
+			return (free_split(env_string), perror("malloc failed"), 1);
+		if (print_helper(tmp, "bash: export: ") || print_helper("\n",
+				"bash: export: "))
+			return (free(tmp), free_split(env_string), 1);
+		free(tmp);
+	}
 	free_split(env_string);
 	return (0);
 }

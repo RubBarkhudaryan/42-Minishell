@@ -6,32 +6,70 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:10:01 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/30 20:32:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/12 13:04:51 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
+#include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-// Helper to find env value
+void	add_env_var(t_env **env, const char *key, const char *value)
+{
+	t_env	*new_node;
 
-int	main(int argc, char **argv, char **envp)
+	new_node = malloc(sizeof(t_env));
+	new_node->key = strdup(key);
+	new_node->value = strdup(value);
+	new_node->next = *env;
+	*env = new_node;
+}
+
+void	print_env(t_env *env)
+{
+	printf("Текущие переменные окружения:\n");
+	while (env)
+	{
+		printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
+	printf("\n");
+}
+
+int		ft_unset(char **args, t_env **env);
+
+int	main(void)
 {
 	t_env	*env;
-	char	*test3[] = {"export", "PWD+=1", "B=2", NULL};
-	char	*test5[] = {"export", NULL};
+	char	*unset_args1[] = {"unset", "PATH", NULL};
+	char	*unset_args2[] = {"unset", "HOME", NULL};
+	char	*unset_args3[] = {"unset", "NOT_EXIST", NULL};
+	char	*unset_args4[] = {"unset", NULL};
 
-	(void)argc;
-	(void)argv;
-	env = parse_environment(envp);
-	ft_export(test3, env);
-	ft_export(test5, env);
-	free_env_list(env);
+	env = NULL;
+	add_env_var(&env, "HOME", "/home/user");
+	add_env_var(&env, "PATH", "/usr/bin:/bin");
+	add_env_var(&env, "USER", "alen");
+	print_env(env);
+	printf("Unset PATH\n");
+	ft_unset(unset_args1, &env);
+	print_env(env);
+	printf("Unset HOME\n");
+	ft_unset(unset_args2, &env);
+	print_env(env);
+	printf("Unset NOT_EXIST (не существует)\n");
+	ft_unset(unset_args3, &env);
+	print_env(env);
+	printf("Unset без аргументов\n");
+	ft_unset(unset_args4, &env);
+	print_env(env);
 	return (0);
 }
+
 // char	*get_env_value(t_env *env, const char *key)
 // {
 // 	while (env)

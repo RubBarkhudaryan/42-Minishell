@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:23 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/30 20:23:53 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:24:24 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,25 @@ int	add_env_end(t_env **env, char *key, char *value)
 		tmp = tmp->next;
 	tmp->next = new;
 	return (0);
+}
+
+void	remove_env_node(t_env **head, char *key)
+{
+	t_env	*current;
+	t_env	*tmp;
+
+	current = *head;
+	if (!current)
+		return ;
+	while (current->next)
+	{
+		if (ft_strcmp(current->next->key, key) == 0)
+		{
+			tmp = current->next;
+			current->next = tmp->next;
+			free(tmp);
+			break ;
+		}
+		current = current->next;
+	}
 }

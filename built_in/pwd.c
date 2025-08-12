@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/24 13:46:30 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:27:38 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	args_len(char **args)
 
 int	ft_pwd(char **args) //??
 {
-	char *cwd;
+	char	*cwd;
 
 	if (args_len(args) > 1 && args_len(args))
 	{

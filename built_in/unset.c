@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 14:42:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:48 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/08/10 13:17:49 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/08/11 18:52:16 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
 
-int	print_helper(char *arg, char *error_msg)
+int	ft_unset(char **args, t_env **env)
 {
-	if (printf("%s", arg) < 0)
-	{
-		perror(error_msg);
-		return (1);
-	}
+	int	i;
+
+	i = 0;
+	while (args[++i])
+		remove_env_node(env, args[i]);
 	return (0);
 }
