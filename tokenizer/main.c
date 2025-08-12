@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 18:09:33 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:53:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-
 
 void	print_token_list(t_token *head)
 {
@@ -22,17 +21,21 @@ void	print_token_list(t_token *head)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
+	t_env	*env;
 	t_token	*token_list;
 	t_ast	*ast;
 
+	(void)argc;
+	(void)argv;
 	while (true)
 	{
 		line = readline("minishell> ");
 		if (!line)
 			break ;
+		env = parse_environment(envp);
 		token_list = tokenize(line);
 		add_history(line);
 		if (token_list)
@@ -44,13 +47,12 @@ int	main(void)
 			else
 				printf("Syntax analysis failed.\n");
 			print_ast(ast, 0);
+			execute_ast(ast, env);
 			free_ast(ast);
 			free_token_list(token_list);
 		}
 		else
-		{
 			printf("Tokenization failed.\n");
-		}
 		free(line);
 	}
 	rl_clear_history();
