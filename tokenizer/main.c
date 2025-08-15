@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/12 18:53:09 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/16 00:06:28 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	main(int argc, char **argv, char **envp)
 	t_ast	*ast;
 
 	(void)argc;
+	(void)envp;
 	(void)argv;
+	(void)env;
 	while (true)
 	{
 		line = readline("minishell> ");
@@ -42,20 +44,26 @@ int	main(int argc, char **argv, char **envp)
 		{
 			print_token_list(token_list);
 			ast = build_ast(&token_list);
-			if (analyze(token_list))
-				printf("Syntax analysis passed.\n");
+			// if (analyze(token_list))
+			// 	printf("Syntax analysis passed.\n");
+			// else
+			// 	printf("Syntax analysis failed.\n");
+			// print_ast(ast, 0);
+			if(execute_ast(ast, env))
+				perror("Execution failed");
 			else
-				printf("Syntax analysis failed.\n");
-			print_ast(ast, 0);
-			execute_ast(ast, env);
+				printf("Execution successful.\n");
 			free_ast(ast);
-			free_token_list(token_list);
+			free_token_list(&token_list);
 		}
 		else
 			printf("Tokenization failed.\n");
 		free(line);
+		free_env_list(env);
+		
 	}
 	rl_clear_history();
+
 	return (0);
 }
 

@@ -6,58 +6,131 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/12 18:55:07 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/16 00:14:40 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	find_cmd_in_path(char **path, char *token, char *cmd)
+int	token_len(t_token *tokens)
 {
-	char	*tmp1;
-	char	*tmp2;
+	int	len;
+
+	len = 0;
+	while (tokens)
+	{
+		len++;
+		tokens = tokens->next;
+	}
+	return (len);
+}
+
+char	**tokens_to_args(t_token *tokens)
+{
+	t_token	*current;
+	int		count;
+	char	**args;
 	int		i;
 
+	count = token_len(tokens);
+	args = malloc(sizeof(char *) * (count + 1));
+	if (!count || !args)
+		return (NULL);
 	i = -1;
-	while (path[++i])
+	current = tokens;
+	args[count] = NULL;
+	while (current)
 	{
-		tmp1 = ft_strjoin(path[i], "/");
-		if (!tmp1)
-			return (-1); // malloc fail
-		tmp2 = ft_strjoin(path[i], token);
-		if (!tmp2)
-			return (free(tmp1), -1);
-		if (access(tmp2, X_OK))
-			return (free(tmp1), cmd = tmp2, 0);
-		free(tmp1);
-		free(tmp2);
+		args[++i] = ft_strdup(current->token);
+		if (!args[i])
+		{
+			while (--i >= 0)
+				free(args[i]);
+			return (free(args), NULL);
+		}
+		current = current->next;
 	}
-	return (1);
+	return (args);
+}
+
+char	*find_executable_path(t_token *cmd, char *path)
+{
+	char	**split_path;
+	int		i;
+	char	*exec_cmd;
+	char	*full_path;
+
+	if (access(cmd->token, X_OK) == 0)
+		return (cmd->token);
+	split_path = ft_split(path, ':');
+	if (!split_path)
+		return (NULL);
+	i = -1;
+	exec_cmd = ft_strjoin("/", cmd->token);
+	if (exec_cmd == NULL)
+		return (free_split(split_path), NULL);
+	while (split_path[++i])
+	{
+		full_path = ft_strjoin(split_path[i], exec_cmd);
+		if (!full_path)
+			return (free(exec_cmd), free_split(split_path), NULL);
+		if (access(full_path, X_OK) == 0)
+			return (free(exec_cmd), free_split(split_path), full_path);
+		free(full_path);
+	}
+	return (free(full_path), free(exec_cmd), free_split(split_path), NULL);
 }
 
 int	execute_command(t_ast *ast, t_env *env)
 {
-	char	**path;
-	char	*cmd_path;
+	char	**env_str;
+	char	*path;
+	char	*exec_path;
+	char	**args;
+	pid_t	pid;
+	int		status;
 
-	cmd_path = NULL;
-	path = ft_split(get_value_from_env(env, "PATH"), ':'); // free thissss
+	env_str = convert_envp_to_string(env);
+	if (!env_str)
+		return (1);
+	path = get_value_from_env(env, "PATH");
 	if (!path)
-		return (127);
-	if (find_cmd_in_path(path, ast->cmd->token, cmd_path))
-		return (127);
-	execve(cmd_path, cmd, convert_envp_to_string(env));
-	return (1);
+		return (1);
+	exec_path = find_executable_path(ast->cmd, path);
+	if (!exec_path)
+		return (free_split(env_str), 1);
+	args = tokens_to_args(ast->cmd);
+	if (!args)
+		return (free(exec_path), free_split(env_str), 1);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(exec_path, args, env_str) == -1)
+		{
+			perror("execve");
+			free(exec_path);
+			free_split(env_str);
+			free_split(args);
+			return (1);
+		}
+	}
+	waitpid(pid, &status, 0);
+	free(exec_path);
+	free_split(env_str);
+	free_split(args);
+	return (status);
 }
 
 int	execute_ast(t_ast *ast, t_env *env)
 {
 	if (!ast)
-		return (0);
+		return (1);
 	// if (ast->type == NODE_AND)
 	// 	return (execute_ast(ast->left, env) && execute_ast(ast->right, env));
+	// 		// Change this to another function to start a new process.
 	// else if (ast->type == NODE_OR)
 	// 	return (execute_ast(ast->left, env) || execute_ast(ast->right, env));
+	// 		// Change this to another function to start a new process.
 	// else if (ast->type == NODE_PIPE)
 	// 	return (execute_pipe(ast, env));
 	// else

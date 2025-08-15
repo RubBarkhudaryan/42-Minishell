@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:56:45 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 18:11:52 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/15 23:59:31 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ t_token	*tokenize(char *str)
 	head = NULL;
 	while (str[i])
 	{
-		while (str[i] && tk_isspace(str[i]))
+		while (str[i] && ft_isspace(str[i]))
 			++i;
 		if (str[i] == '\'' || str[i] == '\"')
 			i = make_quoted_token(&head, str, i);
-		else if (tk_isalpha(str[i]) || tk_inset(str[i],
+		else if (ft_isalpha(str[i]) || tk_inset(str[i],
 				"!@#$%^*-_+=~`;.?,{}[]\\/0123456789"))
 			i = make_word_token(&head, str, i);
 		else if (tk_inset(str[i], "|&<>"))
@@ -34,7 +34,7 @@ t_token	*tokenize(char *str)
 		{
 			i = parse_subshell(&head, str, i);
 			if (i == -1)
-				return (printf("NULL\n"), NULL);
+				return (free_token_list(&head), printf("NULL\n"), NULL);
 		}
 		else
 			++i;

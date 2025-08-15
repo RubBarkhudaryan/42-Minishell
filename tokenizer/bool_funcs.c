@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bool_funcs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/07/28 18:36:18 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/15 22:44:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-int	tk_isalpha(char c)
-{
-	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
-int	tk_isspace(char c)
+int	ft_isspace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
 }
