@@ -6,12 +6,11 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 18:09:33 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/15 16:57:36 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-
 
 void	print_token_list(t_token *head)
 {
@@ -38,19 +37,18 @@ int	main(void)
 		if (token_list)
 		{
 			print_token_list(token_list);
-			ast = build_ast(&token_list);
 			if (analyze(token_list))
-				printf("Syntax analysis passed.\n");
+			{
+				ast = build_ast(&token_list);
+				print_ast(ast, 0);
+				free_ast(ast);
+			}
 			else
 				printf("Syntax analysis failed.\n");
-			print_ast(ast, 0);
-			free_ast(ast);
 			free_token_list(token_list);
 		}
 		else
-		{
 			printf("Tokenization failed.\n");
-		}
 		free(line);
 	}
 	rl_clear_history();
