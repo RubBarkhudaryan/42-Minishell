@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 17:00:53 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:55:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_quoted_token_type(char *value)
 {
 	int	len;
 
-	len = tk_strlen(value);
+	len = ft_strlen((const char *)value);
 	if (len >= 2 && value[0] == '\'' && value[len - 1] == '\'')
 		return (TK_SINGLE_QUOTE);
 	if (len >= 2 && value[0] == '\"' && value[len - 1] == '\"')
@@ -39,17 +39,17 @@ int	get_quoted_token_type(char *value)
 
 int	get_parenthesis_token_type(char *value)
 {
-	if (tk_strlen(value) == 1 && *value == '(')
+	if (ft_strlen(value) == 1 && *value == '(')
 		return (TK_L_PARENTHESIS);
-	else if (tk_strlen(value) >= 1 && *value == ')')
+	else if (ft_strlen(value) >= 1 && *value == ')')
 		return (TK_R_PARENTHESIS);
-	else if (tk_strcmp("<<", value) == 0)
+	else if (ft_strcmp("<<", value) == 0)
 		return (TK_HEREDOC);
-	else if (tk_strcmp(">>", value) == 0)
+	else if (ft_strcmp(">>", value) == 0)
 		return (TK_APPEND);
-	else if (tk_strlen(value) == 1 && *value == '>')
+	else if (ft_strlen(value) == 1 && *value == '>')
 		return (TK_REDIR_OUTPUT);
-	else if (tk_strlen(value) == 1 && *value == '<')
+	else if (ft_strlen(value) == 1 && *value == '<')
 		return (TK_REDIR_INPUT);
 	return (-1);
 }
@@ -62,23 +62,23 @@ int	get_token_type(char *value)
 	i = -1;
 	parenthesis_type = get_parenthesis_token_type(value);
 	while (value[++i])
-		if (tk_inset(value[i], "`\\"))
+		if (ft_inset(value[i], "`\\"))
 			return (TK_ERROR);
-	if (tk_isalpha(value[0]) || (tk_strlen(value) >= 2 && *value == '-'))
+	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
 		return (TK_WORD);
-	else if (tk_strlen(value) == 1 && *value == '|')
+	else if (ft_strlen(value) == 1 && *value == '|')
 		return (TK_PIPE);
-	else if (tk_strlen(value) == 1 && *value == '$')
+	else if (ft_strlen(value) == 1 && *value == '$')
 		return (TK_DOLLAR);
-	else if (tk_strcmp("&&", value) == 0)
+	else if (ft_strcmp("&&", value) == 0)
 		return (TK_AND);
-	else if (tk_strcmp("||", value) == 0)
+	else if (ft_strcmp("||", value) == 0)
 		return (TK_OR);
-	else if (tk_inset(*value, "\'\""))
+	else if (ft_inset(*value, "\'\""))
 		return (get_quoted_token_type(value));
-	if (parenthesis_type == -1 && tk_inset(*value, "<>()"))
+	if (parenthesis_type == -1 && ft_inset(*value, "<>()"))
 		return (TK_ERROR);
-	else if (parenthesis_type != -1 && tk_inset(*value, "<>()"))
+	else if (parenthesis_type != -1 && ft_inset(*value, "<>()"))
 		return (parenthesis_type);
 	return (TK_WORD);
 }
@@ -88,7 +88,7 @@ void	add_token(t_token **head, char *value)
 	t_token	*temp;
 	t_token	*new_node;
 
-	if (!value || !*value || tk_strlen(value) == 0)
+	if (!value || !*value || ft_strlen(value) == 0)
 		return ;
 	if (!(*head))
 	{

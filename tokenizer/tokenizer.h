@@ -6,14 +6,16 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 18:09:46 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:26:13 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 
 # define TOKENIZER_H
+
 # include "../ast/ast.h"
+# include "../libft/libft.h"
 # include "../syntax_analysis/syntax.h"
 # include "../tokenizer/tokenizer.h"
 # include <readline/history.h>
@@ -22,6 +24,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
 /*token list*/
 typedef struct s_token
 {
@@ -58,6 +61,8 @@ int					make_word_token(t_token **head, char *str, int i);
 int					make_specials_token(t_token **head, char *str, int i);
 
 /*tokenizer utils*/
+int					ft_inset(char c, char *set);
+int					ft_isspace(char c);
 void				add_token(t_token **last_elem, char *value);
 void				free_token_list(t_token *head);
 void				print_token_list(t_token *head);
@@ -65,14 +70,5 @@ int					get_parenthesis_token_type(char *value);
 int					get_token_type(char *value);
 int					get_quoted_token_type(char *value);
 int					parse_subshell(t_token **head, char *str, int i);
-
-/*tk functions*/
-int					tk_strcmp(char *str1, char *str2);
-int					tk_isalpha(char c);
-int					tk_isspace(char c);
-int					tk_strlen(char *str);
-int					tk_inset(char c, char *set);
-char				*tk_substr(char *str, unsigned int start, size_t len);
-char				*tk_strdup(char *str);
 
 #endif

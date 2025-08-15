@@ -6,7 +6,7 @@ CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3
 LDFLAGS	=	-lreadline -lncurses
 
-SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c int_funcs.c str_funcs.c\
+SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c parse_subshell.c bool_funcs.c\
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c
 
 OBJS	=	$(SRCS:%.c=%.o)
