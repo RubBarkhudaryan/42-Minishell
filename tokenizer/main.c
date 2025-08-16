@@ -6,11 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/15 16:57:36 by rbarkhud         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/16 00:06:28 by apatvaka         ###   ########.fr       */
->>>>>>> execute
+/*   Updated: 2025/08/16 23:23:23 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +43,25 @@ int	main(int argc, char **argv, char **envp)
 		if (token_list)
 		{
 			print_token_list(token_list);
-<<<<<<< HEAD
-			if (analyze(token_list))
-			{
-				ast = build_ast(&token_list);
-				print_ast(ast, 0);
-				free_ast(ast);
-			}
-			else
-				printf("Syntax analysis failed.\n");
-			free_token_list(token_list);
-=======
 			ast = build_ast(&token_list);
 			// if (analyze(token_list))
 			// 	printf("Syntax analysis passed.\n");
 			// else
 			// 	printf("Syntax analysis failed.\n");
 			// print_ast(ast, 0);
-			if(execute_ast(ast, env))
+			if (execute_ast(ast, env))
 				perror("Execution failed");
 			else
 				printf("Execution successful.\n");
 			free_ast(ast);
 			free_token_list(&token_list);
->>>>>>> execute
 		}
 		else
 			printf("Tokenization failed.\n");
-		free(line);
 		free_env_list(env);
-		
+		free(line);
 	}
 	rl_clear_history();
-
 	return (0);
 }
 

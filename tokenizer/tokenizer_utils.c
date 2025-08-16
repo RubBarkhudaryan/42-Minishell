@@ -6,11 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/06 14:55:45 by rbarkhud         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/16 22:17:01 by apatvaka         ###   ########.fr       */
->>>>>>> execute
+/*   Updated: 2025/08/16 23:11:57 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +34,7 @@ int	get_quoted_token_type(char *value)
 {
 	int	len;
 
-<<<<<<< HEAD
-	len = ft_strlen((const char *)value);
-=======
 	len = ft_strlen(value);
->>>>>>> execute
 	if (len >= 2 && value[0] == '\'' && value[len - 1] == '\'')
 		return (TK_SINGLE_QUOTE);
 	if (len >= 2 && value[0] == '\"' && value[len - 1] == '\"')
@@ -101,11 +93,7 @@ void	add_token(t_token **head, char *value)
 	t_token	*temp;
 	t_token	*new_node;
 
-<<<<<<< HEAD
-	if (!value || !*value || ft_strlen(value) == 0)
-=======
 	if (!value || !*value)
->>>>>>> execute
 		return ;
 	if (!(*head))
 	{

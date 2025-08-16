@@ -6,27 +6,18 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/06 19:26:13 by rbarkhud         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/16 22:17:11 by apatvaka         ###   ########.fr       */
->>>>>>> execute
+/*   Updated: 2025/08/16 23:18:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 
 # define TOKENIZER_H
-<<<<<<< HEAD
 
-# include "../ast/ast.h"
-# include "../libft/libft.h"
-=======
-// #include "./execute/execute.h"
+#include "./execute/execute.h"
 # include "../ast/ast.h"
 # include "../libft/libft.h"
 # include "../parsing_env/env_parser.h"
->>>>>>> execute
 # include "../syntax_analysis/syntax.h"
 # include "./execute/execute.h"
 # include <readline/history.h>
@@ -82,11 +73,9 @@ int					get_token_type(char *value);
 int					get_quoted_token_type(char *value);
 int					parse_subshell(t_token **head, char *str, int i);
 
-<<<<<<< HEAD
-=======
+
 /*tk functions*/
 int					ft_isspace(char c);
-int					tk_inset(char c, char *set);
+int					ft_inset(char c, char *set);
 
->>>>>>> execute
 #endif

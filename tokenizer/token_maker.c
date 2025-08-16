@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/06 14:53:18 by rbarkhud         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/16 22:19:10 by apatvaka         ###   ########.fr       */
->>>>>>> execute
+/*   Updated: 2025/08/16 23:18:15 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +28,7 @@ int	make_quoted_token(t_token **head, char *str, int i)
 	if (str[i + j] == quote)
 		++j;
 	if (j != 0)
-<<<<<<< HEAD
-		add_token(head, ft_substr((const char *)str, i, j));
-	printf("j = %d\n", j);
-=======
 		add_token(head, ft_substr(str, i, j));
->>>>>>> execute
 	return (i + j);
 }
 
@@ -48,22 +39,14 @@ int	make_word_token(t_token **head, char *str, int i)
 	j = 0;
 	while (str[i + j])
 	{
-<<<<<<< HEAD
 		if (ft_isalpha(str[i + j]) || ft_inset(str[i + j],
-=======
-		if (ft_isalpha(str[i + j]) || tk_inset(str[i + j],
->>>>>>> execute
 				"!@#$%^*-_+=~`;.?,{}[]\\/0123456789"))
 			++j;
 		else
 			break ;
 	}
 	if (j != 0)
-<<<<<<< HEAD
-		add_token(head, ft_substr((const char *)str, i, j));
-=======
 		add_token(head, ft_substr(str, i, j));
->>>>>>> execute
 	return (i + j);
 }
 
@@ -83,8 +66,6 @@ int	make_specials_token(t_token **head, char *str, int i)
 		add_token(head, ft_substr(str, i, j));
 	return (i + j);
 }
-<<<<<<< HEAD
-=======
 
 int	parse_subshell(t_token **head, char *str, int i)
 {
@@ -104,7 +85,7 @@ int	parse_subshell(t_token **head, char *str, int i)
 			++i;
 			++l_count;
 		}
-		else if (!tk_inset(str[i], "()"))
+		else if (!ft_inset(str[i], "()"))
 		{
 			is_alpha = 1;
 			if (str[i] == '\'' || str[i] == '\"')
@@ -116,7 +97,7 @@ int	parse_subshell(t_token **head, char *str, int i)
 					continue ;
 				}
 			}
-			else if (tk_inset(str[i], "|&<>"))
+			else if (ft_inset(str[i], "|&<>"))
 			{
 				new_i = make_specials_token(head, str, i);
 				if (new_i != i)
@@ -152,4 +133,3 @@ int	parse_subshell(t_token **head, char *str, int i)
 		return (i);
 	return (-1);
 }
->>>>>>> execute
