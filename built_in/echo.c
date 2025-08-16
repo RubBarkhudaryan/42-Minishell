@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/17 23:47:56 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:27:16 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,20 @@ int	ft_echo(char **args)
 
 	is_new_line = 1;
 	if (len_of_split(args) == 1)
-		return (printf("\n"), 0);
+		return (print_helper("\n", "bash: echo: "));
 	i = 1;
 	chek_new_line(args, &is_new_line, &i);
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		if (print_helper(args[i], "bash: echo: "))
+			return (1);
 		if (args[i + 1])
-			printf(" ");
+			if (print_helper(" ", "bash: echo: "))
+				return (1);
 		++i;
 	}
 	if (is_new_line)
-		printf("\n");
+		if (print_helper("\n", "bash: echo: "))
+			return (1);
 	return (0);
 }

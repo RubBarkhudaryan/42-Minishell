@@ -5,19 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 14:42:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:48 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/08/12 14:40:32 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/08/12 15:26:07 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "execute.h"
 
-int	print_helper(char *arg, char *error_msg)
-{
-	if (printf("%s", arg) < 0)
-	{
-		perror(error_msg);
-		return (1);
-	}
-	return (0);
-}
+

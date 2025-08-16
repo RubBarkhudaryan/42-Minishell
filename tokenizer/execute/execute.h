@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 14:42:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:48 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/08/15 22:23:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#ifndef EXECUTE_H
+# define EXECUTE_H
 
-int	print_helper(char *arg, char *error_msg)
-{
-	if (printf("%s", arg) < 0)
-	{
-		perror(error_msg);
-		return (1);
-	}
-	return (0);
-}
+# include "../../ast/ast.h"
+# include "../../parsing_env/env_parser.h"
+# include <sys/wait.h>
+# include <unistd.h>
+typedef struct s_ast	t_ast;
+
+int						execute_ast(t_ast *ast, t_env *env);
+
+#endif

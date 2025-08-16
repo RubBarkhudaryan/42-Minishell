@@ -3,33 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/06 14:55:45 by rbarkhud         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/16 22:17:01 by apatvaka         ###   ########.fr       */
+>>>>>>> execute
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-void	free_token_list(t_token *head)
+void	free_token_list(t_token **head)
 {
-	t_token	*temp;
+	t_token	*current;
+	t_token	*next;
 
-	while (head)
+	if (!head)
+		return ;
+	current = *head;
+	while (current)
 	{
-		temp = head;
-		head = head->next;
-		free(temp->token);
-		free(temp);
+		next = current->next;
+		free(current->token);
+		free(current);
+		current = next;
 	}
+	*head = NULL;
 }
 
 int	get_quoted_token_type(char *value)
 {
 	int	len;
 
+<<<<<<< HEAD
 	len = ft_strlen((const char *)value);
+=======
+	len = ft_strlen(value);
+>>>>>>> execute
 	if (len >= 2 && value[0] == '\'' && value[len - 1] == '\'')
 		return (TK_SINGLE_QUOTE);
 	if (len >= 2 && value[0] == '\"' && value[len - 1] == '\"')
@@ -88,15 +101,23 @@ void	add_token(t_token **head, char *value)
 	t_token	*temp;
 	t_token	*new_node;
 
+<<<<<<< HEAD
 	if (!value || !*value || ft_strlen(value) == 0)
+=======
+	if (!value || !*value)
+>>>>>>> execute
 		return ;
 	if (!(*head))
 	{
 		(*head) = (t_token *)malloc(sizeof(t_token));
+		if (!(*head))
+		{
+			free(value);
+			return ;
+		}
 		(*head)->token = value;
 		(*head)->token_type = get_token_type(value);
 		(*head)->next = NULL;
-		return ;
 	}
 	else
 	{
@@ -104,6 +125,11 @@ void	add_token(t_token **head, char *value)
 		while (temp->next)
 			temp = temp->next;
 		new_node = (t_token *)malloc(sizeof(t_token));
+		if (!new_node)
+		{
+			free(value);
+			return ;
+		}
 		new_node->next = NULL;
 		new_node->token = value;
 		new_node->token_type = get_token_type(value);

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/07/30 20:17:33 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:29:48 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	get_assignment_type(char *args, char **key, char **value)
 	return (flag);
 }
 
-int	add_or_replace_value(char *key, char *value, int flag, t_env *env)
+int	add_or_replace_value(char *key, char *value, int flag, t_env **env)
 {
 	t_env	*node;
 	char	*tmp;
 
-	node = search_node(key, env);
+	node = search_node(key, *env);
 	if (!node)
-		return (add_env_end(&env, key, value));
+		return (add_env_end(env, key, value));
 	free(key);
 	if (!flag)
 	{
@@ -78,7 +78,7 @@ int	add_or_replace_value(char *key, char *value, int flag, t_env *env)
 
 // {"export", "ls=la", "ls+=bbbbb", NULL}
 
-int	ft_export(char **args, t_env *env)
+int	ft_export(char **args, t_env **env)
 {
 	char	*key;
 	char	*value;
@@ -90,15 +90,13 @@ int	ft_export(char **args, t_env *env)
 	if (!args || !*args)
 		return (1);
 	if (args_len(args) == 1) // {"export", NULL}
-		print_export(env);
+		print_export(*env);
 	i = 0;
 	while (args[++i])
 	{
 		flag = get_assignment_type(args[i], &key, &value);
 		if (flag != -1 && add_or_replace_value(key, value, flag, env))
 			return (free(value), free(key), 1);
-		// free(value);
-		// free(key);
 	}
 	return (0);
 }

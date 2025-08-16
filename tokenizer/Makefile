@@ -1,23 +1,33 @@
-
-
 NAME	=	token
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g3
+CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
 
+<<<<<<< HEAD
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c parse_subshell.c bool_funcs.c\
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c
+=======
+SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c  \
+			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c ./execute/execute.c \
+			../parsing_env/env_parser.c ../parsing_env/env_utils.c \
+
+VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp
+
+
+>>>>>>> execute
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 LIBFT_DIR	=	../libft
 LIBFT_A		=	$(LIBFT_DIR)/libft.a
 
-PARS_ENV = ../parsing_env
+# PARS_ENV = ../parsing_env
 
-all: $(LIBFT_A) $(NAME)
+all: $(LIBFT_A)  $(NAME)
 
+# $(PARS_ENV):
+# 	$(MAKE) -C $(PARS_ENV)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -41,6 +51,8 @@ fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
+val: $(NAME)
+	$(VALGRIND) ./$(NAME)
 
 re: fclean all
 

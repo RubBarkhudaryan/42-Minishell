@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/15 16:57:36 by rbarkhud         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/16 00:06:28 by apatvaka         ###   ########.fr       */
+>>>>>>> execute
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +25,29 @@ void	print_token_list(t_token *head)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
+	t_env	*env;
 	t_token	*token_list;
 	t_ast	*ast;
 
+	(void)argc;
+	(void)envp;
+	(void)argv;
+	(void)env;
 	while (true)
 	{
 		line = readline("minishell> ");
 		if (!line)
 			break ;
+		env = parse_environment(envp);
 		token_list = tokenize(line);
 		add_history(line);
 		if (token_list)
 		{
 			print_token_list(token_list);
+<<<<<<< HEAD
 			if (analyze(token_list))
 			{
 				ast = build_ast(&token_list);
@@ -46,12 +57,29 @@ int	main(void)
 			else
 				printf("Syntax analysis failed.\n");
 			free_token_list(token_list);
+=======
+			ast = build_ast(&token_list);
+			// if (analyze(token_list))
+			// 	printf("Syntax analysis passed.\n");
+			// else
+			// 	printf("Syntax analysis failed.\n");
+			// print_ast(ast, 0);
+			if(execute_ast(ast, env))
+				perror("Execution failed");
+			else
+				printf("Execution successful.\n");
+			free_ast(ast);
+			free_token_list(&token_list);
+>>>>>>> execute
 		}
 		else
 			printf("Tokenization failed.\n");
 		free(line);
+		free_env_list(env);
+		
 	}
 	rl_clear_history();
+
 	return (0);
 }
 
