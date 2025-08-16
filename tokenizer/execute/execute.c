@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/16 00:14:40 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/16 21:59:51 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*find_executable_path(t_token *cmd, char *path)
 			return (free(exec_cmd), free_split(split_path), full_path);
 		free(full_path);
 	}
-	return (free(full_path), free(exec_cmd), free_split(split_path), NULL);
+	return (free(exec_cmd), free_split(split_path), NULL);
 }
 
 int	execute_command(t_ast *ast, t_env *env)

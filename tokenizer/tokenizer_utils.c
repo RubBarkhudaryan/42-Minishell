@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/15 23:55:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/16 22:17:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ void	add_token(t_token **head, char *value)
 	t_token	*new_node;
 
 	if (!value || !*value)
-	{
-		free(value);
 		return ;
-	}
 	if (!(*head))
 	{
 		(*head) = (t_token *)malloc(sizeof(t_token));
