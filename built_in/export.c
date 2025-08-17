@@ -6,11 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 14:29:48 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:49:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "built_in.h"
 
 char	*is_append(char *args, int *len, int *flag)
 {

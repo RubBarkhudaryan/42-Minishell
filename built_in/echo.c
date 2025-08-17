@@ -6,11 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:48:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "built_in.h"
 
 //	char	*test2[] = {"echo", "-n", "Hello", "World", NULL};
 

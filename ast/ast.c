@@ -6,66 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 17:16:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 12:11:02 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
-
-void	free_ast(t_ast *node)
-{
-	t_ast	*tmp;
-
-	if (!node)
-		return ;
-	tmp = node;
-	free_ast(node->left);
-	free_ast(node->right);
-	free(tmp);
-}
-
-void	print_ast(t_ast *node, int level)
-{
-	t_token	*t;
-
-	if (!node)
-		return ;
-	for (int i = 0; i < level; i++)
-		printf("  ");
-	switch (node->type)
-	{
-	case NODE_COMMAND:
-		printf("COMMAND: ");
-		t = node->cmd;
-		while (t && node->type == NODE_COMMAND && (t->token_type == TK_WORD
-				|| t->token_type == TK_SINGLE_QUOTE
-				|| t->token_type == TK_DOUBLE_QUOTE
-				|| t->token_type == TK_DOLLAR || t->token_type == TK_HEREDOC
-				|| t->token_type == TK_REDIR_INPUT
-				|| t->token_type == TK_REDIR_OUTPUT
-				|| t->token_type == TK_APPEND))
-		{
-			printf("%s ", t->token);
-			t = t->next;
-		}
-		printf("\n");
-		break ;
-	case NODE_PIPE:
-		printf("PIPE\n");
-		break ;
-	case NODE_AND:
-		printf("AND\n");
-		break ;
-	case NODE_OR:
-		printf("OR\n");
-		break ;
-	case NODE_SUBSHELL:
-		printf("SUBSHELL\n");
-		break ;
-	}
-	print_ast(node->left, level + 1);
-	print_ast(node->right, level + 1);
-}
 
 t_ast	*pars_cmd(t_token **token_list)
 {

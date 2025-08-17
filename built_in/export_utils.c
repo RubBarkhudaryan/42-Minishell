@@ -6,11 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:22:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 14:19:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:49:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "built_in.h"
 
 static char	*get_env_entry(t_env *node)
 {

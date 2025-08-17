@@ -6,11 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:10:01 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/12 13:04:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:49:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "built_in.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -244,7 +244,7 @@ int	main(void)
 // #include <string.h>
 // #include <unistd.h>
 // #include <assert.h>
-// #include "bulit_in.h"   // where ft_echo is declared
+// #include "built_in.h"   // where ft_echo is declared
 
 // #define GREEN  "\033[0;32m"
 // #define RED    "\033[0;31m"

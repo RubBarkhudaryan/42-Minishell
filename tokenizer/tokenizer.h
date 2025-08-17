@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/16 22:17:11 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:46:45 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define TOKENIZER_H
 // #include "./execute/execute.h"
 # include "../ast/ast.h"
+# include "../built_in/built_in.h"
 # include "../libft/libft.h"
 # include "../parsing_env/env_parser.h"
 # include "../syntax_analysis/syntax.h"

@@ -6,11 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:49:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "built_in.h"
 
 int	args_len(char **args)
 {

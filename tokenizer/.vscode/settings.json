@@ -8,6 +8,9 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"tokenizer.h": "c"
+		"tokenizer.h": "c",
+		"execute.h": "c",
+		"bulit_in.h": "c",
+		"built_in.h": "c"
 	}
 }

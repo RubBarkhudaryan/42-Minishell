@@ -6,12 +6,12 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 14:20:44 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:47:35 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BULIT_IN_H
-# define BULIT_IN_H
+#ifndef BUILT_IN_H
+# define BUILT_IN_H
 # include "../parsing_env/env_parser.h"
 # include <errno.h>
 # include <stdio.h>  // can you delited this or not?

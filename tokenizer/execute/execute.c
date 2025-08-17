@@ -6,79 +6,36 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/16 21:59:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:37:22 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	token_len(t_token *tokens)
+int	is_builtin(char *cmd)
 {
-	int	len;
-
-	len = 0;
-	while (tokens)
-	{
-		len++;
-		tokens = tokens->next;
-	}
-	return (len);
+	return (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "echo") == 0
+		|| ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "unset") == 0
+		|| ft_strcmp(cmd, "exit") == 0);
 }
 
-char	**tokens_to_args(t_token *tokens)
+int	execute_builtin(char *cmd, char **args, t_env *env)
 {
-	t_token	*current;
-	int		count;
-	char	**args;
-	int		i;
-
-	count = token_len(tokens);
-	args = malloc(sizeof(char *) * (count + 1));
-	if (!count || !args)
-		return (NULL);
-	i = -1;
-	current = tokens;
-	args[count] = NULL;
-	while (current)
-	{
-		args[++i] = ft_strdup(current->token);
-		if (!args[i])
-		{
-			while (--i >= 0)
-				free(args[i]);
-			return (free(args), NULL);
-		}
-		current = current->next;
-	}
-	return (args);
-}
-
-char	*find_executable_path(t_token *cmd, char *path)
-{
-	char	**split_path;
-	int		i;
-	char	*exec_cmd;
-	char	*full_path;
-
-	if (access(cmd->token, X_OK) == 0)
-		return (cmd->token);
-	split_path = ft_split(path, ':');
-	if (!split_path)
-		return (NULL);
-	i = -1;
-	exec_cmd = ft_strjoin("/", cmd->token);
-	if (exec_cmd == NULL)
-		return (free_split(split_path), NULL);
-	while (split_path[++i])
-	{
-		full_path = ft_strjoin(split_path[i], exec_cmd);
-		if (!full_path)
-			return (free(exec_cmd), free_split(split_path), NULL);
-		if (access(full_path, X_OK) == 0)
-			return (free(exec_cmd), free_split(split_path), full_path);
-		free(full_path);
-	}
-	return (free(exec_cmd), free_split(split_path), NULL);
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (ft_cd(args, env));
+	else if (ft_strcmp(cmd, "echo") == 0)
+		return (ft_echo(args));
+	else if (ft_strcmp(cmd, "env") == 0)
+		return (ft_env(args, env));
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (ft_export(args, &env));
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		return (ft_pwd(args));
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (ft_unset(args, env));
+	// else if (ft_strcmp(cmd, "exit") == 0)
+	return (-1);
 }
 
 int	execute_command(t_ast *ast, t_env *env)
@@ -87,34 +44,23 @@ int	execute_command(t_ast *ast, t_env *env)
 	char	*path;
 	char	*exec_path;
 	char	**args;
-	pid_t	pid;
 	int		status;
 
 	env_str = convert_envp_to_string(env);
 	if (!env_str)
 		return (1);
+	args = tokens_to_args(ast->cmd);
+	if (!args)
+		return (free_split(env_str), 1);
+	if (is_builtin(ast->cmd->token))
+		return (execute_builtin(ast->cmd->token, args, env));
 	path = get_value_from_env(env, "PATH");
 	if (!path)
 		return (1);
 	exec_path = find_executable_path(ast->cmd, path);
 	if (!exec_path)
 		return (free_split(env_str), 1);
-	args = tokens_to_args(ast->cmd);
-	if (!args)
-		return (free(exec_path), free_split(env_str), 1);
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(exec_path, args, env_str) == -1)
-		{
-			perror("execve");
-			free(exec_path);
-			free_split(env_str);
-			free_split(args);
-			return (1);
-		}
-	}
-	waitpid(pid, &status, 0);
+	status = launch_process(args, exec_path, env_str);
 	free(exec_path);
 	free_split(env_str);
 	free_split(args);
@@ -131,8 +77,9 @@ int	execute_ast(t_ast *ast, t_env *env)
 	// else if (ast->type == NODE_OR)
 	// 	return (execute_ast(ast->left, env) || execute_ast(ast->right, env));
 	// 		// Change this to another function to start a new process.
-	// else if (ast->type == NODE_PIPE)
-	// 	return (execute_pipe(ast, env));
+	// else
+	// if (ast->type == NODE_PIPE)
+	// return (execute_pipe(ast, env));
 	// else
 	if (ast->type == NODE_COMMAND)
 		return (execute_command(ast, env));
