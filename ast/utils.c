@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 12:04:41 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/17 17:05:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:37:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	free_ast(t_ast *node)
 {
+	t_ast	*tmp;
+
 	if (!node)
 		return ;
+	tmp = node;
 	free_token_list(&node->cmd);
 	free_ast(node->left);
 	free_ast(node->right);
-	free(node);
+	free(tmp);
 }
 
 void	print_ast(t_ast *node, int level)

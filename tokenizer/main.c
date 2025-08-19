@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/17 12:38:53 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:36:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			print_token_list(token_list);
 			ast = build_ast(&token_list);
+			// print_ast(ast, 0);
 			// if (analyze(token_list))
 			// 	printf("Syntax analysis passed.\n");
 			// else

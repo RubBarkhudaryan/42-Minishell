@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/17 18:21:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:42:18 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	token_len(t_token *tokens)
 	return (len);
 }
 
-static char	**tokens_to_args(t_token *tokens)
+char	**tokens_to_args(t_token *tokens)
 {
 	t_token	*current;
 	int		count;
@@ -75,7 +75,7 @@ static char	*search_path_dirs(char *arg, char **split_path)
 	return (free(exec_cmd), free_split(split_path), NULL);
 }
 
-static char	*find_executable_path(t_token *cmd, char *path)
+char	*find_executable_path(t_token *cmd, char *path)
 {
 	char	*arg;
 	char	**split_path;

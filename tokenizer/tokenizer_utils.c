@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/17 17:50:14 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:42:18 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ void	free_token_list(t_token **head)
 	t_token	*current;
 	t_token	*next;
 
-	if (!head || !*head)
+	if (!head)
 		return ;
 	current = *head;
 	while (current)
 	{
 		next = current->next;
-		if (current->token)
-			free(current->token);
+		free(current->token);
 		free(current);
 		current = next;
 	}
@@ -95,10 +94,7 @@ void	add_token(t_token **head, char *value)
 	t_token	*new_node;
 
 	if (!value || !*value)
-	{
-		free(value);
 		return ;
-	}
 	if (!(*head))
 	{
 		(*head) = (t_token *)malloc(sizeof(t_token));
@@ -107,7 +103,7 @@ void	add_token(t_token **head, char *value)
 			free(value);
 			return ;
 		}
-		(*head)->token = ft_strdup(value);
+		(*head)->token = value;
 		(*head)->token_type = get_token_type(value);
 		(*head)->next = NULL;
 	}
@@ -123,9 +119,8 @@ void	add_token(t_token **head, char *value)
 			return ;
 		}
 		new_node->next = NULL;
-		new_node->token = ft_strdup(value);
+		new_node->token = value;
 		new_node->token_type = get_token_type(value);
 		temp->next = new_node;
 	}
-	free(value);
 }

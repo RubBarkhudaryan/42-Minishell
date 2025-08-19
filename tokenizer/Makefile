@@ -6,13 +6,15 @@ LDFLAGS	=	-lreadline -lncurses
 
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c  \
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c ../ast/utils.c \
-			 ./execute/execute.c ./execute/cmd_exec.c \
+			 ./execute/execute.c ./execute/cmd_exec.c ./execute/builtin_exec.c \
 			../parsing_env/env_parser.c ../parsing_env/env_utils.c \
 			../built_in/cd.c ../built_in/echo.c ../built_in/env.c ../built_in/export.c\
 			 ../built_in/export_utils.c\
 			../built_in/pwd.c ../built_in/unset.c ../built_in/utils.c\
 
-VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp
+VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
+
+VALCHILDEN =	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=readline.supp
 
 OBJS	=	$(SRCS:%.c=%.o)
 
@@ -51,6 +53,8 @@ fclean: clean
 val: $(NAME) clean
 	$(VALGRIND) ./$(NAME)
 
+child: $(NAME) clean
+	$(VALCHILDEN) ./$(NAME)
 re: fclean all
 
 .PHONY: all clean fclean re

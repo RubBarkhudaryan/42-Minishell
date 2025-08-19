@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:56:45 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/15 23:59:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 21:27:22 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_token	*tokenize(char *str)
 
 	i = 0;
 	head = NULL;
+	if(!str || !*str)
+		return (NULL);
 	while (str[i])
 	{
 		while (str[i] && ft_isspace(str[i]))

@@ -6,20 +6,18 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/17 17:48:08 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:49:53 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-
-//	char	*test2[] = {"echo", "-n", "Hello", "World", NULL};
 
 static int	len_of_split(char **args)
 {
 	int	i;
 
 	i = 0;
-	if (!args)
+	if (!args || !*args)
 		return (0);
 	while (args[i])
 		++i;
