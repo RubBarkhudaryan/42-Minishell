@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/16 23:11:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:05:53 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,35 @@ void	add_token(t_token **head, char *value)
 	t_token	*temp;
 	t_token	*new_node;
 
+	if (!head || !value || !(*value))
+		return ;
+	new_node = (t_token *)malloc(sizeof(t_token));
+	if (!new_node)
+	{
+		free(value);
+		return ;
+	}
+	new_node->next = NULL;
+	new_node->token_type = get_token_type(value);
+	new_node->token = ft_strdup(value);
+	if (!(*head))
+		(*head) = new_node;
+	else
+	{
+		temp = (*head);
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_node;
+	}
+	free(value);
+}
+
+/*
+void	add_token(t_token **head, char *value)
+{
+	t_token	*temp;
+	t_token	*new_node;
+
 	if (!value || !*value)
 		return ;
 	if (!(*head))
@@ -124,3 +153,4 @@ void	add_token(t_token **head, char *value)
 		temp->next = new_node;
 	}
 }
+*/

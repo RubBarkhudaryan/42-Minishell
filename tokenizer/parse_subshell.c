@@ -6,18 +6,44 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:12:20 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/19 15:16:49 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:06:46 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
+static int	make_subshell_token(t_token **head, char *str, int i)
+{
+	int	new_i;
+
+	while (ft_isspace(str[i]))
+		++i;
+	if (str[i] == '\'' || str[i] == '\"')
+	{
+		new_i = make_quoted_token(head, str, i);
+		if (new_i != i)
+			return (new_i);
+	}
+	else if (ft_inset(str[i], "|&<>"))
+	{
+		new_i = make_specials_token(head, str, i);
+		if (new_i != i)
+			return (new_i);
+	}
+	else
+	{
+		new_i = make_word_token(head, str, i);
+		if (new_i != i)
+			return (new_i);
+	}
+	return (i);
+}
+
 int	parse_subshell(t_token **head, char *str, int i)
 {
-	int	l_count;
-	int	r_count;
-	int	is_alpha;
-	int	new_i;
+	int		l_count;
+	int		r_count;
+	int		is_alpha;
 
 	l_count = 0;
 	r_count = 0;
@@ -33,34 +59,7 @@ int	parse_subshell(t_token **head, char *str, int i)
 		else if (!ft_inset(str[i], "()"))
 		{
 			is_alpha = 1;
-			if (str[i] == '\'' || str[i] == '\"')
-			{
-				new_i = make_quoted_token(head, str, i);
-				if (new_i != i)
-				{
-					i = new_i;
-					continue ;
-				}
-			}
-			else if (ft_inset(str[i], "|&<>"))
-			{
-				new_i = make_specials_token(head, str, i);
-				if (new_i != i)
-				{
-					i = new_i;
-					continue ;
-				}
-			}
-			else
-			{
-				new_i = make_word_token(head, str, i);
-				if (new_i != i)
-				{
-					i = new_i;
-					continue ;
-				}
-			}
-			++i;
+			i = make_subshell_token(head, str, i);
 		}
 		else if (str[i] == ')')
 		{
@@ -75,3 +74,33 @@ int	parse_subshell(t_token **head, char *str, int i)
 		return (i);
 	return (-1);
 }
+
+/*
+	if (str[i] == '\'' || str[i] == '\"')
+	{
+		new_i = make_quoted_token(head, str, i);
+		if (new_i != i)
+		{
+			i = new_i;
+			continue ;
+		}
+	}
+	else if (ft_inset(str[i], "|&<>"))
+	{
+		new_i = make_specials_token(head, str, i);
+		if (new_i != i)
+		{
+			i = new_i;
+			continue ;
+		}
+	}
+	else
+	{
+		new_i = make_word_token(head, str, i);
+		if (new_i != i)
+		{
+			i = new_i;
+			continue ;
+		}
+	}
+*/

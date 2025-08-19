@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/19 15:12:52 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:13:48 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ int	main(int argc, char **argv, char **envp)
 				perror("Execution failed");
 			else
 				printf("Execution successful.\n");
+			printf("seg\n");
 			free_ast(ast);
-			free_token_list(&token_list);
+			// free_token_list(&token_list);
 		}
 		else
 			printf("Tokenization failed.\n");
