@@ -44,7 +44,7 @@ fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
-val: $(NAME)
+val: $(NAME) clean
 	$(VALGRIND) ./$(NAME)
 
 re: fclean all

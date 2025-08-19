@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/19 16:05:53 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:47:55 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,7 @@ void	add_token(t_token **head, char *value)
 		return ;
 	new_node = (t_token *)malloc(sizeof(t_token));
 	if (!new_node)
-	{
-		free(value);
 		return ;
-	}
 	new_node->next = NULL;
 	new_node->token_type = get_token_type(value);
 	new_node->token = ft_strdup(value);

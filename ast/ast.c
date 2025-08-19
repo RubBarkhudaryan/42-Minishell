@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 17:16:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:32:27 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 void	free_ast(t_ast *node)
 {
-	t_ast	*tmp;
-
 	if (!node)
 		return ;
-	tmp = node;
+	if (node->type == NODE_COMMAND)
+	{
+		print_token_list(node->cmd);
+		printf("\n\n");
+		free_token_list(&node->cmd);
+	}
 	free_ast(node->left);
 	free_ast(node->right);
-	free(tmp);
+	free(node);
 }
 
 void	print_ast(t_ast *node, int level)

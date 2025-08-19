@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/05 17:07:19 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:25:51 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-// Добавьте в самое начало файла
 typedef struct s_token	t_token;
+
 # include "../syntax_analysis/syntax.h"
 # include "../tokenizer/tokenizer.h"
 # include <stdbool.h>
