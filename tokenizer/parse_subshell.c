@@ -1,27 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-<<<<<<<< HEAD:tokenizer/parse_subshell.c
 /*   parse_subshell.c                                   :+:      :+:    :+:   */
-========
-/*   unset.c                                            :+:      :+:    :+:   */
->>>>>>>> execute:built_in/unset.c
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<<< HEAD:tokenizer/parse_subshell.c
-/*   Created: 2025/08/06 14:49:19 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/15 20:48:32 by rbarkhud         ###   ########.fr       */
-========
-/*   Created: 2025/08/10 13:17:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 18:52:16 by apatvaka         ###   ########.fr       */
->>>>>>>> execute:built_in/unset.c
+/*   Created: 2025/08/19 15:12:20 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/08/19 15:16:49 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bulit_in.h"
+#include "tokenizer.h"
 
-<<<<<<<< HEAD:tokenizer/parse_subshell.c
 int	parse_subshell(t_token **head, char *str, int i)
 {
 	int	l_count;
@@ -40,14 +30,43 @@ int	parse_subshell(t_token **head, char *str, int i)
 			++i;
 			++l_count;
 		}
+		else if (!ft_inset(str[i], "()"))
+		{
+			is_alpha = 1;
+			if (str[i] == '\'' || str[i] == '\"')
+			{
+				new_i = make_quoted_token(head, str, i);
+				if (new_i != i)
+				{
+					i = new_i;
+					continue ;
+				}
+			}
+			else if (ft_inset(str[i], "|&<>"))
+			{
+				new_i = make_specials_token(head, str, i);
+				if (new_i != i)
+				{
+					i = new_i;
+					continue ;
+				}
+			}
+			else
+			{
+				new_i = make_word_token(head, str, i);
+				if (new_i != i)
+				{
+					i = new_i;
+					continue ;
+				}
+			}
+			++i;
+		}
 		else if (str[i] == ')')
 		{
-			while (str[i] && str[i] == ')')
-			{
-				++i;
-				++r_count;
-			}
-			add_token(head, ft_substr((const char *)str, i - r_count, r_count));
+			add_token(head, ft_substr(str, i, 1));
+			++i;
+			++r_count;
 		}
 		else
 			++i;
@@ -55,14 +74,4 @@ int	parse_subshell(t_token **head, char *str, int i)
 	if (l_count == r_count && is_alpha)
 		return (i);
 	return (-1);
-========
-int	ft_unset(char **args, t_env **env)
-{
-	int	i;
-
-	i = 0;
-	while (args[++i])
-		remove_env_node(env, args[i]);
-	return (0);
->>>>>>>> execute:built_in/unset.c
 }

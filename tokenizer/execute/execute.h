@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/15 22:23:12 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:12:44 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../../parsing_env/env_parser.h"
 # include <sys/wait.h>
 # include <unistd.h>
+
 typedef struct s_ast	t_ast;
 
 int						execute_ast(t_ast *ast, t_env *env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_maker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/16 23:18:15 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:13:51 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	make_specials_token(t_token **head, char *str, int i)
 	return (i + j);
 }
 
+/*
 int	parse_subshell(t_token **head, char *str, int i)
 {
 	int	l_count;
@@ -133,3 +134,4 @@ int	parse_subshell(t_token **head, char *str, int i)
 		return (i);
 	return (-1);
 }
+*/
