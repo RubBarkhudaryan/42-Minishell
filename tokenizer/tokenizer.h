@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/16 23:18:01 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:26:22 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int					make_specials_token(t_token **head, char *str, int i);
 int					ft_inset(char c, char *set);
 int					ft_isspace(char c);
 void				add_token(t_token **last_elem, char *value);
-void				free_token_list(t_token **head);
+void				free_token_list(t_token *head);
 void				print_token_list(t_token *head);
 int					get_parenthesis_token_type(char *value);
 int					get_token_type(char *value);

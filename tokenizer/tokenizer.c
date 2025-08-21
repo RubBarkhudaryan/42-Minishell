@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:56:45 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/16 23:26:41 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:22:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_token	*tokenize(char *str)
 
 	i = 0;
 	head = NULL;
+	if(!str || !(*str))
+		return (NULL);
 	while (str[i])
 	{
 		while (str[i] && ft_isspace(str[i]))
@@ -34,7 +36,7 @@ t_token	*tokenize(char *str)
 		{
 			i = parse_subshell(&head, str, i);
 			if (i == -1)
-				return (free_token_list(&head), printf("NULL\n"), NULL);
+				return (free_token_list(head), printf("NULL\n"), NULL);
 		}
 		else
 			++i;

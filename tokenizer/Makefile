@@ -1,7 +1,7 @@
 NAME	=	token
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -g3
 LDFLAGS	=	-lreadline -lncurses
 
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c parse_subshell.c bool_funcs.c \
