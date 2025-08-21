@@ -6,13 +6,13 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/18 17:10:43 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:24:47 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-// int prepare_command(t_ast *ast, t_env *env)
+// int	prepare_command(t_ast *ast, t_env *env)
 // {
 // }
 
@@ -45,10 +45,15 @@ int	execute_command(t_ast *ast, t_env *env)
 	return (status);
 }
 
-// int execute_pipe(t_ast *ast, t_env *env)
+// int	execute_pipe(t_ast *ast, t_env *env)
 // {
-// 	int	pipefd[2];
+// 	int		pipefd[2];
+// 	pid_t	pid1;
+// 	pid_t	pid2;
 
+// 	if (pipe(pipefd) == -1)
+// 		return (perror("pipe"), 1);
+// 	pid
 // }
 
 int	execute_ast(t_ast *ast, t_env *env)

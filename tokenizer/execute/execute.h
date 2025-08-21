@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/18 15:19:44 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:56:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../../parsing_env/env_parser.h"
 # include <sys/wait.h>
 # include <unistd.h>
+
 typedef struct s_ast	t_ast;
 
 int						launch_process(char **args, char *exec_path,
