@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"execute.h": "c"
+		"execute.h": "c",
+		"env_parser.h": "c"
 	}
 }
