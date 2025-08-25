@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"execute.h": "c",
-		"env_parser.h": "c"
+		"env_parser.h": "c",
+		"tokenizer.h": "c"
 	}
 }

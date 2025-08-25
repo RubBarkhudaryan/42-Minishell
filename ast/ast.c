@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/21 21:13:25 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/24 21:27:55 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	free_ast(t_ast *node)
 		return ;
 	free_ast(node->right);
 	free_ast(node->left);
+	free_cmd(node->cmd);
 	free(node);
 }
 
 void	print_ast(t_ast *node, int level)
 {
-	t_token	*t;
+	int	i;
 
 	if (!node)
 		return ;
@@ -33,18 +34,9 @@ void	print_ast(t_ast *node, int level)
 	{
 	case NODE_COMMAND:
 		printf("COMMAND: ");
-		t = node->cmd;
-		while (t && node->type == NODE_COMMAND && (t->token_type == TK_WORD
-				|| t->token_type == TK_SINGLE_QUOTE
-				|| t->token_type == TK_DOUBLE_QUOTE
-				|| t->token_type == TK_DOLLAR || t->token_type == TK_HEREDOC
-				|| t->token_type == TK_REDIR_INPUT
-				|| t->token_type == TK_REDIR_OUTPUT
-				|| t->token_type == TK_APPEND))
-		{
-			printf("%s ", t->token);
-			t = t->next;
-		}
+		i = -1;
+		while (node->cmd->args[++i])
+			printf("%s ", node->cmd->args[i]);
 		printf("\n");
 		break ;
 	case NODE_PIPE:
@@ -119,16 +111,9 @@ t_ast	*pars_cmd(t_token **token_list)
 	node->type = NODE_COMMAND;
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = (*token_list);
-	while (*token_list && ((*token_list)->token_type == TK_WORD
-			|| (*token_list)->token_type == TK_SINGLE_QUOTE
-			|| (*token_list)->token_type == TK_DOUBLE_QUOTE
-			|| (*token_list)->token_type == TK_DOLLAR
-			|| (*token_list)->token_type == TK_HEREDOC
-			|| (*token_list)->token_type == TK_REDIR_INPUT
-			|| (*token_list)->token_type == TK_REDIR_OUTPUT
-			|| (*token_list)->token_type == TK_APPEND))
-		(*token_list) = (*token_list)->next;
+	node->cmd = give_token_for_cmd(token_list);
+	if (!node->cmd)
+		return (NULL); // malloc fail
 	return (node);
 }
 

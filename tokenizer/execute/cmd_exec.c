@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/17 18:42:18 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/24 22:19:50 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,39 +75,42 @@ static char	*search_path_dirs(char *arg, char **split_path)
 	return (free(exec_cmd), free_split(split_path), NULL);
 }
 
-char	*find_executable_path(t_token *cmd, char *path)
+char	*find_executable_path(t_cmd *cmd, char *path)
 {
-	char	*arg;
 	char	**split_path;
 	char	*result;
 
-	if (!cmd)
+	if (!cmd->cmd_name || !(*cmd->cmd_name))
 		return (NULL);
-	arg = ft_strdup(cmd->token);
-	if (!arg)
-		return (NULL);
-	if (access(arg, X_OK) == 0)
-		return (arg);
+	if (access(cmd->cmd_name, X_OK) == 0)
+		return (cmd->cmd_name);
 	split_path = ft_split(path, ':');
 	if (!split_path)
-		return (free(arg), NULL);
-	result = search_path_dirs(arg, split_path);
-	return (free(arg), result);
+		return (NULL);
+	result = search_path_dirs(cmd->cmd_name, split_path);
+	return (result);
 }
 
-int	launch_process(char **args, char *exec_path, char **env_str)
+int	launch_process(char **args, char *exec_path, char **env_str, bool wait)
 {
 	pid_t	pid;
 	int		status;
 
 	if (!args)
-		return (free(exec_path), free_split(env_str), 1);
+		return (1);
 	pid = fork();
+	if (pid == -1)
+		return (1);
 	if (pid == 0)
-	{
 		if (execve(exec_path, args, env_str) == -1)
-			return (1);
-	}
+		{
+			perror("execve");
+			exit(1);
+		}
+	if (!wait)
+		return (0);
 	waitpid(pid, &status, 0);
-	return (status);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }
