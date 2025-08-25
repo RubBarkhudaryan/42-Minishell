@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/24 21:28:29 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:27:15 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	execute_builtin(char *cmd, char **args, t_env *env)
 	// else if (ft_strcmp(cmd, "unset") == 0)
 	// return (ft_unset(args, env));
 	// else if (ft_strcmp(cmd, "exit") == 0)
+	// 
 	return (status);
 }
