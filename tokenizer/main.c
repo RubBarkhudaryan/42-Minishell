@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/24 21:26:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:51:44 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,22 @@ int	main(int argc, char **argv, char **envp)
 		if (token_list)
 		{
 			token_list1 = token_list;
-			print_token_list(token_list);
-			ast = build_ast(&token_list);
+			// print_token_list(token_list);
 			if (analyze(token_list))
-				printf("Syntax analysis passed.\n");
-			// else
-			// 	printf("Syntax analysis failed.\n");
-			if (execute_node(ast, env) == -1)
-				perror("Execution failed");
-			// else
-			// 	printf("Execution successful.\n");
-			print_ast(ast, 0);
-			free_token_list(token_list1);
-			free_ast(ast);
+			{
+				expand_tokens(&token_list, env);
+				ast = build_ast(&token_list);
+				if (ast)
+				{
+					// print_ast(ast, 0);
+					if (execute_node(ast, env) == -1)
+						perror("Execution failed");
+				}
+				free_token_list(token_list1);
+				free_ast(ast);
+			}
+			else
+				printf("Syntax analysis failed.\n");
 		}
 		else
 			printf("Tokenization failed.\n");

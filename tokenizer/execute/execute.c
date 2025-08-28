@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/25 13:50:15 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:33:56 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	exe_builtin_process(t_cmd *cmd, t_env *env, bool wait, int extra_fd)
 	pid_t	pid;
 	int		status;
 
+	(void)extra_fd;
 	pid = fork();
 	if (pid == -1)
 		return (EXIT_FAILURE);
@@ -80,9 +81,10 @@ int	execute_ast(t_ast *ast, t_env *env, bool wait)
 	// 	return (execute_ast(ast->left, env) || execute_ast(ast->right, env));
 	// 		// Change this to another function to start a new process.
 	// else
-	if (ast->type == NODE_PIPE)
-		return (execute_pipe(ast, env, wait, -1));
-	else if (ast->type == NODE_COMMAND)
+	// if (ast->type == NODE_PIPE)
+	// 	return (execute_pipe(ast, env, wait, -1));
+	// else
+	if (ast->type == NODE_COMMAND)
 		return (execute_command(ast, env, wait, -1));
 	return (0);
 }

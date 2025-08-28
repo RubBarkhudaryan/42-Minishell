@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_parser.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:31 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 16:24:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:19:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char				*get_value_from_env(t_env *head, char *key);
 void				remove_env_node(t_env **head, char *key);
 int					add_env_end(t_env **env, char *key, char *value);
 int					replace_env_value(char *key, char *value, t_env *head);
-// The function gives the length of the arguments.
+
+/*The function gives the length of the arguments.*/
 int					args_len(char **args);
 void				free_split(char **ret);
 void				free_env_list(t_env *head);

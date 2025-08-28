@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/19 15:13:51 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:53:10 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	make_quoted_token(t_token **head, char *str, int i)
 	quote = str[i];
 	while (str[i + j])
 	{
-		if (str[i + j] == quote && str[i + j] != '\\')
+		if (str[i + j] == quote && str[i + j - 1] != '\\')
 			break ;
 		++j;
 	}

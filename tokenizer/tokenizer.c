@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:56:45 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/20 17:22:01 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:21:23 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*tokenize(char *str)
 		{
 			i = parse_subshell(&head, str, i);
 			if (i == -1)
-				return (free_token_list(head), printf("NULL\n"), NULL);
+				return (free_token_list(head), NULL);
 		}
 		else
 			++i;

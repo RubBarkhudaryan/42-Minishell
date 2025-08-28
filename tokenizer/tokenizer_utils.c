@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/20 17:01:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:13:24 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ int	get_token_type(char *value)
 
 	i = -1;
 	parenthesis_type = get_parenthesis_token_type(value);
+	if (ft_inset(*value, "\'\""))
+		return (get_quoted_token_type(value));
 	while (value[++i])
-		if (ft_inset(value[i], "`\\"))
+		if (ft_inset(value[i], "`\\;"))
 			return (TK_ERROR);
 	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
 		return (TK_WORD);
 	else if (ft_strlen(value) == 1 && *value == '|')
 		return (TK_PIPE);
-	else if (ft_strlen(value) == 1 && *value == '$')
+	else if (ft_strlen(value) > 1 && *value == '$')
 		return (TK_DOLLAR);
 	else if (ft_strcmp("&&", value) == 0)
 		return (TK_AND);
 	else if (ft_strcmp("||", value) == 0)
 		return (TK_OR);
-	else if (ft_inset(*value, "\'\""))
-		return (get_quoted_token_type(value));
 	if (parenthesis_type == -1 && ft_inset(*value, "<>()"))
 		return (TK_ERROR);
 	else if (parenthesis_type != -1 && ft_inset(*value, "<>()"))
@@ -111,42 +111,3 @@ void	add_token(t_token **head, char *value)
 		temp->next = new_node;
 	}
 }
-
-/*
-void	add_token(t_token **head, char *value)
-{
-	t_token	*temp;
-	t_token	*new_node;
-
-	if (!value || !*value)
-		return ;
-	if (!(*head))
-	{
-		(*head) = (t_token *)malloc(sizeof(t_token));
-		if (!(*head))
-		{
-			free(value);
-			return ;
-		}
-		(*head)->token = value;
-		(*head)->token_type = get_token_type(value);
-		(*head)->next = NULL;
-	}
-	else
-	{
-		temp = *head;
-		while (temp->next)
-			temp = temp->next;
-		new_node = (t_token *)malloc(sizeof(t_token));
-		if (!new_node)
-		{
-			free(value);
-			return ;
-		}
-		new_node->next = NULL;
-		new_node->token = value;
-		new_node->token_type = get_token_type(value);
-		temp->next = new_node;
-	}
-}
-*/
