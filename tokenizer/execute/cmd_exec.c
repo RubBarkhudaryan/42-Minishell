@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/24 22:19:50 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/30 00:28:39 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*find_executable_path(t_cmd *cmd, char *path)
 	if (!cmd->cmd_name || !(*cmd->cmd_name))
 		return (NULL);
 	if (access(cmd->cmd_name, X_OK) == 0)
-		return (cmd->cmd_name);
+		return (ft_strdup(cmd->cmd_name));
 	split_path = ft_split(path, ':');
 	if (!split_path)
 		return (NULL);
@@ -91,26 +91,46 @@ char	*find_executable_path(t_cmd *cmd, char *path)
 	return (result);
 }
 
-int	launch_process(char **args, char *exec_path, char **env_str, bool wait)
+int	apply_redirections(t_cmd *cmd, int extra_fd)
+{
+	// printf("\n\nalllo  in= %d\n", cmd->in_pipeline);
+	// printf("alllo out= %d ========= %s\n\n", cmd->out_pipeline,
+	// cmd->cmd_name);
+	if (cmd->in_pipeline != -1)
+	{
+		if (dup2(cmd->in_pipeline, STDIN_FILENO) < 0)
+			perror("dup:1 ");
+		XCLOSE(cmd->in_pipeline);
+	}
+	if (cmd->out_pipeline != -1)
+	{
+		if (dup2(cmd->out_pipeline, STDOUT_FILENO) < 0)
+			perror("dup: ");
+		XCLOSE(cmd->out_pipeline);
+	}
+	if (extra_fd != -1)
+		XCLOSE(extra_fd);
+	return (0);
+}
+
+int	launch_process(t_cmd *cmd, char **env_str, int extra_fd, bool wait)
 {
 	pid_t	pid;
 	int		status;
 
-	if (!args)
-		return (1);
 	pid = fork();
 	if (pid == -1)
 		return (1);
 	if (pid == 0)
-		if (execve(exec_path, args, env_str) == -1)
+	{
+		apply_redirections(cmd, extra_fd);
+		if (execve(cmd->cmd_name, cmd->args, env_str) == -1)
 		{
 			perror("execve");
 			exit(1);
 		}
+	}
 	if (!wait)
 		return (0);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
+	return (waitpid(pid, &status, 0), get_exit_code(status));
 }

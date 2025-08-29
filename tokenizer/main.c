@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/24 21:26:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/08/27 22:43:46 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	main(int argc, char **argv, char **envp)
 			// else
 			// 	printf("Execution successful.\n");
 			print_ast(ast, 0);
-			free_token_list(token_list1);
 			free_ast(ast);
+			free_token_list(token_list1);
 		}
 		else
 			printf("Tokenization failed.\n");
