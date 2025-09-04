@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/04 17:30:37 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,24 @@ int	args_len(char **args)
 	return (i);
 }
 
-int	ft_pwd(char **args) //??
+int	ft_pwd(void)
 {
 	char	*cwd;
+	char	*tmp;
 
-	if (args_len(args) > 1 && args_len(args))
-	{
-		perror("pwd: too many arguments\n");
-		return (1);
-	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		perror("pwd: PWD not set\n");
 		return (1);
 	}
-	printf("%s\n", cwd);
+	tmp = ft_strjoin(cwd, "\n");
+	if (!tmp)
+	{
+		perror("minishell");
+		return (1);
+	}
+	print_helper(tmp, 0);
+	free(tmp);
 	free(cwd);
 	return (0);
 }

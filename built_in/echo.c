@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:43:05 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ void	chek_new_line(char **args, int *is_nl, int *i)
 
 	if (args[1][0] == '-' && args[1][1] == 'n')
 	{
-		*is_nl = 0;
 		while (args[*i] && args[*i][0] == '-')
 		{
 			j = 0;
 			while (args[*i][++j])
 			{
-				if (args[*i][j] != 'n')
+				if (args[*i][j] != 'n' && ft_strlen(args[*i]))
 				{
 					*is_nl = 0;
 					return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_parser.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:31 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/25 16:19:45 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/04 19:49:50 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ typedef struct s_env
 t_env				*parse_environment(char **envp);
 t_env				*search_node(char *key, t_env *env);
 t_env				*env_new_node(char *key, char *value);
+int					add_env_end(t_env **env, char *key, char *value);
 char				**convert_envp_to_string(t_env *head);
 char				*get_value_from_env(t_env *head, char *key);
 void				remove_env_node(t_env **head, char *key);
-int					add_env_end(t_env **env, char *key, char *value);
 int					replace_env_value(char *key, char *value, t_env *head);
 
 /*The function gives the length of the arguments.*/

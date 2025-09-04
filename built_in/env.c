@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 20:03:20 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:00:32 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/03 19:16:52 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	print_env_list(t_env *env_list)
 	return (0);
 }
 
-int	ft_env(char **args, t_env *env_list)
+int	ft_env(char **args, t_shell *shell)
 {
 	if (args_len(args) > 1)
 	{
 		perror("env: too many arguments\n");
 		return (1);
 	}
-	return (print_env_list(env_list));
+	return (print_env_list(shell->env));
 }

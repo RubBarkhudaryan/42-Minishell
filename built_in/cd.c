@@ -6,13 +6,13 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:13 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/03 19:16:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
 
-static int	change_directory(char *path, t_env *env)
+static int	change_directory(char *path, t_shell *shell)
 {
 	char	*cwd;
 	char	*old_pwd;
@@ -29,9 +29,9 @@ static int	change_directory(char *path, t_env *env)
 		perror("cd: PWD not set\n");
 		return (1);
 	}
-	old_pwd = get_value_from_env(env, "PWD");
-	if (replace_env_value("OLDPWD", old_pwd, env) || replace_env_value("PWD",
-			cwd, env))
+	old_pwd = get_value_from_env(shell->env, "PWD");
+	if (replace_env_value("OLDPWD", old_pwd, shell->env)
+		|| replace_env_value("PWD", cwd, shell->env))
 	{
 		free(cwd);
 		return (1);
@@ -40,23 +40,22 @@ static int	change_directory(char *path, t_env *env)
 	return (0);
 }
 
-int	ft_cd(char **args, t_env *env)
+int	ft_cd(char **args, t_shell *shell)
 {
 	char	*path;
 
 	if (args_len(args) > 2 && args_len(args))
 	{
-		errno = 1; // Set errno to 1 for custom error message
 		perror("cd: too many arguments\n");
 		return (1);
 	}
 	path = args[1];
 	if (!path)
-		path = get_value_from_env(env, "HOME");
+		path = get_value_from_env(shell->env, "HOME");
 	if (ft_strcmp(path, "-") == 0)
 	{
-		path = get_value_from_env(env, "OLDPWD");
+		path = get_value_from_env(shell->env, "OLDPWD");
 		printf("%s\n", path);
 	}
-	return (change_directory(path, env));
+	return (change_directory(path, shell));
 }

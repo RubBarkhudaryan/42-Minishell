@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:22:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 14:19:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/03 19:45:13 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	print_export(t_env *env)
 
 	env_string = env_to_export_string(env);
 	if (!env_string)
-		return (1);
+		return (perror("minishell:"), 1);
 	sort_string_array(env_string);
 	i = -1;
 	while (env_string[++i])
