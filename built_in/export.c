@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 14:29:48 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/03 19:31:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*is_append(char *args, int *len, int *flag)
 {
 	int	i;
 
+	if (!args || !*args)
+		return (*flag = -1, NULL);
 	i = -1;
 	while (args[++i])
 		if (!ft_isalpha(args[i]))
@@ -41,34 +43,44 @@ int	get_assignment_type(char *args, char **key, char **value)
 	if (flag == 2)
 	{
 		*key = ft_strdup(args);
+		if (!*key)
+			return (perror("malloc failed"), -1);
 		*value = ft_strdup("");
+		if (!*value)
+			return (free(*key), perror("malloc failed"), -1);
 		return (flag);
 	}
 	*key = ft_substr(args, 0, key_len);
+	if (!*key)
+		return (-1);
 	*value = ft_strdup(args_value);
 	if (!*value)
-		return (perror("malloc failed"), -1);
+		return (free(*key), perror("malloc failed"), -1);
 	return (flag);
 }
 
-int	add_or_replace_value(char *key, char *value, int flag, t_env **env)
+int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 {
 	t_env	*node;
 	char	*tmp;
 
-	node = search_node(key, *env);
+	node = search_node(key, shell->env);
 	if (!node)
-		return (add_env_end(env, key, value));
+		return (add_env_end(&(shell->env), key, value));
 	free(key);
 	if (!flag)
 	{
 		free(node->value);
 		node->value = ft_strdup(value);
+		if (!node->value)
+			return (1);
 		free(value);
 	}
 	else
 	{
 		tmp = ft_strjoin(node->value, value);
+		if (!tmp)
+			return (1);
 		free(node->value);
 		node->value = tmp;
 		free(value);
@@ -78,7 +90,7 @@ int	add_or_replace_value(char *key, char *value, int flag, t_env **env)
 
 // {"export", "ls=la", "ls+=bbbbb", NULL}
 
-int	ft_export(char **args, t_env **env)
+int	ft_export(char **args, t_shell *shell)
 {
 	char	*key;
 	char	*value;
@@ -90,12 +102,12 @@ int	ft_export(char **args, t_env **env)
 	if (!args || !*args)
 		return (1);
 	if (args_len(args) == 1) // {"export", NULL}
-		print_export(*env);
+		return (print_export(shell->env));
 	i = 0;
 	while (args[++i])
 	{
 		flag = get_assignment_type(args[i], &key, &value);
-		if (flag != -1 && add_or_replace_value(key, value, flag, env))
+		if (flag != -1 && add_or_replace_value(key, value, flag, shell))
 			return (free(value), free(key), 1);
 	}
 	return (0);

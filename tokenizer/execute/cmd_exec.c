@@ -6,11 +6,25 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/30 00:28:39 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/04 19:24:45 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void	print_msg(char *name)
+{
+	char	*msg;
+
+	if (!name)
+		perror("minishell");
+	msg = ft_strjoin("minishell: ", name);
+	if (!msg)
+		perror("minishell");
+	perror(msg);
+	free(msg);
+}
 
 static int	token_len(t_token *tokens)
 {
@@ -24,6 +38,7 @@ static int	token_len(t_token *tokens)
 	}
 	return (len);
 }
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 char	**tokens_to_args(t_token *tokens)
 {
@@ -53,83 +68,63 @@ char	**tokens_to_args(t_token *tokens)
 	return (args);
 }
 
-static char	*search_path_dirs(char *arg, char **split_path)
-{
-	int		i;
-	char	*exec_cmd;
-	char	*full_path;
-
-	exec_cmd = ft_strjoin("/", arg);
-	if (!exec_cmd)
-		return (free_split(split_path), NULL);
-	i = -1;
-	while (split_path[++i])
-	{
-		full_path = ft_strjoin(split_path[i], exec_cmd);
-		if (!full_path)
-			return (free(exec_cmd), free_split(split_path), NULL);
-		if (access(full_path, X_OK) == 0)
-			return (free(exec_cmd), free_split(split_path), full_path);
-		free(full_path);
-	}
-	return (free(exec_cmd), free_split(split_path), NULL);
-}
-
-char	*find_executable_path(t_cmd *cmd, char *path)
-{
-	char	**split_path;
-	char	*result;
-
-	if (!cmd->cmd_name || !(*cmd->cmd_name))
-		return (NULL);
-	if (access(cmd->cmd_name, X_OK) == 0)
-		return (ft_strdup(cmd->cmd_name));
-	split_path = ft_split(path, ':');
-	if (!split_path)
-		return (NULL);
-	result = search_path_dirs(cmd->cmd_name, split_path);
-	return (result);
-}
-
 int	apply_redirections(t_cmd *cmd, int extra_fd)
 {
-	// printf("\n\nalllo  in= %d\n", cmd->in_pipeline);
-	// printf("alllo out= %d ========= %s\n\n", cmd->out_pipeline,
-	// cmd->cmd_name);
 	if (cmd->in_pipeline != -1)
 	{
-		if (dup2(cmd->in_pipeline, STDIN_FILENO) < 0)
-			perror("dup:1 ");
-		XCLOSE(cmd->in_pipeline);
+		dup2(cmd->in_pipeline, STDIN_FILENO);
+		close(cmd->in_pipeline);
 	}
 	if (cmd->out_pipeline != -1)
 	{
-		if (dup2(cmd->out_pipeline, STDOUT_FILENO) < 0)
-			perror("dup: ");
-		XCLOSE(cmd->out_pipeline);
+		dup2(cmd->out_pipeline, STDOUT_FILENO);
+		close(cmd->out_pipeline);
 	}
 	if (extra_fd != -1)
-		XCLOSE(extra_fd);
+		close(extra_fd);
 	return (0);
 }
 
-int	launch_process(t_cmd *cmd, char **env_str, int extra_fd, bool wait)
+static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
+		char **env_str)
+{
+	char	*tmp;
+
+	tmp = find_executable_path(ast, shell);
+	if (!tmp)
+	{
+		free_split(env_str);
+		free_shell(shell);
+		exit(1);
+	}
+	free(ast->cmd->cmd_name);
+	ast->cmd->cmd_name = tmp;
+	apply_redirections(ast->cmd, extra_fd);
+	execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
+	perror("execve");
+	free_split(env_str);
+	free_shell(shell);
+	exit(126);
+}
+
+int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 {
 	pid_t	pid;
+	char	**env_str;
 	int		status;
 
+	env_str = convert_envp_to_string(shell->env);
+	if (!env_str)
+	{
+		perror("minishell");
+		return (1);
+	}
 	pid = fork();
 	if (pid == -1)
-		return (1);
+		return (free_split(env_str), perror("minishell"), 1);
 	if (pid == 0)
-	{
-		apply_redirections(cmd, extra_fd);
-		if (execve(cmd->cmd_name, cmd->args, env_str) == -1)
-		{
-			perror("execve");
-			exit(1);
-		}
-	}
+		handle_child_process(ast, shell, extra_fd, env_str);
+	free_split(env_str);
 	if (!wait)
 		return (0);
 	return (waitpid(pid, &status, 0), get_exit_code(status));

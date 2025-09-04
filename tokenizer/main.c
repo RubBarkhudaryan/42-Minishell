@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/27 22:43:46 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/03 23:02:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ void	print_token_list(t_token *head)
 		head = head->next;
 	}
 }
+// utils
+void	free_shell(t_shell *shell)
+{
+	free_ast(shell->ast);
+	free_env_list(shell->env);
+	free(shell);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -28,12 +35,12 @@ int	main(int argc, char **argv, char **envp)
 	t_token	*token_list;
 	t_token	*token_list1;
 	t_ast	*ast;
+	t_shell	*shell;
 
-	ast = NULL;
 	(void)argc;
-	(void)envp;
 	(void)argv;
-	(void)env;
+	ast = NULL;
+	shell = NULL;
 	while (true)
 	{
 		line = readline("minishell> ");
@@ -44,24 +51,33 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		if (token_list)
 		{
+			shell = malloc(sizeof(t_shell));
+			if (!shell)
+			{
+				free_env_list(env);
+				free_token_list(token_list);
+				perror("minshell:");
+				exit(1);
+			}
 			token_list1 = token_list;
-			print_token_list(token_list);
+			// print_token_list(token_list);
 			ast = build_ast(&token_list);
-			if (analyze(token_list))
-				printf("Syntax analysis passed.\n");
-			// else
-			// 	printf("Syntax analysis failed.\n");
-			if (execute_node(ast, env) == -1)
-				perror("Execution failed");
-			// else
-			// 	printf("Execution successful.\n");
-			print_ast(ast, 0);
-			free_ast(ast);
+			if (!ast)
+			{
+				free_token_list(token_list1);
+				free_env_list(env);
+				perror("minishell");
+				exit(1);
+			}
 			free_token_list(token_list1);
+			shell->ast = ast;
+			shell->env = env;
+			analyze(token_list);
+			execute_node(shell);
+			free_shell(shell);
 		}
 		else
 			printf("Tokenization failed.\n");
-		free_env_list(env);
 		free(line);
 	}
 	rl_clear_history();

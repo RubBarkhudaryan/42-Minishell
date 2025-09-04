@@ -2,6 +2,8 @@
 	"files.associations": {
 		"builtins.h": "c",
 		"stdio.h": "c",
-		"cstdio": "c"
+		"cstdio": "c",
+		"type_traits": "c",
+		"bulit_in.h": "c"
 	}
 }

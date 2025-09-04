@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/28 12:52:11 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:51:21 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,23 @@ int	is_builtin(char *cmd)
 		|| ft_strcmp(cmd, "exit") == 0);
 }
 
-int	execute_builtin(t_cmd *cmd, t_env *env)
+int	execute_builtin(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
 
 	if (ft_strcmp(cmd->cmd_name, "cd") == 0)
-		status = ft_cd(cmd->args, env);
+		status = ft_cd(cmd->args, shell);
 	else if (ft_strcmp(cmd->cmd_name, "echo") == 0)
 		status = ft_echo(cmd->args);
 	else if (ft_strcmp(cmd->cmd_name, "env") == 0)
-		status = ft_env(cmd->args, env);
+		status = ft_env(cmd->args, shell);
 	else if (ft_strcmp(cmd->cmd_name, "export") == 0)
-		status = ft_export(cmd->args, &env);
+		status = ft_export(cmd->args, shell);
 	else if (ft_strcmp(cmd->cmd_name, "pwd") == 0)
-		status = ft_pwd(cmd->args);
-	// else if (ft_strcmp(cmd, "unset") == 0)
-	// return (ft_unset(args, env));
+		status = ft_pwd();
+	else if (ft_strcmp(cmd->cmd_name, "unset") == 0)
+		return (ft_unset(cmd->args, &(shell->env)));
 	// else if (ft_strcmp(cmd, "exit") == 0)
 	//
-	printf("alllo status = %d\n\n", status);
 	return (status);
 }
