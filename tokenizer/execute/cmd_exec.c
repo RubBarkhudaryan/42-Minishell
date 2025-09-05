@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 19:24:45 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/05 15:51:55 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 	if (!tmp)
 	{
 		free_split(env_str);
+		free_env_list(shell->env);
 		free_shell(shell);
 		exit(1);
 	}

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/04 19:51:08 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/05 15:48:29 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	print_token_list(t_token *head)
 void	free_shell(t_shell *shell)
 {
 	free_ast(shell->ast);
-	free_env_list(shell->env);
 	free(shell);
 }
 
@@ -41,12 +40,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ast = NULL;
 	shell = NULL;
+	env = parse_environment(envp);
 	while (true)
 	{
 		line = readline("minishell> ");
 		if (!line || !(*line))
 			break ;
-		env = parse_environment(envp);
 		token_list = tokenize(line);
 		add_history(line);
 		if (token_list)
@@ -80,6 +79,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("Tokenization failed.\n");
 		free(line);
 	}
+	free_env_list(env);
 	rl_clear_history();
 	return (0);
 }
