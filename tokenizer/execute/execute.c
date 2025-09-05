@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 19:50:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/05 15:36:54 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,10 @@ int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	// 	return (execute_ast(ast->left, env) || execute_ast(ast->right, env));
 	// 		// Change this to another function to start a new process.
 	// else
-<<<<<<< HEAD
-	// if (ast->type == NODE_PIPE)
-	// 	return (execute_pipe(ast, env, wait, -1));
-	// else
-	if (ast->type == NODE_COMMAND)
-		return (execute_command(ast, env, wait, -1));
-=======
 	if (ast->type == NODE_PIPE)
 		return (execute_pipe(ast, shell, wait));
 	else if (ast->type == NODE_COMMAND)
 		return (execute_command(ast, shell, wait, extra_fd));
->>>>>>> feature/exec-pipe
 	return (0);
 }
 
