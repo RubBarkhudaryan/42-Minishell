@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/29 19:11:52 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:27:48 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,22 @@ typedef struct s_token
 	int				token_type;
 	struct s_token	*next;
 }					t_token;
+
+/*redir struct*/
+typedef struct s_redir
+{
+	int				type;
+	char			*filename;
+	struct s_redir	*next;
+}					t_redir;
+
+/*command struct*/
+typedef struct s_redir_cmd
+{
+	char				**argv;
+	t_redir				*redirs;
+	struct s_redir_cmd	*next;
+}					t_redir_cmd;
 
 /*token type enum*/
 typedef enum e_token_type
@@ -73,6 +89,14 @@ int					get_parenthesis_token_type(char *value);
 int					get_token_type(char *value);
 int					get_quoted_token_type(char *value);
 int					parse_subshell(t_token **head, char *str, int i);
+
+/*redirs list builders*/
+t_redir_cmd				*parse_redirs(t_token *token_list);
+t_redir_cmd				*init_redir_cmd(void);
+void					add_redir(t_redir_cmd *cmd, int type, char *filename);
+void					add_arg(t_redir_cmd *cmd, char *arg);
+void					print_redir_cmd(t_redir_cmd *cmd);
+void					free_redir_cmd(t_redir_cmd *cmd);
 
 /*tk functions*/
 int					ft_isspace(char c);
