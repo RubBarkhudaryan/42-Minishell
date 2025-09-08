@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/05 15:48:29 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:20:24 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	print_token_list(t_token *head)
 // utils
 void	free_shell(t_shell *shell)
 {
+	free_env_list(shell->env);
 	free_ast(shell->ast);
 	free(shell);
 }
@@ -61,19 +62,19 @@ int	main(int argc, char **argv, char **envp)
 			token_list1 = token_list;
 			// print_token_list(token_list);
 			ast = build_ast(&token_list);
+			free_token_list(token_list1);
 			if (!ast)
 			{
-				free_token_list(token_list1);
 				free_env_list(env);
 				perror("minishell");
 				exit(1);
 			}
-			free_token_list(token_list1);
 			shell->ast = ast;
 			shell->env = env;
 			analyze(token_list);
-			execute_node(shell);
-			free_shell(shell);
+			printf("exit code %d\n\n\n", execute_node(shell));
+			free_ast(shell->ast);
+			free(shell);
 		}
 		else
 			printf("Tokenization failed.\n");

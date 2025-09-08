@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/05 15:51:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:29:05 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int	token_len(t_token *tokens)
 	}
 	return (len);
 }
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 char	**tokens_to_args(t_token *tokens)
 {
 	t_token	*current;
@@ -90,13 +90,13 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 {
 	char	*tmp;
 
-	tmp = find_executable_path(ast, shell);
+	tmp = find_executable_path(ast, env_str, shell);
 	if (!tmp)
 	{
+		print_msg(ast->cmd->cmd_name);
 		free_split(env_str);
-		free_env_list(shell->env);
 		free_shell(shell);
-		exit(1);
+		exit(127);
 	}
 	free(ast->cmd->cmd_name);
 	ast->cmd->cmd_name = tmp;
@@ -118,11 +118,12 @@ int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 	if (!env_str)
 	{
 		perror("minishell");
-		return (1);
+		free_split(env_str);
+		return (free_shell(shell), 1);
 	}
 	pid = fork();
 	if (pid == -1)
-		return (free_split(env_str), perror("minishell"), 1);
+		return (free_split(env_str), free_shell(shell), perror("minishell"), 1);
 	if (pid == 0)
 		handle_child_process(ast, shell, extra_fd, env_str);
 	free_split(env_str);
