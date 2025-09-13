@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/08 14:20:24 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:10:30 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			token_list1 = token_list;
-			// print_token_list(token_list);
+			analyze(token_list);
+			print_token_list(token_list);
 			ast = build_ast(&token_list);
 			free_token_list(token_list1);
+			print_ast(ast, 0);
 			if (!ast)
 			{
 				free_env_list(env);
@@ -71,7 +73,6 @@ int	main(int argc, char **argv, char **envp)
 			}
 			shell->ast = ast;
 			shell->env = env;
-			analyze(token_list);
 			printf("exit code %d\n\n\n", execute_node(shell));
 			free_ast(shell->ast);
 			free(shell);

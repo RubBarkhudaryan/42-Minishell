@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/26 18:20:50 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:35:22 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	print_ast(t_ast *node, int level)
 		i = -1;
 		while (node->cmd->args[++i])
 			printf("%s ", node->cmd->args[i]);
+		print_redir_cmd(node->cmd->redirs_cmd);
 		printf("\n");
 		break ;
 	case NODE_PIPE:

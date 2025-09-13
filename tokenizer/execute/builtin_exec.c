@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/08 16:56:42 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:14:07 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	execute_builtin(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
 
+	status = 0;
 	if (ft_strcmp(cmd->cmd_name, "cd") == 0)
 		status = ft_cd(cmd->args, shell);
 	else if (ft_strcmp(cmd->cmd_name, "echo") == 0)
@@ -39,6 +40,6 @@ int	execute_builtin(t_cmd *cmd, t_shell *shell)
 	else if (ft_strcmp(cmd->cmd_name, "unset") == 0)
 		return (ft_unset(cmd->args, &(shell->env)));
 	// else if (ft_strcmp(cmd, "exit") == 0)
-	//	
+	//
 	return (status);
 }

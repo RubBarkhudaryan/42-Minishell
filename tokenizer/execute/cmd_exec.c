@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/08 17:29:05 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:45:57 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,37 @@ char	**tokens_to_args(t_token *tokens)
 	return (args);
 }
 
+int	open_fd(t_redir *redir, int redir_fd, int flags, mode_t mode)
+{
+	int	fd;
+
+	fd = open(redir->filename, flags, mode);
+	if (fd == -1)
+		return (-1);
+	dup2(fd, redir_fd);
+	close(fd);
+	return (fd);
+}
+
+int	open_redirect_file(t_redir *redir)
+{
+	if (redir->type == TK_REDIR_INPUT)
+		return (printf("ayooooooo\n\n"), open_fd(redir, STDIN_FILENO, O_RDONLY,
+				0));
+	else if (redir->type == TK_REDIR_OUTPUT)
+		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_TRUNC,
+				0644));
+	else if (redir->type == TK_APPEND)
+		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND,
+				0644));
+	else
+		return (-1);
+}
+
 int	apply_redirections(t_cmd *cmd, int extra_fd)
 {
+	t_redir	*tmp;
+
 	if (cmd->in_pipeline != -1)
 	{
 		dup2(cmd->in_pipeline, STDIN_FILENO);
@@ -82,6 +111,16 @@ int	apply_redirections(t_cmd *cmd, int extra_fd)
 	}
 	if (extra_fd != -1)
 		close(extra_fd);
+	if (cmd->redirs_cmd)
+	{
+		tmp = cmd->redirs_cmd->redirs;
+		while (tmp)
+		{
+			if (open_redirect_file(tmp) == -1)
+				return (print_msg(tmp->filename), EXIT_FAILURE);
+			tmp = tmp->next;
+		}
+	}
 	return (0);
 }
 
@@ -100,7 +139,12 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 	}
 	free(ast->cmd->cmd_name);
 	ast->cmd->cmd_name = tmp;
-	apply_redirections(ast->cmd, extra_fd);
+	if (apply_redirections(ast->cmd, extra_fd) == -1)
+	{
+		free_split(env_str);
+		free_shell(shell);
+		exit(EXIT_FAILURE);
+	}
 	execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
 	perror("execve");
 	free_split(env_str);

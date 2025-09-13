@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/26 16:14:23 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:35:57 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ void	free_cmd(t_cmd *cmd)
 			free(cmd->args[i]);
 		free(cmd->args);
 	}
+	if (cmd->redirs_cmd)
+		free_redir_cmd(cmd->redirs_cmd);
 	free(cmd);
 }
 
 static int	is_valid_token_type(t_token_type type)
 {
 	return (type == TK_WORD || type == TK_SINGLE_QUOTE
-		|| type == TK_DOUBLE_QUOTE || type == TK_DOLLAR
-		|| type == TK_REDIR_INPUT || type == TK_REDIR_OUTPUT
-		|| type == TK_APPEND || type == TK_HEREDOC);
+		|| type == TK_DOUBLE_QUOTE || type == TK_DOLLAR);
 }
 
 static int	count_args(t_token *current)
@@ -63,15 +63,37 @@ static int	fill_args(t_cmd *cmd, t_token **token_list, int arg_count)
 	{
 		cmd->args[i] = ft_strdup((*token_list)->token);
 		if (!cmd->args[i])
-		{
-			free_cmd(cmd);
-			return (0);
-		}
+			return (free_cmd(cmd), 0);
 		*token_list = (*token_list)->next;
 		i++;
 	}
 	cmd->args[i] = NULL;
 	return (1);
+}
+
+int	is_redirection_type(t_token *token)
+{
+	while (token)
+	{
+		if (token->token_type == TK_REDIR_INPUT
+			|| token->token_type == TK_REDIR_OUTPUT
+			|| token->token_type == TK_APPEND
+			|| token->token_type == TK_HEREDOC)
+			return (1);
+		token = token->next;
+	}
+	return (0);
+}
+
+t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list)
+{
+	cmd->redirs_cmd = parse_redirs(token_list);
+	cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
+	cmd->args = cmd->redirs_cmd->argv;
+	cmd->in_pipeline = -1;
+	cmd->out_pipeline = -1;
+	cmd->redirs_cmd->argv = NULL;
+	return (cmd);
 }
 
 t_cmd	*give_token_for_cmd(t_token **token_list)
@@ -84,6 +106,9 @@ t_cmd	*give_token_for_cmd(t_token **token_list)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
+	if (is_redirection_type((*token_list)))
+		return (parse_redirs_ast(cmd, token_list));
+	cmd->redirs_cmd = NULL;
 	arg_count = count_args(*token_list);
 	cmd->cmd_name = ft_strdup((*token_list)->token);
 	if (!cmd->cmd_name)
