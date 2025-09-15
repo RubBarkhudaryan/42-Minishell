@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/26 17:13:24 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/13 19:49:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@ void	free_token_list(t_token *head)
 		free(head);
 		head = next;
 	}
-}
-
-int	get_quoted_token_type(char *value)
-{
-	int	len;
-
-	len = ft_strlen(value);
-	if (len >= 2 && value[0] == '\'' && value[len - 1] == '\'')
-		return (TK_SINGLE_QUOTE);
-	if (len >= 2 && value[0] == '\"' && value[len - 1] == '\"')
-		return (TK_DOUBLE_QUOTE);
-	return (TK_ERROR);
 }
 
 int	get_parenthesis_token_type(char *value)
@@ -63,17 +51,14 @@ int	get_token_type(char *value)
 
 	i = -1;
 	parenthesis_type = get_parenthesis_token_type(value);
-	if (ft_inset(*value, "\'\""))
-		return (get_quoted_token_type(value));
 	while (value[++i])
-		if (ft_inset(value[i], "`\\;"))
+		if (ft_inset(value[i], "`;")
+			|| (value[i] == '\\' && !ft_inset(value[i + 1], "\'\"")))
 			return (TK_ERROR);
 	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
 		return (TK_WORD);
 	else if (ft_strlen(value) == 1 && *value == '|')
 		return (TK_PIPE);
-	else if (ft_strlen(value) > 1 && *value == '$')
-		return (TK_DOLLAR);
 	else if (ft_strcmp("&&", value) == 0)
 		return (TK_AND);
 	else if (ft_strcmp("||", value) == 0)

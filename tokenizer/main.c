@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/06 14:32:43 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:33:54 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char **argv, char **envp)
 	t_token		*token_list1;
 	t_ast		*ast;
 	t_shell		*shell;
-	t_redir_cmd	*cmd;
 
 	(void)argc;
 	(void)argv;
@@ -60,9 +59,9 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			token_list1 = token_list;
-			cmd = parse_redirs(token_list);
-			print_redir_cmd(cmd);
-			// print_token_list(token_list);
+			expand_tokens(&token_list, env);
+			print_token_list(token_list);
+			analyze(token_list);
 			ast = build_ast(&token_list);
 			if (!ast)
 			{
@@ -72,10 +71,8 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			free_token_list(token_list1);
-			free_redir_cmd(cmd);
 			shell->ast = ast;
 			shell->env = env;
-			analyze(token_list);
 			execute_node(shell);
 			free_shell(shell);
 		}

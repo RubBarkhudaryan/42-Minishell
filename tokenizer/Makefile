@@ -3,10 +3,9 @@ NAME	=	token
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
-
-SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c \
-			../expander/expand_tokens.c ../expander/expand_helpers.c parse_subshell.c \
+SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c parse_subshell.c \
 			redirs.c redir_helpers.c \
+			../expander/expander.c ../expander/expand_helpers.c \
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c ../ast/ast_helper.c\
 			../parsing_env/env_parser.c ../parsing_env/env_utils.c \
 			 ./execute/execute.c ./execute/cmd_exec.c ./execute/builtin_exec.c ./execute/utils.c  ./execute/exec_utils.c ./execute/pipe_exec.c\
@@ -42,11 +41,9 @@ $(NAME): $(OBJS) $(LIBFT_A)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-
 clean:
 	rm -f $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
-
 
 fclean: clean
 	rm -f $(NAME)
@@ -57,7 +54,7 @@ val: $(NAME) clean
 
 child: $(NAME) clean
 	$(VALCHILDEN) ./$(NAME)
+
 re: fclean all
 
 .PHONY: all clean fclean re
-

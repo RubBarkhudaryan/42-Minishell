@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:12:20 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/29 17:25:36 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/13 00:18:54 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,7 @@ static int	make_subshell_token(t_token **head, char *str, int i)
 
 	while (ft_isspace(str[i]))
 		++i;
-	if (str[i] == '\'' || str[i] == '\"')
-	{
-		new_i = make_quoted_token(head, str, i);
-		if (new_i != i)
-			return (new_i);
-	}
-	else if (ft_inset(str[i], "|&<>"))
+	if (ft_inset(str[i], "|&<>"))
 	{
 		new_i = make_specials_token(head, str, i);
 		if (new_i != i)

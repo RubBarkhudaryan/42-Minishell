@@ -12,7 +12,7 @@
 
 #include "tokenizer.h"
 
-static int	ft_is_word_part(char c)
+int	ft_is_word_part(char c)
 {
 	return (ft_isalnum(c) || ft_inset(c, "!@#$%^*-_+=~`;.?,{}[]\\/"));
 }
@@ -28,11 +28,7 @@ t_token	*tokenize(char *str)
 		return (NULL);
 	while (str[i])
 	{
-		while (str[i] && ft_isspace(str[i]))
-			++i;
-		if (str[i] == '\'' || str[i] == '\"')
-			i = make_quoted_token(&head, str, i);
-		else if (ft_is_word_part(str[i]))
+		if (ft_is_word_part(str[i]) || str[i] == '\'' || str[i] == '\"')
 			i = make_word_token(&head, str, i);
 		else if (ft_inset(str[i], "|&<>"))
 			i = make_specials_token(&head, str, i);
