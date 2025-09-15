@@ -5,17 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/29 17:30:39 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/29 17:30:39 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/09/12 22:49:15 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/09/12 22:49:15 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static int	check_nested_quote(char curr_tk, char next_tk, int type)
+static int	check_nested_quote(char curr_tk, char next_tk)
 {
-	return ((curr_tk == '\\' && next_tk == '\"' && type == TK_DOUBLE_QUOTE)
-		|| (curr_tk == '\\' && next_tk == '\'' && type == TK_SINGLE_QUOTE));
+	return ((curr_tk == '\\' && next_tk == '\"')
+		|| (curr_tk == '\\' && next_tk == '\''));
 }
 
 static void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
@@ -68,25 +68,41 @@ char	*expand_dollar_token(char *token, t_env *env)
 	return (exp.res);
 }
 
-char	*expand_nested_quote(char *token, int type, t_env *env)
+void	add_val(t_expand *exp, t_env *env, int *i, char quote)
 {
-	t_expand	exp;
+	if (check_nested_quote(exp->tk[*i], exp->tk[*i + 1]))
+		refresh_args_val(exp, (char [2]){exp->tk[*i + 1], '\0'}, i, 2);
+	else if (exp->tk[*i] == '$' && ft_isalpha(exp->tk[*i + 1]) && quote != '\''
+		&& !exp->is_here_doc)
+		handle_dollar(exp, i, env);
+	else
+		refresh_args_val(exp, (char [2]){exp->tk[*i], '\0'}, i, 1);
+}
+
+char	*expand_nested_quote(char *token, t_env *env, int is_here_doc)
+{
 	int			i;
+	t_expand	exp;
+	char		quote;
 
 	i = 0;
-	exp.tk = ft_substr(token, 1, ft_strlen(token) - 2);
+	quote = 0;
+	exp.tk = ft_strdup(token);
 	exp.res = ft_strdup("");
+	exp.is_here_doc = is_here_doc;
 	if (!exp.tk || !exp.res)
 		return (NULL);
 	while (exp.tk[i])
 	{
-		if (check_nested_quote(exp.tk[i], exp.tk[i + 1], type))
-			refresh_args_val(&exp, (char [2]){exp.tk[i + 1], '\0'}, &i, 2);
-		else if (exp.tk[i] == '$' && ft_isalpha(exp.tk[i + 1])
-			&& type != TK_SINGLE_QUOTE)
-			handle_dollar(&exp, &i, env);
+		if (!quote && ft_inset(exp.tk[i], "\'\""))
+			quote = exp.tk[i++];
+		else if (quote && exp.tk[i] == quote)
+		{
+			quote = 0;
+			++i;
+		}
 		else
-			refresh_args_val(&exp, (char [2]){exp.tk[i], '\0'}, &i, 1);
+			add_val(&exp, env, &i, quote);
 	}
 	return (free(exp.tk), exp.res);
 }

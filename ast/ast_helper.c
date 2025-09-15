@@ -32,9 +32,8 @@ void	free_cmd(t_cmd *cmd)
 
 static int	is_valid_token_type(t_token_type type)
 {
-	return (type == TK_WORD || type == TK_SINGLE_QUOTE
-		|| type == TK_DOUBLE_QUOTE || type == TK_DOLLAR
-		|| type == TK_REDIR_INPUT || type == TK_REDIR_OUTPUT
+	return (type == TK_WORD || type == TK_REDIR_INPUT
+		|| type == TK_REDIR_OUTPUT
 		|| type == TK_APPEND || type == TK_HEREDOC);
 }
 
