@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 22:43:30 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/12 22:43:30 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:47:50 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	expand_tokens(t_token **token_list, t_env *env)
 	token = *token_list;
 	while (token)
 	{
+		if (token->token_type == TK_HEREDOC)
+			is_here_doc = 1;
 		if (token->token_type == TK_WORD)
 		{
 			tmp_tk = expand_nested_quote(token->token, env, is_here_doc);
@@ -60,8 +62,6 @@ void	expand_tokens(t_token **token_list, t_env *env)
 				return ;
 			change_val(&token->token, &tmp_tk);
 		}
-		else if (token->token_type == TK_HEREDOC)
-			is_here_doc = 1;
 		else if (is_here_doc && token->token_type == TK_WORD)
 			is_here_doc = 0;
 		token = token->next;
