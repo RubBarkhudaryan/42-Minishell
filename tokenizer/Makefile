@@ -6,7 +6,7 @@ LDFLAGS	=	-lreadline -lncurses
 
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c \
 			../expander/expand_tokens.c ../expander/expand_helpers.c parse_subshell.c \
-			redirs.c redir_helpers.c \
+			./redirection/redirs.c ./redirection/redir_helpers.c ./redirection/here_doc_shell.c\
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c ../ast/ast_helper.c\
 			../parsing_env/env_parser.c ../parsing_env/env_utils.c \
 			 ./execute/execute.c ./execute/cmd_exec.c ./execute/builtin_exec.c ./execute/utils.c  ./execute/exec_utils.c ./execute/pipe_exec.c\

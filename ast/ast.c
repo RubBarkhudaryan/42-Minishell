@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/13 13:35:22 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:10:50 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_ast(t_ast *node, int level)
 	case NODE_COMMAND:
 		printf("COMMAND: ");
 		i = -1;
-		while (node->cmd->args[++i])
+		while (node->cmd->args &&node->cmd->args[++i])
 			printf("%s ", node->cmd->args[i]);
 		print_redir_cmd(node->cmd->redirs_cmd);
 		printf("\n");
@@ -79,7 +79,7 @@ t_token	*find_matching_parenthesis(t_token *start)
 	return (NULL);
 }
 
-t_ast	*pars_cmd(t_token **token_list)
+t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 {
 	t_ast	*node;
 	t_ast	*subshell;
@@ -94,12 +94,12 @@ t_ast	*pars_cmd(t_token **token_list)
 		saved_next = matching_paren->next;
 		matching_paren->next = NULL;
 		*token_list = (*token_list)->next;
-		subshell = build_ast(&*token_list);
+		subshell = build_ast(token_list, shell);
 		matching_paren->next = saved_next;
 		*token_list = matching_paren->next;
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (NULL); // malloc	fail
+			return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 		node->cmd = NULL;
 		node->left = subshell;
 		node->right = NULL;
@@ -108,30 +108,30 @@ t_ast	*pars_cmd(t_token **token_list)
 	}
 	node = malloc(sizeof(t_ast));
 	if (!node)
-		return (NULL); // malloc	fail
+		return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 	node->type = NODE_COMMAND;
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = give_token_for_cmd(token_list);
+	node->cmd = give_token_for_cmd(token_list, shell);
 	if (!node->cmd)
-		return (NULL); // malloc fail
+		return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 	return (node);
 }
 
-t_ast	*pars_pipe(t_token **token_list)
+t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 {
 	t_ast	*left;
 	t_ast	*right;
 	t_ast	*node;
 
-	left = pars_cmd(token_list);
+	left = pars_cmd(token_list, shell);
 	while (*token_list && (*token_list)->token_type == TK_PIPE)
 	{
 		*token_list = (*token_list)->next;
-		right = pars_cmd(token_list);
+		right = pars_cmd(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (NULL); // malloc	fail
+			return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;
@@ -141,7 +141,7 @@ t_ast	*pars_pipe(t_token **token_list)
 	return (left);
 }
 
-t_ast	*pars_ast(t_token **token_list)
+t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 {
 	t_ast			*left;
 	t_ast			*right;
@@ -150,16 +150,16 @@ t_ast	*pars_ast(t_token **token_list)
 
 	if (!(*token_list) || !token_list)
 		return (NULL);
-	left = pars_pipe(token_list);
+	left = pars_pipe(token_list, shell);
 	while (*token_list && ((*token_list)->token_type == TK_OR
 			|| (*token_list)->token_type == TK_AND))
 	{
 		type = (*token_list)->token_type;
 		*token_list = (*token_list)->next;
-		right = pars_pipe(token_list);
+		right = pars_pipe(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (NULL); // malloc	fail
+			return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;
@@ -172,7 +172,7 @@ t_ast	*pars_ast(t_token **token_list)
 	return (left);
 }
 
-t_ast	*build_ast(t_token **token_list)
+t_ast	*build_ast(t_token **token_list, t_shell *shell)
 {
-	return (pars_ast(token_list));
+	return (pars_ast(token_list, shell));
 }

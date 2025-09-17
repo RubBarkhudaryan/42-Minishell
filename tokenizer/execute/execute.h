@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/08 14:25:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/17 19:59:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ typedef struct s_env	t_env;
 
 typedef struct s_shell
 {
+	t_token				*token_list;
 	t_ast				*ast;
 	t_env				*env;
+	int					last_exit_code;
 }						t_shell;
 
 int						get_exit_code(int status);

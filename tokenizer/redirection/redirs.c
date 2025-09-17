@@ -2,19 +2,22 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/09/02 17:47:33 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/09/02 17:47:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "../tokenizer.h"
 
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
-	t_redir	*r;
+	t_redir *r;
 
 	while (cmd)
 	{
@@ -38,12 +41,11 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 	}
 }
 
-
 t_redir_cmd	*parse_redirs(t_token **token_list)
 {
-	t_redir_cmd	*cmd;
-	t_redir_cmd	*head;
-	t_token		*list;
+	t_redir_cmd *cmd;
+	t_redir_cmd *head;
+	t_token *list;
 
 	list = *token_list;
 	cmd = init_redir_cmd();

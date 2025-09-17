@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/13 13:23:27 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/17 19:50:19 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void					add_arg(t_redir_cmd *cmd, char *arg);
 void					print_redir_cmd(t_redir_cmd *cmd);
 void					free_redir_cmd(t_redir_cmd *cmd);
 
+// here doc
+char					*here_doc(char *delimiter, t_shell *shell);
 /*tk functions*/
 int						ft_isspace(char c);
 int						ft_inset(char c, char *set);

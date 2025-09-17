@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/13 16:45:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:52:07 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,15 @@ int	open_fd(t_redir *redir, int redir_fd, int flags, mode_t mode)
 int	open_redirect_file(t_redir *redir)
 {
 	if (redir->type == TK_REDIR_INPUT)
-		return (printf("ayooooooo\n\n"), open_fd(redir, STDIN_FILENO, O_RDONLY,
-				0));
+		return (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
 	else if (redir->type == TK_REDIR_OUTPUT)
 		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_TRUNC,
 				0644));
 	else if (redir->type == TK_APPEND)
 		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND,
 				0644));
+	else if (redir->type == TK_HEREDOC)
+		return (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
 	else
 		return (-1);
 }
@@ -132,7 +133,9 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 	tmp = find_executable_path(ast, env_str, shell);
 	if (!tmp)
 	{
-		print_msg(ast->cmd->cmd_name);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ast->cmd->cmd_name, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		free_split(env_str);
 		free_shell(shell);
 		exit(127);

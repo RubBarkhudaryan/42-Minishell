@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/08 17:47:59 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:23:38 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	int	status;
 
+	if (ast->cmd->redirs_cmd
+		&& ast->cmd->redirs_cmd->redirs->type == TK_HEREDOC)
+		return (-2); // if is herdoc
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast->cmd, shell));

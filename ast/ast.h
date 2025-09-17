@@ -6,13 +6,14 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/13 13:34:54 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:50:43 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
+typedef struct s_shell	t_shell;
 typedef struct s_token	t_token;
 typedef struct s_redir_cmd	t_redir_cmd;
 # include "../syntax_analysis/syntax.h"
@@ -51,8 +52,8 @@ typedef struct s_ast
 
 /*AST builder*/
 void					free_ast(t_ast *node);
-t_ast					*build_ast(t_token **token_list);
-t_cmd					*give_token_for_cmd(t_token **token_list);
+t_ast					*build_ast(t_token **token_list, t_shell *shell);
+t_cmd					*give_token_for_cmd(t_token **token_list, t_shell *shell);
 /*AST builder utils*/
 void					print_ast(t_ast *node, int level);
 void					free_cmd(t_cmd *cmd);

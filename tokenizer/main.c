@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/11 17:10:30 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/17 20:03:14 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	print_token_list(t_token *head)
 void	free_shell(t_shell *shell)
 {
 	free_env_list(shell->env);
+	free_token_list(shell->token_list);
 	free_ast(shell->ast);
 	free(shell);
 }
@@ -33,13 +34,10 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_env	*env;
 	t_token	*token_list;
-	t_token	*token_list1;
-	t_ast	*ast;
 	t_shell	*shell;
 
 	(void)argc;
 	(void)argv;
-	ast = NULL;
 	shell = NULL;
 	env = parse_environment(envp);
 	while (true)
@@ -47,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell> ");
 		if (!line || !(*line))
 			break ;
+		printf("line %s", line);
 		token_list = tokenize(line);
 		add_history(line);
 		if (token_list)
@@ -59,20 +58,21 @@ int	main(int argc, char **argv, char **envp)
 				perror("minshell:");
 				exit(1);
 			}
-			token_list1 = token_list;
+			shell->token_list = token_list;
 			analyze(token_list);
-			print_token_list(token_list);
-			ast = build_ast(&token_list);
-			free_token_list(token_list1);
-			print_ast(ast, 0);
-			if (!ast)
+			// print_token_list(token_list);
+			shell->env = env;
+			shell->ast = NULL;
+			shell->last_exit_code = 0;
+			shell->ast  = build_ast(&token_list, shell);
+			free_token_list(shell->token_list);
+			print_ast(shell->ast, 0);
+			if (!shell->ast)
 			{
 				free_env_list(env);
 				perror("minishell");
 				exit(1);
 			}
-			shell->ast = ast;
-			shell->env = env;
 			printf("exit code %d\n\n\n", execute_node(shell));
 			free_ast(shell->ast);
 			free(shell);
