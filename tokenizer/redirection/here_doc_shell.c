@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/17 20:06:53 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/21 20:35:43 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	print_heredoc_warning(int line, char *delimiter)
 	ft_putstr_fd("')\n", STDERR_FILENO);
 }
 
-void	run_heredoc_child(char *delimiter, char *filename, t_shell *shell)
+void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
+		t_shell *shell, t_redir_cmd *redir_cmd)
 {
 	int		fd;
 	int		line_num;
@@ -30,11 +31,13 @@ void	run_heredoc_child(char *delimiter, char *filename, t_shell *shell)
 	fd = open(filename, O_CREAT | O_EXCL | O_WRONLY, 0644);
 	if (fd == -1)
 	{
-		free_shell(shell);
 		free(filename);
+		free_shell(shell);
 		perror("minishell");
 		exit(1);
 	}
+	(void)cmd;
+	(void)redir_cmd;
 	line_num = 1;
 	while (1)
 	{
@@ -44,6 +47,7 @@ void	run_heredoc_child(char *delimiter, char *filename, t_shell *shell)
 			print_heredoc_warning(line_num, delimiter);
 			close(fd);
 			free(filename);
+			free_cmd(cmd);
 			free_shell(shell);
 			exit(0);
 		}
@@ -52,6 +56,8 @@ void	run_heredoc_child(char *delimiter, char *filename, t_shell *shell)
 			free(line);
 			close(fd);
 			free(filename);
+			free_cmd(cmd);
+			free_token_list(shell->token_list);
 			free_shell(shell);
 			exit(0);
 		}
@@ -62,7 +68,8 @@ void	run_heredoc_child(char *delimiter, char *filename, t_shell *shell)
 	}
 }
 
-int	run_here_doc(char *delimiter, char *filename, t_shell *shell)
+int	run_here_doc(t_cmd *cmd, char *delimiter, char *filename, t_shell *shell,
+		t_redir_cmd *redir_cmd)
 {
 	pid_t	pid;
 	int		status;
@@ -71,7 +78,7 @@ int	run_here_doc(char *delimiter, char *filename, t_shell *shell)
 	if (pid == -1)
 		return (free(filename), perror("minishell"), EXIT_FAILURE);
 	if (pid == 0)
-		run_heredoc_child(delimiter, filename, shell);
+		run_heredoc_child(cmd, delimiter, filename, shell, redir_cmd);
 	return (waitpid(pid, &status, 0), get_exit_code(status));
 }
 
@@ -93,6 +100,7 @@ char	*open_check_filename(void)
 		filename = ft_strjoin("/tmp/.her_doc", tmp);
 		if (!filename)
 		{
+			free(tmp);
 			perror("minishell");
 			return (NULL);
 		}
@@ -103,11 +111,18 @@ char	*open_check_filename(void)
 	}
 }
 
-char	*here_doc(char *delimiter, t_shell *shell)
+char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell,
+		t_redir_cmd *redir_cmd)
 {
 	char	*file_name;
 
 	file_name = open_check_filename();
-	shell->last_exit_code = run_here_doc(delimiter, file_name, shell);
+	if (!file_name)
+		return (NULL);
+	shell->last_exit_code = run_here_doc(cmd, delimiter, file_name, shell,
+			redir_cmd);
+	if (shell->last_exit_code == EXIT_FAILURE)
+		return (free(file_name), NULL);
+	// unlink(file_name);
 	return (file_name);
 }

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/17 19:41:46 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/21 20:19:17 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
 	{
 		cmd->cmd_name = NULL;
 		cmd->args = NULL;
-		printf("aloooooo %s\n\n\n", cmd->redirs_cmd->redirs->filename);
-		tmp = here_doc(cmd->redirs_cmd->redirs->filename, shell);
+		tmp = here_doc(cmd, cmd->redirs_cmd->redirs->filename, shell,
+				cmd->redirs_cmd);
 		if (!tmp)
 			return (ft_putstr_fd("malloc failure", 2), NULL);
 		free(cmd->redirs_cmd->redirs->filename);

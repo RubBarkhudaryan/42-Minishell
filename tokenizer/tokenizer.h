@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/17 19:50:19 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/20 16:17:54 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_cmd	t_cmd;
 
 /*token list*/
 typedef struct s_token
@@ -98,8 +100,8 @@ void					print_redir_cmd(t_redir_cmd *cmd);
 void					free_redir_cmd(t_redir_cmd *cmd);
 
 // here doc
-char					*here_doc(char *delimiter, t_shell *shell);
-/*tk functions*/
+char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell,
+		t_redir_cmd *redir_cmd); /*tk functions*/
 int						ft_isspace(char c);
 int						ft_inset(char c, char *set);
 

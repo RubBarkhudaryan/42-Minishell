@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/16 19:10:50 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/20 16:57:45 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_ast(t_ast *node, int level)
 	case NODE_COMMAND:
 		printf("COMMAND: ");
 		i = -1;
-		while (node->cmd->args &&node->cmd->args[++i])
+		while (node->cmd->args && node->cmd->args[++i])
 			printf("%s ", node->cmd->args[i]);
 		print_redir_cmd(node->cmd->redirs_cmd);
 		printf("\n");
@@ -81,6 +81,7 @@ t_token	*find_matching_parenthesis(t_token *start)
 
 t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 {
+	t_cmd	*cmd_tmp;
 	t_ast	*node;
 	t_ast	*subshell;
 	t_token	*matching_paren;
@@ -106,13 +107,14 @@ t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 		node->type = NODE_SUBSHELL;
 		return (node);
 	}
+	cmd_tmp = give_token_for_cmd(token_list, shell);
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 	node->type = NODE_COMMAND;
 	node->left = NULL;
 	node->right = NULL;
-	node->cmd = give_token_for_cmd(token_list, shell);
+	node->cmd = cmd_tmp;
 	if (!node->cmd)
 		return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
 	return (node);

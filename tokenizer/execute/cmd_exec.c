@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/16 17:52:07 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/21 20:54:25 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	open_fd(t_redir *redir, int redir_fd, int flags, mode_t mode)
 	fd = open(redir->filename, flags, mode);
 	if (fd == -1)
 		return (-1);
+	if (redir->type == TK_HEREDOC)
+		unlink(redir->filename);
 	dup2(fd, redir_fd);
 	close(fd);
 	return (fd);

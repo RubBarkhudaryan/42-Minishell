@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/03 19:31:12 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/21 23:22:11 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ char	*is_append(char *args, int *len, int *flag)
 	if (!args || !*args)
 		return (*flag = -1, NULL);
 	i = -1;
+	if(ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
+		return (*flag = -1, NULL);
 	while (args[++i])
-		if (!ft_isalpha(args[i]))
+		if (args[i] == '=' || args[i] == '+')
 			break ;
 	if (i && args[i] == '+' && args[i + 1] == '=')
 		return (*len = i, *flag = 1, &args[i + 2]); // append flag
@@ -28,6 +30,7 @@ char	*is_append(char *args, int *len, int *flag)
 		return (*len = i, *flag = 0, &args[i + 1]);
 	if (i == (int)ft_strlen(args)) // no parameter
 		return (*len = i, *flag = 2, args);
+	// if (is_alpha(args[0]) == 0	)
 	return (*flag = -1, NULL);
 }
 
@@ -39,7 +42,7 @@ int	get_assignment_type(char *args, char **key, char **value)
 
 	args_value = is_append(args, &key_len, &flag);
 	if (flag == -1)
-		return (perror("export: not a valid identifier"), -1); // change
+		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1); // change
 	if (flag == 2)
 	{
 		*key = ft_strdup(args);
