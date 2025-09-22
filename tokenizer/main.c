@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/15 17:33:54 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:16:49 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,20 @@ void	print_token_list(t_token *head)
 // utils
 void	free_shell(t_shell *shell)
 {
+	free_env_list(shell->env);
 	free_ast(shell->ast);
 	free(shell);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	t_env		*env;
-	t_token		*token_list;
-	t_token		*token_list1;
-	t_ast		*ast;
-	t_shell		*shell;
+	char	*line;
+	t_env	*env;
+	t_token	*token_list;
+	t_shell	*shell;
 
 	(void)argc;
 	(void)argv;
-	ast = NULL;
 	shell = NULL;
 	env = parse_environment(envp);
 	while (true)
@@ -58,23 +56,23 @@ int	main(int argc, char **argv, char **envp)
 				perror("minshell:");
 				exit(1);
 			}
-			token_list1 = token_list;
-			expand_tokens(&token_list, env);
-			print_token_list(token_list);
+			shell->token_list = token_list;
 			analyze(token_list);
-			ast = build_ast(&token_list);
-			if (!ast)
+			shell->env = env;
+			shell->ast = NULL;
+			shell->last_exit_code = 0;
+			shell->ast = build_ast(&token_list, shell);
+			free_token_list(shell->token_list);
+			print_ast(shell->ast, 0);
+			if (!shell->ast)
 			{
-				free_token_list(token_list1);
 				free_env_list(env);
 				perror("minishell");
 				exit(1);
 			}
-			free_token_list(token_list1);
-			shell->ast = ast;
-			shell->env = env;
-			execute_node(shell);
-			free_shell(shell);
+			printf("exit code %d\n\n\n", execute_node(shell));
+			free_ast(shell->ast);
+			free(shell);
 		}
 		else
 			printf("Tokenization failed.\n");

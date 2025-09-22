@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/03 19:16:12 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:23:31 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	change_directory(char *path, t_shell *shell)
 
 	if (chdir(path) != 0)
 	{
-		errno = 1; // Set errno to 1 for custom error message
 		perror("cd: no such file or directory\n");
 		return (1);
 	}
@@ -32,10 +31,7 @@ static int	change_directory(char *path, t_shell *shell)
 	old_pwd = get_value_from_env(shell->env, "PWD");
 	if (replace_env_value("OLDPWD", old_pwd, shell->env)
 		|| replace_env_value("PWD", cwd, shell->env))
-	{
-		free(cwd);
-		return (1);
-	}
+		return (free(cwd), 1);
 	free(cwd);
 	return (0);
 }

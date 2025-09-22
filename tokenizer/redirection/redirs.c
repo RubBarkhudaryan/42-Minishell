@@ -2,37 +2,26 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/09/02 17:47:33 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/09/02 17:47:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "../tokenizer.h"
+
 
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
-	int		i;
-	t_redir	*r;
+	t_redir *r;
 
 	while (cmd)
 	{
-		printf("=== Command ===\n");
-		if (cmd->argv)
-		{
-			printf("argv: ");
-			i = 0;
-			while (cmd->argv[i])
-			{
-				printf("[%s] ", cmd->argv[i]);
-				i++;
-			}
-			printf("\n");
-		}
-		else
-			printf("argv: (none)\n");
 		r = cmd->redirs;
 		if (r)
 			printf("redirections:\n");
@@ -53,14 +42,13 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 	}
 }
 
-
-t_redir_cmd	*parse_redirs(t_token *token_list)
+t_redir_cmd	*parse_redirs(t_token **token_list)
 {
-	t_redir_cmd	*cmd;
-	t_redir_cmd	*head;
-	t_token		*list;
+	t_redir_cmd *cmd;
+	t_redir_cmd *head;
+	t_token *list;
 
-	list = token_list;
+	list = *token_list;
 	cmd = init_redir_cmd();
 	if (!cmd)
 		return (NULL);
@@ -72,7 +60,7 @@ t_redir_cmd	*parse_redirs(t_token *token_list)
 		else if (is_redir(list))
 		{
 			if (!list->next || list->next->token_type != TK_WORD)
-				return (printf("Syntax error near redir."), NULL);
+				return (ft_putstr_fd("Syntax error near redir.", 2), NULL);
 			add_redir(cmd, list->token_type, list->next->token);
 			list = list->next;
 		}

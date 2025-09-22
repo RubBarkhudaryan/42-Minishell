@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:23 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/08/11 16:24:24 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/13 23:08:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,14 +131,24 @@ void	remove_env_node(t_env **head, char *key)
 	current = *head;
 	if (!current)
 		return ;
+	if (ft_strcmp(current->key, key) == 0)
+	{
+		*head = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		return ;
+	}
 	while (current->next)
 	{
 		if (ft_strcmp(current->next->key, key) == 0)
 		{
 			tmp = current->next;
 			current->next = tmp->next;
+			free(tmp->key);
+			free(tmp->value);
 			free(tmp);
-			break ;
+			return ;
 		}
 		current = current->next;
 	}

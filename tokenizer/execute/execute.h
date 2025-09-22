@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 19:31:37 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:12:40 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ typedef struct s_env	t_env;
 
 typedef struct s_shell
 {
+	t_token				*token_list;
 	t_ast				*ast;
 	t_env				*env;
+	int					last_exit_code;
 }						t_shell;
 
 int						get_exit_code(int status);
@@ -42,7 +44,8 @@ int						exe_builtin_process(t_cmd *cmd, t_shell *shell,
 							bool wait, int extra_fd);
 int						execute_builtin(t_cmd *cmd, t_shell *shell);
 char					**tokens_to_args(t_token *tokens);
-char					*find_executable_path(t_ast *ast, t_shell *shell);
+char					*find_executable_path(t_ast *ast, char **env_str,
+							t_shell *shell);
 int						is_builtin(char *cmd);
 int						launch_process(t_ast *ast, t_shell *shell, int extra_fd,
 							bool wait);

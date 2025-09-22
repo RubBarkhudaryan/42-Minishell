@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 18:52:09 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:16:48 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_shell	t_shell;
 
 int						ft_echo(char **args);
 int						ft_unset(char **args, t_env **env);
-int						ft_pwd(void);
+int						ft_pwd(t_env *env);
 int						ft_cd(char **args, t_shell *shell);
 int						ft_env(char **args, t_shell *shell);
 int						ft_export(char **args, t_shell *shell);

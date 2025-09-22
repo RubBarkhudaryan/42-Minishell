@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 18:43:05 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:47:28 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,28 @@ static int	len_of_split(char **args)
 	return (i);
 }
 
-void	chek_new_line(char **args, int *is_nl, int *i)
+int	chek_new_line(char **args, int *is_nl)
 {
+	int	i;
 	int	j;
+	int	ret;
 
-	if (args[1][0] == '-' && args[1][1] == 'n')
+	ret = 0;
+	i = 0;
+	while (args[++i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
-		while (args[*i] && args[*i][0] == '-')
+		j = 1;
+		while (args[i][++j] && args[i][j] == 'n')
+			;
+		if (j == (int)ft_strlen(args[i]))
 		{
-			j = 0;
-			while (args[*i][++j])
-			{
-				if (args[*i][j] != 'n' && ft_strlen(args[*i]))
-				{
-					*is_nl = 0;
-					return ;
-				}
-			}
-			++(*i);
+			ret = i;
+			*is_nl = 0;
 		}
+		else
+			return (++ret);
 	}
+	return (1);
 }
 
 int	ft_echo(char **args)
@@ -55,20 +57,19 @@ int	ft_echo(char **args)
 
 	is_new_line = 1;
 	if (len_of_split(args) == 1)
-		return (print_helper("\n", "bash: echo: "));
-	i = 1;
-	chek_new_line(args, &is_new_line, &i);
+		return (print_helper("\n", "minishell: echo: "));
+	i = chek_new_line(args, &is_new_line);
 	while (args[i])
 	{
-		if (print_helper(args[i], "bash: echo: "))
+		if (print_helper(args[i], "minishell: echo: "))
 			return (1);
 		if (args[i + 1])
-			if (print_helper(" ", "bash: echo: "))
+			if (print_helper(" ", "minishell: echo: "))
 				return (1);
 		++i;
 	}
 	if (is_new_line)
-		if (print_helper("\n", "bash: echo: "))
+		if (print_helper("\n", "minishell: echo: "))
 			return (1);
 	return (0);
 }
