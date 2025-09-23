@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 22:43:30 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/15 17:47:50 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:45:06 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	expand_tokens(t_token **token_list, t_env *env)
 	int		is_here_doc;
 
 	token = *token_list;
+	is_here_doc = 0;
 	while (token)
 	{
 		if (token->token_type == TK_HEREDOC)

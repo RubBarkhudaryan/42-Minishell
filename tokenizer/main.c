@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/23 16:00:45 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:43:34 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 				free(line);
 				continue ; // give the error code 2
 			}
+			expand_tokens(&shell->token_list, env);
 			shell->env = env;
 			shell->ast = NULL;
 			shell->last_exit_code = 0;

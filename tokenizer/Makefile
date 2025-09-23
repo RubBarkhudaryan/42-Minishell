@@ -1,9 +1,8 @@
-NAME	=	token
+NAME	=	minishell
 
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
-
 
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c \
 			../expander/expander.c ../expander/expand_helpers.c parse_subshell.c \
