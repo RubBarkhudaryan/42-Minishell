@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/22 16:16:49 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:00:45 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,14 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			shell->token_list = token_list;
-			analyze(token_list);
+			if (!analyze(token_list))
+			{
+				printf("Syntax error\n");
+				free_token_list(token_list);
+				free(shell);
+				free(line);
+				continue ; // give the error code 2
+			}
 			shell->env = env;
 			shell->ast = NULL;
 			shell->last_exit_code = 0;

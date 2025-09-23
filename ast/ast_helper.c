@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/22 16:11:01 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:27:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
 
 	(void)shell;
 	cmd->redirs_cmd = parse_redirs(token_list);
+	print_redir_cmd(cmd->redirs_cmd);
 	if (!cmd->redirs_cmd)
 		return (free_redir_cmd(cmd->redirs_cmd), free(cmd), NULL);
 	if (cmd->redirs_cmd->redirs->type == TK_HEREDOC)

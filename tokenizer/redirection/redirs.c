@@ -46,30 +46,25 @@ t_redir_cmd	*parse_redirs(t_token **token_list)
 {
 	t_redir_cmd *cmd;
 	t_redir_cmd *head;
-	t_token *list;
 
-	list = *token_list;
 	cmd = init_redir_cmd();
 	if (!cmd)
 		return (NULL);
 	head = cmd;
-	while (list)
+	while ((*token_list))
 	{
-		if (list->token_type == TK_WORD)
-			add_arg(cmd, list->token);
-		else if (is_redir(list))
+		if ((*token_list)->token_type == TK_WORD)
+			add_arg(cmd, (*token_list)->token);
+		else if (is_redir((*token_list)))
 		{
-			if (!list->next || list->next->token_type != TK_WORD)
+			if (!(*token_list)->next || (*token_list)->next->token_type != TK_WORD)
 				return (ft_putstr_fd("Syntax error near redir.", 2), NULL);
-			add_redir(cmd, list->token_type, list->next->token);
-			list = list->next;
+			add_redir(cmd, (*token_list)->token_type, (*token_list)->next->token);
+			(*token_list) = (*token_list)->next;
 		}
 		else
-		{
-			cmd->next = init_redir_cmd();
-			cmd = cmd->next;
-		}
-		list = list->next;
+			break ;
+		(*token_list) = (*token_list)->next;
 	}
 	return (head);
 }

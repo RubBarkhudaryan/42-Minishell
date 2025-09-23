@@ -6,13 +6,13 @@ LDFLAGS	=	-lreadline -lncurses
 
 
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c \
-			../expander/expand_tokens.c ../expander/expand_helpers.c parse_subshell.c \
+			../expander/expander.c ../expander/expand_helpers.c parse_subshell.c \
 			./redirection/redirs.c ./redirection/redir_helpers.c ./redirection/here_doc_shell.c\
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c ../ast/ast.c ../ast/ast_helper.c\
 			../parsing_env/env_parser.c ../parsing_env/env_utils.c \
 			 ./execute/execute.c ./execute/cmd_exec.c ./execute/builtin_exec.c ./execute/utils.c  ./execute/exec_utils.c ./execute/pipe_exec.c\
 			../built_in/cd.c ../built_in/echo.c ../built_in/env.c ../built_in/export.c\
-			 ../built_in/export_utils.c\
+			 ../built_in/export_utils.c ../built_in/exit.c\
 			../built_in/pwd.c ../built_in/unset.c ../built_in/utils.c\
 
 VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp

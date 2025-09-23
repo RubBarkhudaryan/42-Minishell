@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/22 16:17:23 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:19:33 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int						get_parenthesis_token_type(char *value);
 int						get_token_type(char *value);
 int						get_quoted_token_type(char *value);
 int						parse_subshell(t_token **head, char *str, int i);
+int						ft_is_word_part(char c);
 
 /*redirs list builders*/
 t_redir_cmd				*parse_redirs(t_token **token_list);
