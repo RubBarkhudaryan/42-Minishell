@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/23 17:43:34 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/09/23 21:51:29 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ int	main(int argc, char **argv, char **envp)
 	env = parse_environment(envp);
 	while (true)
 	{
+		init_signals();
 		line = readline("minishell> ");
-		if (!line || !(*line))
-			break ;
+		if (!line)
+		{
+			printf("exit\n");
+			break ;	
+		}
 		token_list = tokenize(line);
 		add_history(line);
 		if (token_list)

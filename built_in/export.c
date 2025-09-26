@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/21 23:22:11 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/27 01:20:15 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,20 @@ char	*is_append(char *args, int *len, int *flag)
 	if (!args || !*args)
 		return (*flag = -1, NULL);
 	i = -1;
-	if(ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
+	if (ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
 		return (*flag = -1, NULL);
 	while (args[++i])
 		if (args[i] == '=' || args[i] == '+')
 			break ;
+	/*append flag*/
 	if (i && args[i] == '+' && args[i + 1] == '=')
-		return (*len = i, *flag = 1, &args[i + 2]); // append flag
+		return (*len = i, *flag = 1, &args[i + 2]);
 	if (i && args[i] == '=')
 		return (*len = i, *flag = 0, &args[i + 1]);
-	if (i == (int)ft_strlen(args)) // no parameter
+	/*no parameter*/
+	if (i == (int)ft_strlen(args))
 		return (*len = i, *flag = 2, args);
-	// if (is_alpha(args[0]) == 0	)
+	/*if (is_alpha(args[0]) == 0)*/
 	return (*flag = -1, NULL);
 }
 
@@ -41,8 +43,9 @@ int	get_assignment_type(char *args, char **key, char **value)
 	int		key_len;
 
 	args_value = is_append(args, &key_len, &flag);
+	/* change */
 	if (flag == -1)
-		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1); // change
+		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1);
 	if (flag == 2)
 	{
 		*key = ft_strdup(args);
@@ -88,10 +91,10 @@ int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 		node->value = tmp;
 		free(value);
 	}
-	return (0);
+	return (node->flag = 0, 0);
 }
 
-// {"export", "ls=la", "ls+=bbbbb", NULL}
+/*{"export", "ls=la", "ls+=bbbbb", NULL}*/
 
 int	ft_export(char **args, t_shell *shell)
 {
@@ -104,12 +107,14 @@ int	ft_export(char **args, t_shell *shell)
 	value = NULL;
 	if (!args || !*args)
 		return (1);
-	if (args_len(args) == 1) // {"export", NULL}
+	/* {"export", NULL}*/
+	if (args_len(args) == 1)
 		return (print_export(shell->env));
 	i = 0;
 	while (args[++i])
 	{
 		flag = get_assignment_type(args[i], &key, &value);
+		printf("flag: %d\n", flag);
 		if (flag != -1 && add_or_replace_value(key, value, flag, shell))
 			return (free(value), free(key), 1);
 	}

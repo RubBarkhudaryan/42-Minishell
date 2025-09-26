@@ -25,10 +25,19 @@ typedef struct s_expand
 }	t_expand;
 
 /*token expansion*/
-void				change_val(char **str1, char **str2);
 void				expand_tokens(t_token **token_list, t_env *env);
-char				*join_args(char *str1, char *str2);
 char				*expand_dollar_token(char *token, t_env *env);
-char				*expand_nested_quote(char *token, t_env *env, int is_here_doc);
+char				*expand_nested_quote(char *token, t_env *env,
+						int is_here_doc);
+
+/*expansion helpers*/
+int					is_var_name_char(char c);
+char				*join_args(char *str1, char *str2);
+void				change_val(char **str1, char **str2);
+int					check_nested_quote(char curr_tk, char next_tk);
+void				handle_dollar(t_expand *exp, int *i, t_env *env);
+void				add_val(t_expand *exp, t_env *env, int *i, char quote);
+void				refresh_args_val(t_expand *exp, char *join,
+						int *ind, int inc_by);
 
 #endif

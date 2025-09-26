@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/22 16:19:33 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/27 01:33:35 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../libft/libft.h"
 # include "../parsing_env/env_parser.h"
 # include "../syntax_analysis/syntax.h"
+# include "../signals/signals.h"
 # include "./execute/execute.h"
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -48,9 +49,6 @@ typedef enum e_token_type
 	TK_OR,
 	TK_L_PARENTHESIS,
 	TK_R_PARENTHESIS,
-	TK_DOLLAR,
-	TK_SINGLE_QUOTE,
-	TK_DOUBLE_QUOTE,
 	TK_ERROR
 }						t_token_type;
 
@@ -76,7 +74,6 @@ typedef struct s_redir_cmd
 t_token					*tokenize(char *input);
 
 /*tokenization process*/
-int						make_quoted_token(t_token **head, char *str, int i);
 int						make_word_token(t_token **head, char *str, int i);
 int						make_specials_token(t_token **head, char *str, int i);
 
@@ -88,7 +85,6 @@ void					free_token_list(t_token *head);
 void					print_token_list(t_token *head);
 int						get_parenthesis_token_type(char *value);
 int						get_token_type(char *value);
-int						get_quoted_token_type(char *value);
 int						parse_subshell(t_token **head, char *str, int i);
 int						ft_is_word_part(char c);
 
@@ -98,11 +94,16 @@ t_redir_cmd				*init_redir_cmd(void);
 void					add_redir(t_redir_cmd *cmd, int type, char *filename);
 void					add_arg(t_redir_cmd *cmd, char *arg);
 void					print_redir_cmd(t_redir_cmd *cmd);
+
+/*freeing redir structs*/
+void					free_redir_list(t_redir *redir);
 void					free_redir_cmd(t_redir_cmd *cmd);
 
-// here doc
-char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell,
-		t_redir_cmd *redir_cmd); /*tk functions*/
+/*here doc*/
+char					*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell,
+							t_redir_cmd *redir_cmd);
+
+/*tk functions*/
 int						ft_isspace(char c);
 int						ft_inset(char c, char *set);
 
