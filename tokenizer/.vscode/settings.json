@@ -1,5 +1,10 @@
 {
 	"files.associations": {
-		"tokenizer.h": "c"
+		"tokenizer.h": "c",
+		"libft.h": "c",
+		"syntax.h": "c",
+		"execute.h": "c",
+		"readline.h": "c",
+		"ast.h": "c"
 	}
 }

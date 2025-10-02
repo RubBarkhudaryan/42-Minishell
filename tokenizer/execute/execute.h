@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/22 16:12:40 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:56:47 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ char					*find_executable_path(t_ast *ast, char **env_str,
 int						is_builtin(char *cmd);
 int						launch_process(t_ast *ast, t_shell *shell, int extra_fd,
 							bool wait);
-int						apply_redirections(t_cmd *cmd, int extra_fd);
+int						apply_redirections(t_shell *shell, t_cmd *cmd,
+							int extra_fd);
 
 // utils
-void					free_shell(t_shell *shell);
+void					free_shell(t_shell *shell, int flag_unlink_heredoc);
 void					print_msg(char *name);
 #endif

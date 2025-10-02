@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/13 20:23:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/09/25 18:04:21 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	change_directory(char *path, t_shell *shell)
 
 	if (chdir(path) != 0)
 	{
-		perror("cd: no such file or directory\n");
+		perror("cd: no such file or directory");
 		return (1);
 	}
 	cwd = getcwd(NULL, 0);

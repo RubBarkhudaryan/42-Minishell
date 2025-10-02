@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/16 18:23:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:04:58 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	int	status;
 
-	if (ast->cmd->redirs_cmd
-		&& ast->cmd->redirs_cmd->redirs->type == TK_HEREDOC)
-		return (-2); // if is herdoc
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast->cmd, shell));
@@ -36,13 +33,13 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 	pid = fork();
 	if (pid == -1)
-		return (free_shell(shell), perror("minishell"), 1);
+		return (free_shell(shell, 0), perror("minishell"), 1);
 	if (pid == 0)
 	{
 		exit_code = execute_ast(ast->left, shell, wait, extra_fd);
 		if (extra_fd != -1)
 			close(extra_fd);
-		free_shell(shell);
+		free_shell(shell, 0);
 		exit(exit_code);
 	}
 	if (!wait)
