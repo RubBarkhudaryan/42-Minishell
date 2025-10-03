@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/10/02 20:16:24 by apatvaka         ###   ########.fr       */
@@ -41,9 +41,13 @@ int	main(int argc, char **argv, char **envp)
 	env = parse_environment(envp);
 	while (true)
 	{
+		init_signals();
 		line = readline("minishell> ");
 		if (!line)
-			break ;
+		{
+			printf("exit\n");
+			break ;	
+		}
 		token_list = tokenize(line);
 		add_history(line);
 		if (token_list)
@@ -66,6 +70,7 @@ int	main(int argc, char **argv, char **envp)
 				free(line);
 				continue ; // give the error code 2
 			}
+			expand_tokens(&shell->token_list, env);
 			shell->env = env;
 			shell->ast = NULL;
 			shell->last_exit_code = 0;

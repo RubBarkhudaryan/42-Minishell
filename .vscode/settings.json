@@ -2,6 +2,7 @@
 	"files.associations": {
 		"env_parser.h": "c",
 		"tokenizer.h": "c",
-		"expander.h": "c"
+		"expander.h": "c",
+		"signals.h": "c"
 	}
 }

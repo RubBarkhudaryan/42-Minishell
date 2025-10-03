@@ -14,7 +14,7 @@
 
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
-	t_redir *r;
+	t_redir	*r;
 
 	while (cmd)
 	{
@@ -38,20 +38,20 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 	}
 }
 
-t_redir_cmd	*parse_redirs(t_token **token_list)
+t_redir_cmd	*parse_redirs(t_token **list)
 {
-	t_redir_cmd *cmd;
-	t_redir_cmd *head;
+	t_redir_cmd	*cmd;
+	t_redir_cmd	*head;
 
 	cmd = init_redir_cmd();
 	if (!cmd)
 		return (NULL);
 	head = cmd;
-	while ((*token_list))
+	while ((*list))
 	{
-		if ((*token_list)->token_type == TK_WORD)
-			add_arg(cmd, (*token_list)->token);
-		else if (is_redir((*token_list)))
+		if ((*list)->token_type == TK_WORD)
+			add_arg(cmd, (*list)->token);
+		else if (is_redir((*list)))
 		{
 			if (!(*token_list)->next
 				|| (*token_list)->next->token_type != TK_WORD)
@@ -62,7 +62,7 @@ t_redir_cmd	*parse_redirs(t_token **token_list)
 		}
 		else
 			break ;
-		(*token_list) = (*token_list)->next;
+		(*list) = (*list)->next;
 	}
 	return (head);
 }

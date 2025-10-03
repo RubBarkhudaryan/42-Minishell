@@ -40,7 +40,6 @@ void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 	redir->type = type;
 	redir->filename = ft_strdup(filename);
 	redir->next = NULL;
-
 	if (!cmd->redirs)
 		cmd->redirs = redir;
 	else

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/10/03 15:35:55 by apatvaka         ###   ########.fr       */
@@ -18,6 +18,7 @@
 # include "../libft/libft.h"
 # include "../parsing_env/env_parser.h"
 # include "../syntax_analysis/syntax.h"
+# include "../signals/signals.h"
 # include "./execute/execute.h"
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -48,9 +49,6 @@ typedef enum e_token_type
 	TK_OR,
 	TK_L_PARENTHESIS,
 	TK_R_PARENTHESIS,
-	TK_DOLLAR,
-	TK_SINGLE_QUOTE,
-	TK_DOUBLE_QUOTE,
 	TK_ERROR
 }						t_token_type;
 
@@ -77,7 +75,6 @@ typedef struct s_redir_cmd
 t_token					*tokenize(char *input);
 
 /*tokenization process*/
-int						make_quoted_token(t_token **head, char *str, int i);
 int						make_word_token(t_token **head, char *str, int i);
 int						make_specials_token(t_token **head, char *str, int i);
 
@@ -89,7 +86,6 @@ void					free_token_list(t_token *head);
 void					print_token_list(t_token *head);
 int						get_parenthesis_token_type(char *value);
 int						get_token_type(char *value);
-int						get_quoted_token_type(char *value);
 int						parse_subshell(t_token **head, char *str, int i);
 int						ft_is_word_part(char c);
 

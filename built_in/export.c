@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/03 16:11:11 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:39:06 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*is_append(char *args, int *len, int *flag)
 	while (args[++i])
 		if (args[i] == '=' || args[i] == '+')
 			break ;
+	/*append flag*/
 	if (i && args[i] == '+' && args[i + 1] == '=')
 		return (*len = i, *flag = 1, &args[i + 2]);
 	if (i && args[i] == '=')
@@ -40,9 +41,9 @@ int	get_assignment_type(char *args, char **key, char **value)
 	int		key_len;
 
 	args_value = is_append(args, &key_len, &flag);
+	/* change */
 	if (flag == -1)
 		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1);
-	// change
 	if (flag == 2)
 	{
 		*key = ft_strdup(args);
@@ -88,7 +89,7 @@ int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 		node->value = tmp;
 		free(value);
 	}
-	return (0);
+	return (node->flag = 0, 0);
 }
 
 int	ft_export(char **args, t_shell *shell)
@@ -108,6 +109,7 @@ int	ft_export(char **args, t_shell *shell)
 	while (args[++i])
 	{
 		flag = get_assignment_type(args[i], &key, &value);
+		printf("flag: %d\n", flag);
 		if (flag != -1 && add_or_replace_value(key, value, flag, shell))
 			return (free(value), free(key), 1);
 	}
