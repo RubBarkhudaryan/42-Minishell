@@ -17,7 +17,7 @@
 
 t_redir_cmd	*init_redir_cmd(void)
 {
-	t_redir_cmd *cmd;
+	t_redir_cmd	*cmd;
 
 	cmd = (t_redir_cmd *)malloc(sizeof(t_redir_cmd));
 	if (!cmd)
@@ -30,8 +30,8 @@ t_redir_cmd	*init_redir_cmd(void)
 
 void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 {
-	t_redir *redir;
-	t_redir *temp;
+	t_redir	*redir;
+	t_redir	*temp;
 
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
@@ -39,7 +39,6 @@ void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 	redir->type = type;
 	redir->filename = ft_strdup(filename);
 	redir->next = NULL;
-
 	if (!cmd->redirs)
 		cmd->redirs = redir;
 	else
@@ -53,7 +52,7 @@ void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 
 int	arg_count(char **argv)
 {
-	int i;
+	int	i;
 
 	if (!argv || !(*argv))
 		return (0);
@@ -65,9 +64,9 @@ int	arg_count(char **argv)
 
 void	add_arg(t_redir_cmd *cmd, char *arg)
 {
-	char **temp;
-	int count;
-	int i;
+	char	**temp;
+	int		count;
+	int		i;
 
 	i = 0;
 	count = arg_count(cmd->argv);
@@ -90,11 +89,9 @@ void	add_arg(t_redir_cmd *cmd, char *arg)
 
 void	free_redir_cmd(t_redir_cmd *cmd, int flag_unlink_heredoc)
 {
-	int i;
-	t_redir_cmd *temp_cmd;
-	t_redir_cmd *temp_next_cmd;
-	t_redir *temp_redir;
-	t_redir *temp_next_redir;
+	int			i;
+	t_redir_cmd	*temp_cmd;
+	t_redir_cmd	*temp_next_cmd;
 
 	temp_cmd = cmd;
 	while (temp_cmd)
