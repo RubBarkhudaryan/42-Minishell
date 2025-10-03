@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/22 15:28:14 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:07:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**convert_envp_to_string(t_env *head)
 	i = 0;
 	len = env_list_size(head);
 	if (!head || !len)
-		return (NULL); //??
+		return (NULL);
 	ret = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!ret)
 		return (NULL);
@@ -52,42 +52,57 @@ char	*get_value_from_env(t_env *head, char *key)
 	return (NULL);
 }
 
-t_env	*parse_environment(char **envp)
+t_env	*create_env_node(char *env_str)
 {
-	int		i;
-	t_env	*head;
-	t_env	*current;
+	t_env	*node;
+	char	*equal_sign;
 	char	*key;
 	char	*value;
-	char	*equal_sign;
 
-	i = -1;
+	equal_sign = ft_strchr(env_str, '=');
+	if (!equal_sign)
+	{
+		key = ft_strdup(env_str);
+		value = ft_strdup("");
+	}
+	else
+	{
+		key = ft_substr(env_str, 0, equal_sign - env_str);
+		value = ft_strdup(equal_sign + 1);
+	}
+	if (!key || !value)
+		return (NULL);
+	node = env_new_node(key, value);
+	if (!node)
+	{
+		free(key);
+		free(value);
+	}
+	return (node);
+}
+
+t_env	*parse_environment(char **envp)
+{
+	t_env	*head;
+	t_env	*current;
+	int		i;
+
 	head = NULL;
+	i = -1;
 	while (envp[++i])
 	{
-		equal_sign = ft_strchr(envp[i], '=');
-		if (!equal_sign)
-		{
-			key = ft_strdup(envp[i]);
-			value = ft_strdup("");
-		}
-		else
-		{
-			key = ft_substr(envp[i], 0, equal_sign - envp[i]);
-			value = ft_strdup(equal_sign + 1);
-		}
 		if (!head)
 		{
-			head = env_new_node(key, value);
+			head = create_env_node(envp[i]);
 			if (!head)
-				return (NULL); // make error int
+				return (NULL);
 			current = head;
 		}
 		else
 		{
-			current->next = env_new_node(key, value);
+			current->next = create_env_node(envp[i]);
 			if (!current->next)
-				return (NULL); // make error print
+				return (NULL);
 			current = current->next;
 		}
 	}

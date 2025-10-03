@@ -5,6 +5,7 @@
 		"syntax.h": "c",
 		"execute.h": "c",
 		"readline.h": "c",
-		"ast.h": "c"
+		"ast.h": "c",
+		"stdio.h": "c"
 	}
 }

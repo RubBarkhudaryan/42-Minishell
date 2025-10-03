@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:31 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 19:49:50 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:09:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char				*get_value_from_env(t_env *head, char *key);
 void				remove_env_node(t_env **head, char *key);
 int					replace_env_value(char *key, char *value, t_env *head);
 
-/*The function gives the length of the arguments.*/
 int					args_len(char **args);
 void				free_split(char **ret);
 void				free_env_list(t_env *head);

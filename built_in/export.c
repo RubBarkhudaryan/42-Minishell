@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/21 23:22:11 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:11:11 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,17 @@ char	*is_append(char *args, int *len, int *flag)
 	if (!args || !*args)
 		return (*flag = -1, NULL);
 	i = -1;
-	if(ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
+	if (ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
 		return (*flag = -1, NULL);
 	while (args[++i])
 		if (args[i] == '=' || args[i] == '+')
 			break ;
 	if (i && args[i] == '+' && args[i + 1] == '=')
-		return (*len = i, *flag = 1, &args[i + 2]); // append flag
+		return (*len = i, *flag = 1, &args[i + 2]);
 	if (i && args[i] == '=')
 		return (*len = i, *flag = 0, &args[i + 1]);
-	if (i == (int)ft_strlen(args)) // no parameter
+	if (i == (int)ft_strlen(args))
 		return (*len = i, *flag = 2, args);
-	// if (is_alpha(args[0]) == 0	)
 	return (*flag = -1, NULL);
 }
 
@@ -42,7 +41,8 @@ int	get_assignment_type(char *args, char **key, char **value)
 
 	args_value = is_append(args, &key_len, &flag);
 	if (flag == -1)
-		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1); // change
+		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1);
+	// change
 	if (flag == 2)
 	{
 		*key = ft_strdup(args);
@@ -91,8 +91,6 @@ int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 	return (0);
 }
 
-// {"export", "ls=la", "ls+=bbbbb", NULL}
-
 int	ft_export(char **args, t_shell *shell)
 {
 	char	*key;
@@ -104,7 +102,7 @@ int	ft_export(char **args, t_shell *shell)
 	value = NULL;
 	if (!args || !*args)
 		return (1);
-	if (args_len(args) == 1) // {"export", NULL}
+	if (args_len(args) == 1)
 		return (print_export(shell->env));
 	i = 0;
 	while (args[++i])

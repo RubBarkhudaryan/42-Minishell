@@ -15,6 +15,7 @@
 
 #include "../tokenizer.h"
 
+
 t_redir_cmd	*init_redir_cmd(void)
 {
 	t_redir_cmd *cmd;
@@ -88,27 +89,33 @@ void	add_arg(t_redir_cmd *cmd, char *arg)
 	cmd->argv = temp;
 }
 
+void	free_redir_list(t_redir *redir, int flag_unlink_heredoc)
+{
+	t_redir *next;
+
+	if (!redir)
+		return ;
+	while (redir)
+	{
+		next = redir->next;
+		if (redir->type == TK_HEREDOC && flag_unlink_heredoc)
+			unlink(redir->filename);
+		free(redir->filename);
+		free(redir);
+		redir = next;
+	}
+}
+
 void	free_redir_cmd(t_redir_cmd *cmd, int flag_unlink_heredoc)
 {
 	int i;
 	t_redir_cmd *temp_cmd;
 	t_redir_cmd *temp_next_cmd;
-	t_redir *temp_redir;
-	t_redir *temp_next_redir;
 
 	temp_cmd = cmd;
 	while (temp_cmd)
 	{
-		temp_redir = temp_cmd->redirs;
-		while (temp_redir)
-		{
-			temp_next_redir = temp_redir->next;
-			if (temp_redir->type == TK_HEREDOC && flag_unlink_heredoc)
-				unlink(temp_redir->filename);
-			free(temp_redir->filename);
-			free(temp_redir);
-			temp_redir = temp_next_redir;
-		}
+		free_redir_list(temp_cmd->redirs, flag_unlink_heredoc);
 		if (temp_cmd->argv)
 		{
 			i = 0;
