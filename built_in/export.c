@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/03 18:39:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:45:36 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	ft_export(char **args, t_shell *shell)
 	while (args[++i])
 	{
 		flag = get_assignment_type(args[i], &key, &value);
-		printf("flag: %d\n", flag);
 		if (flag != -1 && add_or_replace_value(key, value, flag, shell))
 			return (free(value), free(key), 1);
 	}

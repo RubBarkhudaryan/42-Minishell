@@ -5,7 +5,8 @@ CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
 
 SRCS	=	main.c tokenizer_utils.c tokenizer.c token_maker.c bool_funcs.c parse_subshell.c \
-			../expander/expander.c ../expander/expand_helpers.c  \
+			../expander/expander.c ../expander/expand_helpers.c ../expander/expand_handler.c  \
+			../signals/signals.c  \
 			./redirection/redirs.c ./redirection/redir_helpers.c \
 			 ./redirection/here_doc/here_doc_shell.c ./redirection/here_doc/here_doc_helper.c\
 			../syntax_analysis/syntax_utils.c ../syntax_analysis/syntax.c \

@@ -53,12 +53,12 @@ t_redir_cmd	*parse_redirs(t_token **list)
 			add_arg(cmd, (*list)->token);
 		else if (is_redir((*list)))
 		{
-			if (!(*token_list)->next
-				|| (*token_list)->next->token_type != TK_WORD)
+			if (!(*list)->next
+				|| (*list)->next->token_type != TK_WORD)
 				return (ft_putstr_fd("Syntax error near redir.", 2), NULL);
-			add_redir(cmd, (*token_list)->token_type,
-				(*token_list)->next->token);
-			(*token_list) = (*token_list)->next;
+			add_redir(cmd, (*list)->token_type,
+				(*list)->next->token);
+			(*list) = (*list)->next;
 		}
 		else
 			break ;

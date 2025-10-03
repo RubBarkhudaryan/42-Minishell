@@ -16,6 +16,7 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	int	status;
 
+	ast->cmd->
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast->cmd, shell));
