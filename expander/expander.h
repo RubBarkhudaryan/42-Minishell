@@ -15,6 +15,7 @@
 # define EXPANDER_H
 # include "../tokenizer/tokenizer.h"
 # include "../parsing_env/env_parser.h"
+# include <dirent.h>
 
 typedef struct s_expand
 {
@@ -39,5 +40,8 @@ void				handle_dollar(t_expand *exp, int *i, t_env *env);
 void				add_val(t_expand *exp, t_env *env, int *i, char quote);
 void				refresh_args_val(t_expand *exp, char *join,
 						int *ind, int inc_by);
+
+/*wildcard handle*/
+char				*expand_wildcard(char *wildcard);
 
 #endif
