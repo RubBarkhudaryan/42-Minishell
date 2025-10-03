@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/04 19:32:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:05:35 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	exe_builtin_process(t_cmd *cmd, t_shell *shell, bool wait, int extra_fd)
 		return (perror("minishell"), EXIT_FAILURE);
 	if (pid == 0)
 	{
-		apply_redirections(cmd, extra_fd);
+		apply_redirections(shell, cmd, extra_fd);
 		if (execute_builtin(cmd, shell))
 		{
-			free_shell(shell);
+			free_shell(shell, 0);
 			exit(1);
 		}
-		free_shell(shell);
+		free_shell(shell, 0);
 		exit(0);
 	}
 	if (!wait)

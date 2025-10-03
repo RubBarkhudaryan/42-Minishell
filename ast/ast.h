@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/16 18:50:43 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:31:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef struct s_token	t_token;
 typedef struct s_redir_cmd	t_redir_cmd;
 # include "../syntax_analysis/syntax.h"
 # include "../tokenizer/tokenizer.h"
+#include "../tokenizer/redirection/here_doc/here_doc.h"
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -51,10 +52,10 @@ typedef struct s_ast
 }						t_ast;
 
 /*AST builder*/
-void					free_ast(t_ast *node);
+void					free_ast(t_ast *node, int flag_unlink_heredoc);
 t_ast					*build_ast(t_token **token_list, t_shell *shell);
 t_cmd					*give_token_for_cmd(t_token **token_list, t_shell *shell);
 /*AST builder utils*/
 void					print_ast(t_ast *node, int level);
-void					free_cmd(t_cmd *cmd);
+void					free_cmd(t_cmd *cmd, int flag_unlink_heredoc);
 #endif

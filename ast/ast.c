@@ -6,19 +6,19 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/20 16:57:45 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:58:52 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-void	free_ast(t_ast *node)
+void	free_ast(t_ast *node, int flag_unlink_heredoc)
 {
 	if (!node)
 		return ;
-	free_ast(node->right);
-	free_ast(node->left);
-	free_cmd(node->cmd);
+	free_ast(node->right, flag_unlink_heredoc);
+	free_ast(node->left, flag_unlink_heredoc);
+	free_cmd(node->cmd, flag_unlink_heredoc);
 	free(node);
 }
 
@@ -100,7 +100,7 @@ t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 		*token_list = matching_paren->next;
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
+			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
 		node->cmd = NULL;
 		node->left = subshell;
 		node->right = NULL;
@@ -110,13 +110,13 @@ t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 	cmd_tmp = give_token_for_cmd(token_list, shell);
 	node = malloc(sizeof(t_ast));
 	if (!node)
-		return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
+		return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
 	node->type = NODE_COMMAND;
 	node->left = NULL;
 	node->right = NULL;
 	node->cmd = cmd_tmp;
 	if (!node->cmd)
-		return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
+		return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
 	return (node);
 }
 
@@ -133,7 +133,7 @@ t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 		right = pars_cmd(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
+			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;
@@ -161,7 +161,7 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 		right = pars_pipe(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell), ft_putstr_fd("malloc failure", 2), NULL);
+			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;

@@ -6,13 +6,13 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/23 14:27:01 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:14:21 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-void	free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->args);
 	}
 	if (cmd->redirs_cmd)
-		free_redir_cmd(cmd->redirs_cmd);
+		free_redir_cmd(cmd->redirs_cmd, flag_unlink_heredoc);
 	free(cmd);
 }
 
@@ -63,7 +63,7 @@ static int	fill_args(t_cmd *cmd, t_token **token_list, int arg_count)
 	{
 		cmd->args[i] = ft_strdup((*token_list)->token);
 		if (!cmd->args[i])
-			return (free_cmd(cmd), 0);
+			return (free_cmd(cmd, 0), 0);
 		*token_list = (*token_list)->next;
 		i++;
 	}
@@ -85,38 +85,83 @@ int	is_redirection_type(t_token *token)
 	return (0);
 }
 
-t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
+char	**ft_splitdup(char **args)
+{
+	int		i;
+	char	**ret;
+	int		count;
+
+	i = -1;
+	count = args_len(args) + 1;
+	ret = malloc(sizeof(char *) * count);
+	if (!ret)
+		return (NULL);
+	while (args[++i])
+	{
+		printf("str = %s\n\n", args[i]);
+		ret[i] = ft_strdup(args[i]);
+		if (!ret[i])
+		{
+			free_split(ret);
+			return (NULL);
+		}
+	}
+	ret[i] = NULL;
+	return (ret);
+}
+
+static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
 {
 	char	*tmp;
+	t_redir	*tmp_red;
 
-	(void)shell;
-	cmd->redirs_cmd = parse_redirs(token_list);
-	print_redir_cmd(cmd->redirs_cmd);
-	if (!cmd->redirs_cmd)
-		return (free_redir_cmd(cmd->redirs_cmd), free(cmd), NULL);
-	if (cmd->redirs_cmd->redirs->type == TK_HEREDOC)
+	if (cmd->redirs_cmd->argv)
 	{
-		cmd->cmd_name = NULL;
-		cmd->args = NULL;
-		tmp = here_doc(cmd, cmd->redirs_cmd->redirs->filename, shell,
-				cmd->redirs_cmd);
-		if (!tmp)
-			return (ft_putstr_fd("malloc failure", 2), NULL);
-		free(cmd->redirs_cmd->redirs->filename);
-		cmd->redirs_cmd->redirs->filename = tmp;
+		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
+		cmd->args = ft_splitdup(cmd->redirs_cmd->argv);
 	}
 	else
 	{
-		if (cmd->redirs_cmd->argv && cmd->redirs_cmd->argv[0])
-			cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
-		else
-			cmd->cmd_name = NULL;
-		cmd->args = cmd->redirs_cmd->argv;
+		cmd->args = NULL;
+		cmd->cmd_name = NULL;
+	}
+	tmp_red = cmd->redirs_cmd->redirs;
+	while (tmp_red && tmp_red->type == TK_HEREDOC)
+	{
+		tmp = here_doc(cmd, tmp_red->filename, shell);
+		if (!tmp)
+			return (ft_putstr_fd("malloc failure", 2), NULL);
+		free(tmp_red->filename);
+		tmp_red->filename = tmp;
+		tmp_red = tmp_red->next;
 	}
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
-	cmd->redirs_cmd->argv = NULL;
 	return (cmd);
+}
+
+static t_cmd	*handle_other_redirs(t_cmd *cmd)
+{
+	if (cmd->redirs_cmd->argv && cmd->redirs_cmd->argv[0])
+		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
+	else
+		cmd->cmd_name = NULL;
+	cmd->args = cmd->redirs_cmd->argv;
+	cmd->in_pipeline = -1;
+	cmd->out_pipeline = -1;
+	return (cmd);
+}
+
+t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
+{
+	cmd->redirs_cmd = parse_redirs(token_list);
+	print_redir_cmd(cmd->redirs_cmd);
+	if (!cmd->redirs_cmd)
+		return (free_redir_cmd(cmd->redirs_cmd, 0), free(cmd), NULL);
+	if (cmd->redirs_cmd->redirs->type == TK_HEREDOC)
+		return (handle_heredoc_redir(cmd, shell));
+	else
+		return (handle_other_redirs(cmd));
 }
 
 t_cmd	*give_token_for_cmd(t_token **token_list, t_shell *shell)

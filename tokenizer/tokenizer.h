@@ -6,12 +6,13 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/27 01:33:35 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:27:23 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
+
 
 # include "../ast/ast.h"
 # include "../expander/expander.h"
@@ -94,17 +95,7 @@ t_redir_cmd				*init_redir_cmd(void);
 void					add_redir(t_redir_cmd *cmd, int type, char *filename);
 void					add_arg(t_redir_cmd *cmd, char *arg);
 void					print_redir_cmd(t_redir_cmd *cmd);
+void					free_redir_cmd(t_redir_cmd *cmd, int flag_unlink_heredoc);
 
-/*freeing redir structs*/
-void					free_redir_list(t_redir *redir);
-void					free_redir_cmd(t_redir_cmd *cmd);
-
-/*here doc*/
-char					*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell,
-							t_redir_cmd *redir_cmd);
-
-/*tk functions*/
-int						ft_isspace(char c);
-int						ft_inset(char c, char *set);
 
 #endif

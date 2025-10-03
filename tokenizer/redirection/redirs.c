@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/27 01:28:12 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/27 01:28:12 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/10/02 20:32:41 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/10/02 20:32:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../tokenizer.h"
-
-void	free_redir_list(t_redir *redir)
-{
-	t_redir	*next;
-
-	if (!redir)
-		return ;
-	while (redir)
-	{
-		next = redir->next;
-		free(redir->filename);
-		free(redir);
-		redir = next;
-	}
-}
 
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
@@ -68,11 +53,12 @@ t_redir_cmd	*parse_redirs(t_token **list)
 			add_arg(cmd, (*list)->token);
 		else if (is_redir((*list)))
 		{
-			if (!(*list)->next
-				|| (*list)->next->token_type != TK_WORD)
+			if (!(*token_list)->next
+				|| (*token_list)->next->token_type != TK_WORD)
 				return (ft_putstr_fd("Syntax error near redir.", 2), NULL);
-			add_redir(cmd, (*list)->token_type, (*list)->next->token);
-			(*list) = (*list)->next;
+			add_redir(cmd, (*token_list)->token_type,
+				(*token_list)->next->token);
+			(*token_list) = (*token_list)->next;
 		}
 		else
 			break ;

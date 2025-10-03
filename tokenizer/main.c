@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/23 21:51:29 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:16:24 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	print_token_list(t_token *head)
 	}
 }
 // utils
-void	free_shell(t_shell *shell)
+void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	free_env_list(shell->env);
-	free_ast(shell->ast);
+	free_ast(shell->ast, flag_unlink_heredoc);
 	free(shell);
 }
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			shell->token_list = token_list;
+			expand_tokens(&token_list, env);
 			if (!analyze(token_list))
 			{
 				printf("Syntax error\n");
@@ -83,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			printf("exit code %d\n\n\n", execute_node(shell));
-			free_ast(shell->ast);
+			free_ast(shell->ast, 1);
 			free(shell);
 		}
 		else

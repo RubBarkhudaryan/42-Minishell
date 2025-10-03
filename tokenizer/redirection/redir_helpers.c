@@ -2,11 +2,14 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redir_helpers.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/27 01:27:13 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/27 01:27:13 by rbarkhud         ###   ########.fr       */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
+/*   Created: 2025/09/28 17:47:45 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/09/28 17:47:45 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +79,15 @@ void	add_arg(t_redir_cmd *cmd, char *arg)
 		++i;
 	}
 	temp[count] = ft_strdup(arg);
+	// if(temp[count])
+	// return ;
 	temp[count + 1] = NULL;
 	if (cmd->argv)
 		free(cmd->argv);
 	cmd->argv = temp;
 }
 
-void	free_redir_cmd(t_redir_cmd *cmd)
+void	free_redir_cmd(t_redir_cmd *cmd, int flag_unlink_heredoc)
 {
 	int			i;
 	t_redir_cmd	*temp_cmd;
@@ -91,7 +96,16 @@ void	free_redir_cmd(t_redir_cmd *cmd)
 	temp_cmd = cmd;
 	while (temp_cmd)
 	{
-		free_redir_list(temp_cmd->redirs);
+		temp_redir = temp_cmd->redirs;
+		while (temp_redir)
+		{
+			temp_next_redir = temp_redir->next;
+			if (temp_redir->type == TK_HEREDOC && flag_unlink_heredoc)
+				unlink(temp_redir->filename);
+			free(temp_redir->filename);
+			free(temp_redir);
+			temp_redir = temp_next_redir;
+		}
 		if (temp_cmd->argv)
 		{
 			i = 0;
