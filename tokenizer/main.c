@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 14:10:55 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:51:24 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 	free_env_list(shell->env);
 	free_ast(shell->ast, flag_unlink_heredoc);
 	free(shell);
+}
+
+t_shell	*init_shell(t_env *env, t_token *token_list, t_ast *ast)
+{
+	t_shell	*shell;
+
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+		return (NULL);
+	shell->env = env;
+	shell->token_list = token_list;
+	shell->ast = ast;
+	shell->last_exit_code = 0;
+	return (shell);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -54,8 +68,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		if (token_list)
 		{
-			shell = malloc(sizeof(t_shell));
-			if (!shell)
+			shell = init_shell(env, token_list, NULL);
+			if (!shell || !analyze(token_list))
 			{
 				free_env_list(env);
 				free_token_list(token_list);
@@ -63,18 +77,15 @@ int	main(int argc, char **argv, char **envp)
 				exit(1);
 			}
 			expand_tokens(&token_list);
-			shell->token_list = token_list;
-			shell->env = env;
-			shell->ast = NULL;
+			if (!analyze(token_list))
+			{
+				free_token_list(token_list);
+				free_env_list(env);
+				free(shell);
+				printf("Syntax error\n");
+				continue ;
+			}
 			shell->ast = build_ast(&token_list, shell);
-			// if (!syntax_analyze(shell->ast))
-			// {
-			// 	printf("Syntax error\n");
-			// 	free_token_list(token_list);
-			// 	free(shell);
-			// 	free(line);
-			// 	continue ; // give the error code 2
-			// }
 			free_token_list(shell->token_list);
 			print_ast(shell->ast, 0);
 			if (!shell->ast)
