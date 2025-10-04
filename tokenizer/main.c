@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 12:42:33 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:10:55 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ int	main(int argc, char **argv, char **envp)
 			shell->env = env;
 			shell->ast = NULL;
 			shell->ast = build_ast(&token_list, shell);
-			if (!syntax_analyze(shell->ast))
-			{
-				printf("Syntax error\n");
-				free_token_list(token_list);
-				free(shell);
-				free(line);
-				continue ; // give the error code 2
-			}
+			// if (!syntax_analyze(shell->ast))
+			// {
+			// 	printf("Syntax error\n");
+			// 	free_token_list(token_list);
+			// 	free(shell);
+			// 	free(line);
+			// 	continue ; // give the error code 2
+			// }
 			free_token_list(shell->token_list);
 			print_ast(shell->ast, 0);
 			if (!shell->ast)
