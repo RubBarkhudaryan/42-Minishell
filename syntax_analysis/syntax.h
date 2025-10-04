@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:07:01 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 13:11:18 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:10:12 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 # define SYNTAX_H
 
 # include "../tokenizer/tokenizer.h"
+# include "../ast/ast.h"
+
+typedef struct s_ast t_ast;
 
 /*analyze tokens before making AST*/
 
