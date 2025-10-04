@@ -12,11 +12,31 @@
 
 #include "execute.h"
 
+int is_dollar(char *tmp)
+{
+	int i;
+
+	i = -1;
+	while(tmp[++i])
+		if(tmp[i] == '$')
+			return (1);
+	return (0);
+}
+
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int	status;
+	int		i;
+	int		status;
+	char	*temp;
 
-	ast->cmd->
+	i = -1;
+	while (ast->cmd->args[++i])
+		if(is_dollar(ast->cmd->args[i]))
+		{
+			temp = expand_dollar_token(ast->cmd->args[i], shell);
+			free(ast->cmd->args[i]);
+			ast->cmd->args[i] = temp;
+		}
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast->cmd, shell));

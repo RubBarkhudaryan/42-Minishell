@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:07:01 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/08/01 13:16:16 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:11:18 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /*analyze tokens before making AST*/
 
-int	analyze(t_token *token_list);
+int	syntax_analyze(t_ast *ast);
 
 /*utils for analyzer*/
 int	check_syntax_errors(t_token *token);

@@ -12,7 +12,7 @@
 
 #include "./expander.h"
 
-char	*expand_dollar_token(char *token, t_env *env)
+char	*expand_dollar_token(char *token, t_shell *shell)
 {
 	t_env		*env_node;
 	t_expand	exp;
@@ -20,7 +20,7 @@ char	*expand_dollar_token(char *token, t_env *env)
 	int			j;
 
 	exp.res = ft_strdup("");
-	if (!token || !(*token) || !env || !exp.res)
+	if (!token || !(*token) || !shell->env || !exp.res)
 		return (free(exp.res), ft_strdup(""));
 	i = 0;
 	while (token[i])
@@ -28,10 +28,12 @@ char	*expand_dollar_token(char *token, t_env *env)
 		j = 1;
 		while (token[i + j] && is_var_name_char(token[i + j]))
 			++j;
+		if (token[i + j] == '?')
+			refresh_args_val(&exp, ft_itoa(shell->last_exit_code), &i, j);
 		exp.tk = ft_substr(token, i + 1, j - 1);
 		if (!exp.tk)
 			return (free(exp.res), ft_strdup(""));
-		env_node = search_node(exp.tk, env);
+		env_node = search_node(exp.tk, shell->env);
 		if (!env_node || !env_node->value)
 			return (free(exp.tk), exp.res);
 		refresh_args_val(&exp, env_node->value, &i, j);
@@ -40,7 +42,7 @@ char	*expand_dollar_token(char *token, t_env *env)
 	return (exp.res);
 }
 
-char	*expand_nested_quote(char *token, t_env *env, int is_here_doc)
+char	*expand_nested_quote(char *token, int is_here_doc)
 {
 	int			i;
 	t_expand	exp;
@@ -63,7 +65,7 @@ char	*expand_nested_quote(char *token, t_env *env, int is_here_doc)
 			++i;
 		}
 		else
-			add_val(&exp, env, &i, quote);
+			add_val(&exp, &i);
 	}
 	return (free(exp.tk), exp.res);
 }

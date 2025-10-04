@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 22:43:30 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/23 17:49:59 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/03 19:06:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*join_args(char *str1, char *str2)
 	return (join);
 }
 
-void	expand_tokens(t_token **token_list, t_env *env)
+void	expand_tokens(t_token **token_list)
 {
 	t_token	*token;
 	char	*tmp_tk;
@@ -58,7 +58,7 @@ void	expand_tokens(t_token **token_list, t_env *env)
 			is_here_doc = 1;
 		if (token->token_type == TK_WORD)
 		{
-			tmp_tk = expand_nested_quote(token->token, env, is_here_doc);
+			tmp_tk = expand_nested_quote(token->token, is_here_doc);
 			if (!tmp_tk)
 				return ;
 			change_val(&token->token, &tmp_tk);

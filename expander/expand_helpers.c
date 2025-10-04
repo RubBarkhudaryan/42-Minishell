@@ -30,7 +30,7 @@ void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
 	*ind = *ind + inc_by;
 }
 
-void	handle_dollar(t_expand *exp, int *i, t_env *env)
+void	handle_dollar(t_expand *exp, int *i, t_shell *shell)
 {
 	char	*dollar_tk;
 	int		k;
@@ -41,19 +41,19 @@ void	handle_dollar(t_expand *exp, int *i, t_env *env)
 	while (exp->tk[k] && is_var_name_char(exp->tk[k]))
 		++k;
 	exp->piece = ft_substr(exp->tk, *i, k - *i);
-	dollar_tk = expand_dollar_token(exp->piece, env);
+	dollar_tk = expand_dollar_token(exp->piece, shell);
 	free(exp->piece);
 	refresh_args_val(exp, dollar_tk, i, k - *i);
 	free(dollar_tk);
 }
 
-void	add_val(t_expand *exp, t_env *env, int *i, char quote)
+void	add_val(t_expand *exp, int *i)
 {
 	if (check_nested_quote(exp->tk[*i], exp->tk[*i + 1]))
 		refresh_args_val(exp, (char [2]){exp->tk[*i + 1], '\0'}, i, 2);
-	else if (exp->tk[*i] == '$' && is_var_name_char(exp->tk[*i + 1])
-		&& quote != '\'' && !exp->is_here_doc)
-		handle_dollar(exp, i, env);
+	// else if (exp->tk[*i] == '$' && is_var_name_char(exp->tk[*i + 1])
+	// 	&& quote != '\'' && !exp->is_here_doc)
+	// 	handle_dollar(exp, i, env);
 	else
 		refresh_args_val(exp, (char [2]){exp->tk[*i], '\0'}, i, 1);
 }
