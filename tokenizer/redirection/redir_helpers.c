@@ -118,7 +118,7 @@ void	free_redir_cmd(t_redir_cmd *cmd, int flag_unlink_heredoc)
 		if (temp_cmd->argv)
 		{
 			i = -1;
-			while (temp_cmd->argv[++i])
+			while (temp_cmd->argv && temp_cmd->argv[++i])
 				free(temp_cmd->argv[i]);
 			free(temp_cmd->argv);
 		}

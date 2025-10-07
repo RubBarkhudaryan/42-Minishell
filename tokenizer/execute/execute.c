@@ -2,36 +2,40 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 14:40:25 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/02 20:04:58 by apatvaka         ###   ########.fr       */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
+/*   Created: 2025/10/06 18:46:03 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/10/06 18:46:03 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int is_dollar(char *tmp)
+
+int	is_dollar(char *tmp)
 {
 	int i;
 
 	i = -1;
-	while(tmp[++i])
-		if(tmp[i] == '$')
+	while (tmp[++i])
+		if (tmp[i] == '$')
 			return (1);
 	return (0);
 }
 
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int		i;
-	int		status;
-	char	*temp;
+	int i;
+	int status;
+	char *temp;
 
 	i = -1;
 	while (ast->cmd->args[++i])
-		if(is_dollar(ast->cmd->args[i]))
+		if (is_dollar(ast->cmd->args[i]))
 		{
 			temp = expand_dollar_token(ast->cmd->args[i], shell);
 			free(ast->cmd->args[i]);
@@ -48,18 +52,22 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	pid_t	pid;
-	int		exit_code;
-	int		status;
+	pid_t pid;
+	int exit_code;
+	int status;
 
 	pid = fork();
 	if (pid == -1)
 		return (free_shell(shell, 0), perror("minishell"), 1);
 	if (pid == 0)
 	{
-		exit_code = execute_ast(ast->left, shell, wait, extra_fd);
+		exit_code = execute_ast(ast->left, shell, wait, -1);
 		if (extra_fd != -1)
 			close(extra_fd);
+		if (ast->cmd->in_pipeline != -1)
+			close(ast->cmd->in_pipeline);
+		if (ast->cmd->out_pipeline != -1)
+			close(ast->cmd->out_pipeline);
 		free_shell(shell, 0);
 		exit(exit_code);
 	}
@@ -70,10 +78,10 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int	exit_code;
+	int exit_code;
 
-	if (!ast)
-		return (1);
+	// if (!ast)
+	// 	return (1);
 	if (ast->type == NODE_SUBSHELL)
 		return (execute_subshell(ast, shell, wait, extra_fd));
 	else if (ast->type == NODE_AND)
@@ -91,7 +99,7 @@ int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 		return (exit_code);
 	}
 	else if (ast->type == NODE_PIPE)
-		return (execute_pipe(ast, shell, wait));
+		return (execute_pipe(ast, shell, true));
 	else if (ast->type == NODE_COMMAND)
 		return (execute_command(ast, shell, wait, extra_fd));
 	return (0);

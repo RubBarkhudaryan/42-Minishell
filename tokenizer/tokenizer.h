@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/03 15:35:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:25:56 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "../expander/expander.h"
 # include "../libft/libft.h"
 # include "../parsing_env/env_parser.h"
-# include "../syntax_analysis/syntax.h"
 # include "../signals/signals.h"
+# include "../syntax_analysis/syntax.h"
 # include "./execute/execute.h"
 # include <readline/history.h>
 # include <readline/readline.h>

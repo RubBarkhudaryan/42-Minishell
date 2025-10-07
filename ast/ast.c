@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/02 19:58:52 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/05 23:38:36 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,14 @@ t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 		*token_list = matching_paren->next;
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
-		node->cmd = NULL;
+			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2),
+				NULL);
+		node->cmd = malloc(sizeof(t_cmd));
+		node->cmd->args = NULL;
+		node->cmd->cmd_name = NULL;
+		node->cmd->redirs_cmd = NULL;
+		node->cmd->in_pipeline = -1;
+		node->cmd->out_pipeline = -1;
 		node->left = subshell;
 		node->right = NULL;
 		node->type = NODE_SUBSHELL;
@@ -133,7 +139,8 @@ t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 		right = pars_cmd(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
+			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2),
+				NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;
@@ -161,7 +168,8 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 		right = pars_pipe(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
+			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2),
+				NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;

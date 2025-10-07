@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/10/02 20:32:41 by apatvaka          #+#    #+#             */
 /*   Updated: 2025/10/02 20:32:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
@@ -12,9 +15,10 @@
 
 #include "../tokenizer.h"
 
+
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
-	t_redir	*r;
+	t_redir *r;
 
 	while (cmd)
 	{
@@ -40,29 +44,35 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 
 t_redir_cmd	*parse_redirs(t_token **list)
 {
-	t_redir_cmd	*cmd;
-	t_redir_cmd	*head;
+	t_redir_cmd *cmd;
+	t_redir_cmd *head;
 
 	cmd = init_redir_cmd();
 	if (!cmd)
 		return (NULL);
 	head = cmd;
+	// printf("zibli === %s\n\n", (*list)->token);
+	// printf("zibli === %s\n\n", (*list)->next->token);
 	while ((*list))
 	{
 		if ((*list)->token_type == TK_WORD)
 			add_arg(cmd, (*list)->token);
 		else if (is_redir((*list)))
 		{
-			if (!(*list)->next
-				|| (*list)->next->token_type != TK_WORD)
+			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
 				return (ft_putstr_fd("Syntax error near redir.", 2), NULL);
-			add_redir(cmd, (*list)->token_type,
-				(*list)->next->token);
-			(*list) = (*list)->next;
+			// afdsadsfadfsadsadsfadfsadfs
+			// printf("zibli === %s\n\n", (*list)->token);
+			// if ((*list) || (*list)->token_type == TK_R_PARENTHESIS)
+			// (*list) = (*list)->next;
+			add_redir(cmd, (*list)->token_type, (*list)->next->token);
+			if ((*list))
+				(*list) = (*list)->next;
 		}
 		else
 			break ;
-		(*list) = (*list)->next;
+		if ((*list))
+			(*list) = (*list)->next;
 	}
 	return (head);
 }

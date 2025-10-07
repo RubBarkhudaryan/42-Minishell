@@ -58,6 +58,8 @@ val: $(NAME) clean
 
 child: $(NAME) clean
 	$(VALCHILDEN) ./$(NAME)
+co: $(NAME) clean
+	./$(NAME)
 
 re: fclean all
 

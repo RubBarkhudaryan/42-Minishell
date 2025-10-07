@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/02 20:05:35 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:53:39 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ void	setup_pipe_fds(t_ast *ast, int pipefd, int type_fd)
 			ast->cmd->out_pipeline = pipefd;
 		else
 			ast->cmd->in_pipeline = pipefd;
+	}
+	else if (ast->type == NODE_SUBSHELL)
+	{
+		if (type_fd == STDOUT_FILENO)
+			ast->cmd->out_pipeline = pipefd;
+		else
+			ast->cmd->in_pipeline = pipefd;
+		setup_pipe_fds(ast->left, pipefd, type_fd);
 	}
 	else if (ast->type == NODE_PIPE)
 		setup_pipe_fds(ast->right, pipefd, type_fd);

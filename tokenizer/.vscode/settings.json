@@ -6,6 +6,7 @@
 		"execute.h": "c",
 		"readline.h": "c",
 		"ast.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"env_parser.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/02 20:14:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:03:02 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 	{
 		i = -1;
 		while (cmd->args[++i])
+		{
 			free(cmd->args[i]);
+			cmd->args[i] = NULL;
+		}
 		free(cmd->args);
+		cmd->args = NULL;
 	}
 	if (cmd->redirs_cmd)
 		free_redir_cmd(cmd->redirs_cmd, flag_unlink_heredoc);
@@ -79,6 +83,7 @@ int	is_redirection_type(t_token *token)
 			|| token->token_type == TK_REDIR_OUTPUT
 			|| token->token_type == TK_APPEND
 			|| token->token_type == TK_HEREDOC)
+			// || token->token_type == TK_R_PARENTHESIS)
 			return (1);
 		token = token->next;
 	}
@@ -146,7 +151,7 @@ static t_cmd	*handle_other_redirs(t_cmd *cmd)
 		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
 	else
 		cmd->cmd_name = NULL;
-	cmd->args = cmd->redirs_cmd->argv;
+	cmd->args = ft_splitdup(cmd->redirs_cmd->argv);
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
 	return (cmd);

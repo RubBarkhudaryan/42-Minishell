@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 17:39:05 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 12:39:51 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:21:54 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	is_redir(t_token *token)
 {
 	if (!token)
 		return (0);
-	return (token->token_type >= TK_REDIR_INPUT
-		&& token->token_type <= TK_HEREDOC);
+	return ((token->token_type >= TK_REDIR_INPUT
+			&& token->token_type <= TK_HEREDOC));
+	// || token->token_type == TK_R_PARENTHESIS);
 }
 
 int	check_syntax_errors(t_token *token)
