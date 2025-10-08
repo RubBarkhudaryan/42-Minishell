@@ -1,6 +1,11 @@
 {
 	"files.associations": {
 		"tokenizer.h": "c",
-		"syntax.h": "c"
+		"syntax.h": "c",
+		"compare": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"ast.h": "c",
+		"unistd.h": "c"
 	}
 }

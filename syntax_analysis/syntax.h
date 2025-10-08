@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:07:01 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 14:10:12 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:02:59 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 # define SYNTAX_H
 
-# include "../tokenizer/tokenizer.h"
 # include "../ast/ast.h"
+# include "../tokenizer/tokenizer.h"
 
-typedef struct s_ast t_ast;
+typedef struct s_shell		t_shell;
+typedef struct s_token		t_token;
+typedef struct s_redir_cmd	t_redir_cmd;
+typedef struct s_ast		t_ast;
 
 /*analyze tokens before making AST*/
 
-int	syntax_analyze(t_ast *ast);
+int							syntax_analyze(t_ast *ast);
 
 /*utils for analyzer*/
-int	check_syntax_errors(t_token *token);
-int	is_operator(t_token *token);
-int	is_redir(t_token *token);
+int							check_syntax_errors(t_token *token);
+int							is_operator(t_token *token);
+int							is_redir(t_token *token);
 
 #endif

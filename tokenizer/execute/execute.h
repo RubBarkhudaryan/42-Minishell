@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/05 18:49:04 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:03:55 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef struct s_cmd	t_cmd;
 typedef struct s_ast	t_ast;
 typedef struct s_env	t_env;
-
+typedef struct s_token	t_token;
 typedef struct s_shell
 {
 	t_token				*token_list;
