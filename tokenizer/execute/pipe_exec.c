@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/07 18:53:39 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/08 19:43:01 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	execute_pipe(t_ast *ast, t_shell *shell, bool last_pipe)
 	else
 		extra_fd = -1;
 	if (pipe(pipe_fd) == -1)
-		return (perror("pipe"), 1);
+		return (perror("minishell"), 1);
 	setup_pipe_fds(ast->left, pipe_fd[1], STDOUT_FILENO);
 	setup_pipe_fds(ast->right, pipe_fd[0], STDIN_FILENO);
 	if (ast->left->type == NODE_PIPE)

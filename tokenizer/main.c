@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 14:10:55 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:31:42 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 		{
 			printf("exit\n");
-			break ;	
+			break ;
 		}
 		token_list = tokenize(line);
 		add_history(line);
@@ -67,14 +67,6 @@ int	main(int argc, char **argv, char **envp)
 			shell->env = env;
 			shell->ast = NULL;
 			shell->ast = build_ast(&token_list, shell);
-			// if (!syntax_analyze(shell->ast))
-			// {
-			// 	printf("Syntax error\n");
-			// 	free_token_list(token_list);
-			// 	free(shell);
-			// 	free(line);
-			// 	continue ; // give the error code 2
-			// }
 			free_token_list(shell->token_list);
 			print_ast(shell->ast, 0);
 			if (!shell->ast)
@@ -95,3 +87,12 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	return (0);
 }
+
+// if (!syntax_analyze(shell->ast))
+// {
+// 	printf("Syntax error\n");
+// 	free_token_list(token_list);
+// 	free(shell);
+// 	free(line);
+// 	continue ; // give the error code 2
+// }

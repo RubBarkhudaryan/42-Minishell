@@ -8,8 +8,8 @@
 	+#+        */
 /*                                                +#+#+#+#+#+
 	+#+           */
-/*   Created: 2025/10/02 20:32:41 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/02 20:32:41 by apatvaka         ###   ########.fr       */
+/*   Created: 2025/10/09 18:19:07 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/10/09 18:19:07 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ t_redir_cmd	*parse_redirs(t_token **list)
 	if (!cmd)
 		return (NULL);
 	head = cmd;
-	// printf("zibli === %s\n\n", (*list)->token);
-	// printf("zibli === %s\n\n", (*list)->next->token);
 	while ((*list))
 	{
 		if ((*list)->token_type == TK_WORD)
@@ -61,18 +59,12 @@ t_redir_cmd	*parse_redirs(t_token **list)
 		{
 			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
 				return (ft_putstr_fd("Syntax error near redir.", 2), NULL);
-			// afdsadsfadfsadsadsfadfsadfs
-			// printf("zibli === %s\n\n", (*list)->token);
-			// if ((*list) || (*list)->token_type == TK_R_PARENTHESIS)
-			// (*list) = (*list)->next;
 			add_redir(cmd, (*list)->token_type, (*list)->next->token);
-			if ((*list))
-				(*list) = (*list)->next;
+			(*list) = (*list)->next;
 		}
 		else
 			break ;
-		if ((*list))
-			(*list) = (*list)->next;
+		(*list) = (*list)->next;
 	}
 	return (head);
 }

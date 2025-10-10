@@ -61,6 +61,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 		return (free_shell(shell, 0), perror("minishell"), 1);
 	if (pid == 0)
 	{
+		apply_redirections(shell, ast->cmd, extra_fd);
 		exit_code = execute_ast(ast->left, shell, wait, -1);
 		if (extra_fd != -1)
 			close(extra_fd);
