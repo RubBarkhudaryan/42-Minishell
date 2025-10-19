@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:55:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/08 18:16:19 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:46:59 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	set_type(t_ast *node, int type)
 
 void	set_cmd(t_ast *node)
 {
+	node->cmd = malloc(sizeof(t_cmd));
 	node->cmd->args = NULL;
 	node->cmd->cmd_name = NULL;
 	node->cmd->redirs_cmd = NULL;

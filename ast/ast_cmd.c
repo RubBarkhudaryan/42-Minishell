@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/08 18:20:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:40:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ t_ast	*handle_subshell(t_token **token_list, t_shell *shell)
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
-	node->cmd = malloc(sizeof(t_cmd));
+	node->cmd = give_token_for_cmd(token_list, shell);
 	if (!node->cmd)
-		return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
-	set_cmd(node);
+		set_cmd(node);
 	node->left = subshell;
 	node->right = NULL;
 	node->type = NODE_SUBSHELL;

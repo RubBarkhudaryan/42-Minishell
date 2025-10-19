@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/08 18:15:36 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:07:32 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ int	is_redirection_type(t_token *token)
 			|| token->token_type == TK_HEREDOC)
 			// || token->token_type == TK_R_PARENTHESIS)
 			return (1);
+		else if (token->token_type == TK_PIPE || token->token_type == TK_AND
+			|| token->token_type == TK_OR)
+			return (0);
+		token = token->next;
+	}
+	return (0);
+}
+
+int	is_subshell_paren(t_token *token)
+{
+	while (token)
+	{
+		if (token->token_type != TK_R_PARENTHESIS)
+			return ( 1);
 		token = token->next;
 	}
 	return (0);
@@ -63,6 +77,8 @@ t_cmd	*give_token_for_cmd(t_token **token_list, t_shell *shell)
 		return (NULL);
 	if (is_redirection_type((*token_list)))
 		return (parse_redirs_ast(cmd, token_list, shell));
+	if (!is_subshell_paren(*token_list))
+		return (free(cmd), NULL);
 	cmd->redirs_cmd = NULL;
 	arg_count = count_args(*token_list);
 	cmd->cmd_name = ft_strdup((*token_list)->token);

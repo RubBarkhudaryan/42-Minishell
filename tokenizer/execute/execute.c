@@ -34,7 +34,7 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	char *temp;
 
 	i = -1;
-	while (ast->cmd->args[++i])
+	while (ast->cmd->args && ast->cmd->args[++i])
 		if (is_dollar(ast->cmd->args[i]))
 		{
 			temp = expand_dollar_token(ast->cmd->args[i], shell);
@@ -43,9 +43,9 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 		}
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
-		return (execute_builtin(ast->cmd, shell));
+		return (execute_builtin(ast, shell, extra_fd));
 	else if (is_builtin(ast->cmd->cmd_name))
-		return (exe_builtin_process(ast->cmd, shell, wait, extra_fd));
+		return (exe_builtin_process(ast, shell, wait, extra_fd));
 	status = launch_process(ast, shell, extra_fd, wait);
 	return (status);
 }

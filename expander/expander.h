@@ -40,8 +40,8 @@ char	*expand_nested_quote(char *token, int is_here_doc);
 /*expansion helpers*/
 int	is_var_name_char(char c);
 char	*join_args(char *str1, char *str2);
-void	change_val(char **str1, char **str2);
 int	check_nested_quote(char curr_tk, char next_tk);
+void	change_val(char **str1, char **str2);
 void	handle_dollar(t_expand *exp, int *i, t_shell *shell);
 void	add_val(t_expand *exp, int *i);
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by);

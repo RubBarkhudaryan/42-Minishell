@@ -6,20 +6,20 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/09 18:31:42 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/10 20:06:28 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-void	print_token_list(t_token *head)
-{
-	while (head)
-	{
-		printf("token: %s type: %d\n", head->token, head->token_type);
-		head = head->next;
-	}
-}
+// void	print_token_list(t_token *head)
+// {
+// 	while (head)
+// 	{
+// 		printf("token: %s type: %d\n", head->token, head->token_type);
+// 		head = head->next;
+// 	}
+// }
 
 /*utils*/
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
@@ -40,7 +40,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = NULL;
 	// shell->last_exit_code = 0;
+	shell = malloc(sizeof(t_shell));
 	env = parse_environment(envp);
+	shell->env = env;
+	shell->ast = NULL;
+	shell->last_exit_code = 0;
 	while (true)
 	{
 		init_signals();
@@ -54,7 +58,6 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		if (token_list)
 		{
-			shell = malloc(sizeof(t_shell));
 			if (!shell)
 			{
 				free_env_list(env);
@@ -64,11 +67,9 @@ int	main(int argc, char **argv, char **envp)
 			}
 			expand_tokens(&token_list);
 			shell->token_list = token_list;
-			shell->env = env;
-			shell->ast = NULL;
 			shell->ast = build_ast(&token_list, shell);
 			free_token_list(shell->token_list);
-			print_ast(shell->ast, 0);
+			// print_ast(shell->ast, 0);
 			if (!shell->ast)
 			{
 				free_env_list(env);
@@ -77,12 +78,10 @@ int	main(int argc, char **argv, char **envp)
 			}
 			shell->last_exit_code = execute_node(shell);
 			free_ast(shell->ast, 1);
-			free(shell);
 		}
-		else
-			printf("Tokenization failed.\n");
 		free(line);
 	}
+	free(shell);
 	free_env_list(env);
 	rl_clear_history();
 	return (0);

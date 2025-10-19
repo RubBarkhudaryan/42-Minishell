@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/07 18:54:30 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/17 19:01:59 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ int	open_fd(t_redir *redir, int redir_fd, int flags, mode_t mode)
 
 int	open_redirect_file(t_redir *redir, t_shell *shell)
 {
-	int	fd;
-
 	(void)shell;
 	if (redir->type == TK_REDIR_INPUT)
 		return (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
@@ -96,10 +94,7 @@ int	open_redirect_file(t_redir *redir, t_shell *shell)
 		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND,
 				0644));
 	else if (redir->type == TK_HEREDOC)
-	{
-		fd = open_fd(redir, STDIN_FILENO, O_RDONLY, 0);
-		return (fd);
-	}
+		return (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
 	else
 		return (-1);
 }
@@ -139,7 +134,7 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 	char	*tmp;
 
 	tmp = find_executable_path(ast, env_str, shell);
-	if (!tmp)
+	if (!tmp && ast->cmd->redirs_cmd == NULL)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(ast->cmd->cmd_name, 2);
@@ -148,15 +143,25 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 		free_shell(shell, 0);
 		exit(127);
 	}
-	free(ast->cmd->cmd_name);
-	ast->cmd->cmd_name = tmp;
-	if (apply_redirections(shell, ast->cmd, extra_fd) == -1)
+	if (ast->cmd->cmd_name)
+	{
+		free(ast->cmd->cmd_name);
+		ast->cmd->cmd_name = tmp;
+	}
+	if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
 	{
 		free_split(env_str);
 		free_shell(shell, 1);
 		exit(EXIT_FAILURE);
 	}
-	execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
+	if (ast->cmd->cmd_name)
+		execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
+	else if (ast->cmd->redirs_cmd)
+	{
+		free_split(env_str);
+		free_shell(shell, 0);
+		exit(0);
+	}
 	perror("execve");
 	free_split(env_str);
 	free_shell(shell, 0);
@@ -169,8 +174,6 @@ int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 	char	**env_str;
 	int		status;
 
-	if (ast->cmd->redirs_cmd && !ast->cmd->cmd_name)
-		return (0);
 	env_str = convert_envp_to_string(shell->env);
 	if (!env_str)
 	{

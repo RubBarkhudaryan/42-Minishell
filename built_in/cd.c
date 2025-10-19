@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/25 18:04:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/10 20:22:32 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int	change_directory(char *path, t_shell *shell)
 
 	if (chdir(path) != 0)
 	{
-		perror("cd: no such file or directory");
+		ft_putstr_fd("cd: No such file or directory", 2);
 		return (1);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		perror("cd: PWD not set\n");
+		ft_putstr_fd("cd: PWD not set\n", 2);
 		return (1);
 	}
 	old_pwd = get_value_from_env(shell->env, "PWD");
@@ -42,7 +42,7 @@ int	ft_cd(char **args, t_shell *shell)
 
 	if (args_len(args) > 2 && args_len(args))
 	{
-		perror("cd: too many arguments\n");
+		ft_putstr_fd("cd: too many arguments\n", 2);
 		return (1);
 	}
 	path = args[1];

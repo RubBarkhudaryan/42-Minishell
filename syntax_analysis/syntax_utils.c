@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 17:39:05 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/05 17:21:54 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/10 20:02:00 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	is_operator(t_token *token)
 
 int	is_redir(t_token *token)
 {
+	// printf("helloo  =  %s\n\n\n", token->token);
 	if (!token)
 		return (0);
 	return ((token->token_type >= TK_REDIR_INPUT

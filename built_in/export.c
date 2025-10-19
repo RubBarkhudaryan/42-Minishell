@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/03 18:45:36 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/19 20:41:34 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,20 @@ char	*is_append(char *args, int *len, int *flag)
 	while (args[++i])
 		if (args[i] == '=' || args[i] == '+')
 			break ;
-	/*append flag*/
 	if (i && args[i] == '+' && args[i + 1] == '=')
 		return (*len = i, *flag = 1, &args[i + 2]);
 	if (i && args[i] == '=')
+	{
+		if (!ft_isalnum(args[i - 1]) && args[i - 1] != '_')
+			return (*flag = -1, NULL);
 		return (*len = i, *flag = 0, &args[i + 1]);
+	}
 	if (i == (int)ft_strlen(args))
+	{
+		if (!ft_isalnum(args[i-1]) && args[i-1] != '_')
+			return (*flag = -1, NULL);
 		return (*len = i, *flag = 2, args);
+	}
 	return (*flag = -1, NULL);
 }
 
@@ -109,7 +116,7 @@ int	ft_export(char **args, t_shell *shell)
 	while (args[++i])
 	{
 		flag = get_assignment_type(args[i], &key, &value);
-		if (flag != -1 && add_or_replace_value(key, value, flag, shell))
+		if (flag == -1 || add_or_replace_value(key, value, flag, shell))
 			return (free(value), free(key), 1);
 	}
 	return (0);

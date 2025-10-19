@@ -16,31 +16,31 @@
 #include "../tokenizer.h"
 
 
-void	print_redir_cmd(t_redir_cmd *cmd)
-{
-	t_redir *r;
+// void	print_redir_cmd(t_redir_cmd *cmd)
+// {
+// 	t_redir *r;
 
-	while (cmd)
-	{
-		r = cmd->redirs;
-		if (r)
-			printf("redirections:\n");
-		while (r)
-		{
-			if (r->type == TK_REDIR_INPUT)
-				printf("  <  %s\n", r->filename);
-			else if (r->type == TK_REDIR_OUTPUT)
-				printf("  >  %s\n", r->filename);
-			else if (r->type == TK_APPEND)
-				printf("  >> %s\n", r->filename);
-			else if (r->type == TK_HEREDOC)
-				printf("  << %s\n", r->filename);
-			r = r->next;
-		}
-		printf("\n");
-		cmd = cmd->next;
-	}
-}
+// 	while (cmd)
+// 	{
+// 		r = cmd->redirs;
+// 		if (r)
+// 			printf("redirections:\n");
+// 		while (r)
+// 		{
+// 			if (r->type == TK_REDIR_INPUT)
+// 				printf("  <  %s\n", r->filename);
+// 			else if (r->type == TK_REDIR_OUTPUT)
+// 				printf("  >  %s\n", r->filename);
+// 			else if (r->type == TK_APPEND)
+// 				printf("  >> %s\n", r->filename);
+// 			else if (r->type == TK_HEREDOC)
+// 				printf("  << %s\n", r->filename);
+// 			r = r->next;
+// 		}
+// 		printf("\n");
+// 		cmd = cmd->next;
+// 	}
+// }
 
 t_redir_cmd	*parse_redirs(t_token **list)
 {

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/08 18:03:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/11 00:10:27 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ int						execute_node(t_shell *shell);
 
 int						execute_ast(t_ast *ast, t_shell *shell, bool wait,
 							int extra_fd);
-int						exe_builtin_process(t_cmd *cmd, t_shell *shell,
+int						exe_builtin_process(t_ast *ast, t_shell *shell,
 							bool wait, int extra_fd);
-int						execute_builtin(t_cmd *cmd, t_shell *shell);
+int						execute_builtin(t_ast *ast, t_shell *shell,
+							int extra_fd);
 char					**tokens_to_args(t_token *tokens);
 char					*find_executable_path(t_ast *ast, char **env_str,
 							t_shell *shell);

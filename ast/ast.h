@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/08 18:22:53 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:00:05 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int							count_args(t_token *current);
 int							fill_args(t_cmd *cmd, t_token **token_list,
 								int arg_count);
 t_token						*find_matching_parenthesis(t_token *start);
-void						set_cmd(t_ast *node);
+// void						set_cmd(t_ast *node);
 void						set_type(t_ast *node, int type);
 t_cmd						*parse_redirs_ast(t_cmd *cmd, t_token **token_list,
 								t_shell *shell);

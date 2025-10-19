@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/09/22 15:33:29 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:53:26 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	args_len(char **args)
 {
 	int	i;
 
+	if (!args || !*args)
+		return (0);
 	i = 0;
 	while (args[i])
 		i++;

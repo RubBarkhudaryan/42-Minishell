@@ -6,13 +6,13 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/08 19:43:01 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/11 00:09:36 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	exe_builtin_process(t_cmd *cmd, t_shell *shell, bool wait, int extra_fd)
+int	exe_builtin_process(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	pid_t	pid;
 	int		status;
@@ -22,8 +22,12 @@ int	exe_builtin_process(t_cmd *cmd, t_shell *shell, bool wait, int extra_fd)
 		return (perror("minishell"), EXIT_FAILURE);
 	if (pid == 0)
 	{
-		apply_redirections(shell, cmd, extra_fd);
-		if (execute_builtin(cmd, shell))
+		if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
+		{
+			free_shell(shell, 1);
+			exit(1);
+		}
+		if (execute_builtin(ast, shell, extra_fd))
 		{
 			free_shell(shell, 0);
 			exit(1);

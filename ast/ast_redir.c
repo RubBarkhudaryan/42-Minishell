@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/08 18:31:40 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/10 20:24:36 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ static char	**ft_splitdup(char **args)
 	ret = malloc(sizeof(char *) * count);
 	if (!ret)
 		return (NULL);
-	while (args[++i])
+	while (args && args[++i])
 	{
-		printf("str = %s\n\n", args[i]);
 		ret[i] = ft_strdup(args[i]);
 		if (!ret[i])
 		{
@@ -73,7 +72,10 @@ static t_cmd	*handle_other_redirs(t_cmd *cmd)
 		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
 	else
 		cmd->cmd_name = NULL;
-	cmd->args = ft_splitdup(cmd->redirs_cmd->argv);
+	if (cmd->redirs_cmd->argv)
+		cmd->args = ft_splitdup(cmd->redirs_cmd->argv);
+	else
+		cmd->args = NULL;
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
 	return (cmd);
@@ -82,7 +84,6 @@ static t_cmd	*handle_other_redirs(t_cmd *cmd)
 t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
 {
 	cmd->redirs_cmd = parse_redirs(token_list);
-	print_redir_cmd(cmd->redirs_cmd);
 	if (!cmd->redirs_cmd)
 		return (free_redir_cmd(cmd->redirs_cmd, 0), free(cmd), NULL);
 	if (cmd->redirs_cmd->redirs->type == TK_HEREDOC)
