@@ -79,6 +79,11 @@ int	execute_pipe(t_ast *ast, t_shell *shell, bool last_pipe)
 	int	pipe_fd[2];
 	int	extra_fd;
 
+	if (!ast || ast->type != NODE_PIPE || !ast->left || !ast->right)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		return (1);
+	}
 	if (ast->left->type == NODE_PIPE)
 		extra_fd = execute_pipe(ast->left, shell, false);
 	else

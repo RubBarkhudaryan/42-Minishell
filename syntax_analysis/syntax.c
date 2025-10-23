@@ -6,52 +6,64 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:08:37 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/04 14:10:37 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:00:00 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "syntax.h"
 
-// int	analyze_pipe(t_ast *ast)
-// {
-// 	t_ast	*node;
+static int analyze_command(t_ast *node)
+{
+	if (!node || node->type != NODE_COMMAND)
+		return (1);
+	/* Accept commands that are only redirections; just ensure cmd exists */
+	if (!node->cmd)
+	{
+		ft_putstr_fd("minishell: syntax error empty command\n", 2);
+		return (0);
+	}
+	return (1);
+}
 
-// 	if (!ast)
-// 		return (0);
-// 	node = ast;
-// 	if (analyze_cmd(node->left))
-// }
+static int analyze_pipe(t_ast *node)
+{
+	if (!node || node->type != NODE_PIPE)
+		return (1);
+	if (!node->left || !node->right)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		return (0);
+	}
+	return (syntax_analyze(node->left) && syntax_analyze(node->right));
+}
 
-// int	syntax_analyze(t_ast *ast)
-// {
-// 	t_ast	*node;
+static int analyze_logical(t_ast *node)
+{
+	if (!node || (node->type != NODE_AND && node->type != NODE_OR))
+		return (1);
+	if (!node->left || !node->right)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		if (node->type == NODE_AND)
+			ft_putstr_fd("&&'\n", 2);
+		else
+			ft_putstr_fd("||'\n", 2);
+		return (0);
+	}
+	return (syntax_analyze(node->left) && syntax_analyze(node->right));
+}
 
-// 	if (!ast)
-// 		return (0);
-// 	node = ast;
-// 	if (node->type == NODE_PIPE)
-// 	{
-// 		if (analyze_pipe(node->left) && analyze_pipe(node->right))
-// 			return (1);
-// 	}
-// }
-
-// int	analyze(t_token *token_list)
-// {
-// 	t_token	*token;
-
-// 	token = token_list;
-// 	if (!token)
-// 		return (0);
-// 	if (is_operator(token))
-// 		return (0);
-// 	while (token)
-// 	{
-// 		if (token->token_type == TK_ERROR)
-// 			return (0);
-// 		if (!check_syntax_errors(token))
-// 			return (0);
-// 		token = token->next;
-// 	}
-// 	return (1);
-// }
+int syntax_analyze(t_ast *ast)
+{
+	if (!ast)
+		return (0);
+	if (ast->type == NODE_COMMAND)
+		return (analyze_command(ast));
+	if (ast->type == NODE_PIPE)
+		return (analyze_pipe(ast));
+	if (ast->type == NODE_AND || ast->type == NODE_OR)
+		return (analyze_logical(ast));
+	if (ast->type == NODE_SUBSHELL)
+		return (ast->left ? syntax_analyze(ast->left) : 1);
+	return (1);
+}

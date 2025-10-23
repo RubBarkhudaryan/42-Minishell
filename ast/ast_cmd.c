@@ -53,8 +53,7 @@ t_ast	*handle_regular_command(t_token **token_list, t_shell *shell)
 	node->left = NULL;
 	node->right = NULL;
 	node->cmd = cmd_tmp;
-	if (!node->cmd)
-		return (free(node), free_shell(shell, 0), ft_putstr_fd("malloc failure",
-				2), NULL);
+    if (!node->cmd)
+        return (free(node), NULL);
 	return (node);
 }

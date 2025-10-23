@@ -67,16 +67,24 @@ int	main(int argc, char **argv, char **envp)
 			}
 			expand_tokens(&token_list);
 			shell->token_list = token_list;
-			shell->ast = build_ast(&token_list, shell);
-			free_token_list(shell->token_list);
-			// print_ast(shell->ast, 0);
-			if (!shell->ast)
-			{
-				free_env_list(env);
-				perror("minishell");
-				exit(1);
-			}
-			shell->last_exit_code = execute_node(shell);
+            shell->ast = build_ast(&token_list, shell);
+            free_token_list(shell->token_list);
+            // print_ast(shell->ast, 0);
+            if (!shell->ast)
+            {
+                free_env_list(env);
+                perror("minishell");
+                exit(1);
+            }
+            if (!syntax_analyze(shell->ast))
+            {
+                shell->last_exit_code = 2;
+                free_ast(shell->ast, 1);
+                shell->ast = NULL;
+                free(line);
+                continue;
+            }
+            shell->last_exit_code = execute_node(shell);
 			free_ast(shell->ast, 1);
 		}
 		free(line);
