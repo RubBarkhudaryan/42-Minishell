@@ -38,6 +38,7 @@ void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 	if (!redir)
 		return ;
 	redir->type = type;
+	redir->is_expanded = 1;
 	redir->filename = ft_strdup(filename);
 	redir->next = NULL;
 	if (!cmd->redirs)
