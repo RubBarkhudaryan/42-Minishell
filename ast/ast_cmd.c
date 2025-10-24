@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/09 19:40:12 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/24 01:04:07 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_ast	*handle_subshell(t_token **token_list, t_shell *shell)
 	*token_list = matching_paren->next;
 	node = malloc(sizeof(t_ast));
 	if (!node)
-		return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
+		return (ft_putstr_fd("subshell -> malloc failure", 2), NULL);
 	node->cmd = give_token_for_cmd(token_list, shell);
 	if (!node->cmd)
 		set_cmd(node);
@@ -48,13 +48,12 @@ t_ast	*handle_regular_command(t_token **token_list, t_shell *shell)
 	cmd_tmp = give_token_for_cmd(token_list, shell);
 	node = malloc(sizeof(t_ast));
 	if (!node)
-		return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2), NULL);
+		return (ft_putstr_fd("node in cmd -> malloc failure\n", 2), NULL);
 	node->type = NODE_COMMAND;
 	node->left = NULL;
 	node->right = NULL;
 	node->cmd = cmd_tmp;
 	if (!node->cmd)
-		return (free(node), free_shell(shell, 0), ft_putstr_fd("malloc failure",
-				2), NULL);
+		return (free(node), ft_putstr_fd("cmd -> malloc failure\n", 2), NULL);
 	return (node);
 }

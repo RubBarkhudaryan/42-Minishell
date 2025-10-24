@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:07:01 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/08 18:02:59 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/24 01:48:50 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ typedef struct s_ast		t_ast;
 int							syntax_analyze(t_ast *ast);
 
 /*utils for analyzer*/
-int							check_syntax_errors(t_token *token);
-int							is_operator(t_token *token);
 int							is_redir(t_token *token);
 
 #endif

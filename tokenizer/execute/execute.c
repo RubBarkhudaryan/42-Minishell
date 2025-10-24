@@ -15,10 +15,9 @@
 
 #include "execute.h"
 
-
 int	is_dollar(char *tmp)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (tmp[++i])
@@ -29,9 +28,9 @@ int	is_dollar(char *tmp)
 
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int i;
-	int status;
-	char *temp;
+	int		i;
+	int		status;
+	char	*temp;
 
 	i = -1;
 	while (ast->cmd->args && ast->cmd->args[++i])
@@ -52,9 +51,9 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	pid_t pid;
-	int exit_code;
-	int status;
+	pid_t	pid;
+	int		exit_code;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -79,7 +78,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int exit_code;
+	int	exit_code;
 
 	// if (!ast)
 	// 	return (1);

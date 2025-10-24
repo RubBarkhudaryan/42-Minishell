@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/23 18:27:12 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/24 01:45:04 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ void	free_ast(t_ast *node, int flag_unlink_heredoc)
 {
 	if (!node)
 		return ;
-	free_ast(node->right, flag_unlink_heredoc);
-	free_ast(node->left, flag_unlink_heredoc);
-	free_cmd(node->cmd, flag_unlink_heredoc);
+	if (node->right)
+		free_ast(node->right, flag_unlink_heredoc);
+	if (node->left)
+		free_ast(node->left, flag_unlink_heredoc);
+	if (node->cmd)
+		free_cmd(node->cmd, flag_unlink_heredoc);
 	free(node);
 }
 
@@ -43,8 +46,7 @@ t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 		right = pars_cmd(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2),
-				NULL);
+			return (ft_putstr_fd("pipe -> malloc failure\n", 2), NULL);
 		node->left = left;
 		node->right = right;
 		node->cmd = NULL;
@@ -72,8 +74,7 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 		right = pars_pipe(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
-			return (free_shell(shell, 0), ft_putstr_fd("malloc failure", 2),
-				NULL);
+			return (ft_putstr_fd("ast -> malloc failure\n", 2), NULL);
 		node->left = left;
 		node->right = right;
 		set_type(node, type);
