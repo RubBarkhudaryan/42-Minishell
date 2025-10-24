@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/19 20:41:34 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/24 01:58:44 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*is_append(char *args, int *len, int *flag)
 	}
 	if (i == (int)ft_strlen(args))
 	{
-		if (!ft_isalnum(args[i-1]) && args[i-1] != '_')
+		if (!ft_isalnum(args[i - 1]) && args[i - 1] != '_')
 			return (*flag = -1, NULL);
 		return (*len = i, *flag = 2, args);
 	}
@@ -55,10 +55,10 @@ int	get_assignment_type(char *args, char **key, char **value)
 	{
 		*key = ft_strdup(args);
 		if (!*key)
-			return (perror("malloc failed"), -1);
+			return (perror("malloc failed\n"), -1);
 		*value = ft_strdup("");
 		if (!*value)
-			return (free(*key), perror("malloc failed"), -1);
+			return (free(*key), perror("malloc failed\n"), -1);
 		return (flag);
 	}
 	*key = ft_substr(args, 0, key_len);
@@ -66,7 +66,7 @@ int	get_assignment_type(char *args, char **key, char **value)
 		return (-1);
 	*value = ft_strdup(args_value);
 	if (!*value)
-		return (free(*key), perror("malloc failed"), -1);
+		return (free(*key), perror("malloc failed\n"), -1);
 	return (flag);
 }
 

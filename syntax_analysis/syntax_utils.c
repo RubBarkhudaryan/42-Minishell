@@ -3,51 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 17:39:05 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/10 20:02:00 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/24 01:47:59 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "syntax.h"
 
-int	is_operator(t_token *token)
-{
-	if (!token)
-		return (0);
-	return (token->token_type >= TK_PIPE && token->token_type <= TK_OR);
-}
-
 int	is_redir(t_token *token)
 {
-	// printf("helloo  =  %s\n\n\n", token->token);
 	if (!token)
 		return (0);
 	return ((token->token_type >= TK_REDIR_INPUT
 			&& token->token_type <= TK_HEREDOC));
-	// || token->token_type == TK_R_PARENTHESIS);
-}
-
-int	check_syntax_errors(t_token *token)
-{
-	if (token->token_type == TK_WORD && !token->next)
-		return (1);
-	if (is_operator(token) && is_operator(token->next))
-		return (0);
-	if (is_redir(token) && is_operator(token->next))
-		return (0);
-	if (is_redir(token) && (!token->next || token->next->token_type != TK_WORD))
-		return (0);
-	if (token->token_type == TK_L_PARENTHESIS && is_operator(token->next))
-		return (0);
-	if (is_operator(token) && token->next->token_type == TK_R_PARENTHESIS)
-		return (0);
-	if (token->token_type == TK_WORD
-		&& token->next->token_type == TK_L_PARENTHESIS)
-		return (0);
-	if (token->token_type == TK_R_PARENTHESIS
-		&& token->next->token_type == TK_WORD)
-		return (0);
-	return (1);
 }
