@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/02 20:28:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/24 00:54:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void	handle_heredoc_exit(t_cmd *cmd, t_shell *shell, char *filename,
 	free(filename);
 	free_cmd(cmd, 0);
 	free_token_list(shell->token_list);
-	free_shell(shell, 0);
+	free_env_list(shell->env);
+	free(shell);
 	exit(0);
 }
 

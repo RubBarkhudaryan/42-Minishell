@@ -4,6 +4,7 @@
 		"tokenizer.h": "c",
 		"expander.h": "c",
 		"signals.h": "c",
-		"syntax.h": "c"
+		"syntax.h": "c",
+		"unistd.h": "c"
 	}
 }

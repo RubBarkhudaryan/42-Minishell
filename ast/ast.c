@@ -25,43 +25,6 @@ void	free_ast(t_ast *node, int flag_unlink_heredoc)
 	free(node);
 }
 
-/*
-void	print_ast(t_ast *node, int level)
-{
-	int	i;
-
-	if (!node)
-		return ;
-	for (int i = 0; i < level; i++)
-		printf("  ");
-	switch (node->type)
-	{
-	case NODE_COMMAND:
-		printf("COMMAND: ");
-		i = -1;
-		while (node->cmd->args && node->cmd->args[++i])
-			printf("%s ", node->cmd->args[i]);
-		// print_redir_cmd(node->cmd->redirs_cmd);
-		printf("\n");
-		break ;
-	case NODE_PIPE:
-		printf("PIPE\n");
-		break ;
-	case NODE_AND:
-		printf("AND\n");
-		break ;
-	case NODE_OR:
-		printf("OR\n");
-		break ;
-	case NODE_SUBSHELL:
-		printf("SUBSHELL\n");
-		break ;
-	}
-	print_ast(node->left, level + 1);
-	print_ast(node->right, level + 1);
-}
-*/
-
 t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 {
 	if (*token_list && (*token_list)->token_type == TK_L_PARENTHESIS)
@@ -125,3 +88,37 @@ t_ast	*build_ast(t_token **token_list, t_shell *shell)
 {
 	return (pars_ast(token_list, shell));
 }
+// void	print_ast(t_ast *node, int level)
+// {
+// 	int	i;
+
+// 	if (!node)
+// 		return ;
+// 	for (int i = 0; i < level; i++)
+// 		printf("  ");
+// 	switch (node->type)
+// 	{
+// 	case NODE_COMMAND:
+// 		printf("COMMAND: ");
+// 		i = -1;
+// 		while (node->cmd->args && node->cmd->args[++i])
+// 			printf("%s ", node->cmd->args[i]);
+// 		print_redir_cmd(node->cmd->redirs_cmd);
+// 		printf("\n");
+// 		break ;
+// 	case NODE_PIPE:
+// 		printf("PIPE\n");
+// 		break ;
+// 	case NODE_AND:
+// 		printf("AND\n");
+// 		break ;
+// 	case NODE_OR:
+// 		printf("OR\n");
+// 		break ;
+// 	case NODE_SUBSHELL:
+// 		printf("SUBSHELL\n");
+// 		break ;
+// 	}
+// 	print_ast(node->left, level + 1);
+// 	print_ast(node->right, level + 1);
+// }

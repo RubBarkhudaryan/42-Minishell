@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 19:23:36 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/02 20:04:34 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:31:53 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*search_path_dirs(char *arg, char **split_path)
 		full_path = ft_strjoin(split_path[i], exec_cmd);
 		if (!full_path)
 			return (free(exec_cmd), NULL);
-		if (access(full_path, F_OK | X_OK) == 0)
+		if (access(full_path, F_OK | X_OK) != -1)
 			return (free(exec_cmd), full_path);
 		free(full_path);
 	}
