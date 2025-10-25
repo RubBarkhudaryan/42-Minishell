@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/24 12:27:37 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/25 17:46:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
 	int		fd;
 	int		line_num;
 	char	*line;
+	char	*tmp;
 
 	fd = open_heredoc_file(filename, shell);
 	line_num = 1;
@@ -70,6 +71,13 @@ void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
 			free(line);
 			handle_heredoc_exit(cmd, shell, filename, fd);
 		}
+		if (cmd->redirs_cmd->redirs->is_expanded)
+		{
+			tmp = expand_dollar_token(line, shell);
+			free(line);
+			line = tmp;
+		}
+		
 		ft_putstr_fd(line, fd);
 		write(fd, "\n", 1);
 		free(line);
