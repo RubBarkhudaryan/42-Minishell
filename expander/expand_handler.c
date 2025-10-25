@@ -58,11 +58,20 @@ char	*expand_nested_quote(char *token, int is_here_doc)
 	while (exp.tk[i])
 	{
 		if (!quote && ft_inset(exp.tk[i], "\'\""))
-			quote = exp.tk[i++];
+		{
+			quote = exp.tk[i];
+			if (is_here_doc)
+				add_val(&exp, &i);
+			else
+				++i;
+		}
 		else if (quote && exp.tk[i] == quote)
 		{
 			quote = 0;
-			++i;
+			if (is_here_doc)
+				add_val(&exp, &i);
+			else
+				++i;
 		}
 		else
 			add_val(&exp, &i);
