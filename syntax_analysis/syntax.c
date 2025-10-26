@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:08:37 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/24 01:48:36 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/25 20:09:20 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ int	analyze_command(t_ast *node)
 		return (1);
 	if (!node->cmd || !node->cmd->args || !node->cmd->args[0])
 	{
-		ft_putstr_fd("minishell: syntax error empty command\n", 2);
-		return (0);
+		if (!node->cmd->redirs_cmd)
+		{
+			ft_putstr_fd("minishell: syntax error empty command\n", 2);
+			return (0);
+		}
 	}
 	return (1);
 }

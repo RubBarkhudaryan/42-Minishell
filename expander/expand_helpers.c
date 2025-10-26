@@ -26,6 +26,7 @@ int	check_nested_quote(char curr_tk, char next_tk)
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
 {
 	exp->piece = join_args(exp->res, join);
+	free(join);
 	change_val(&exp->res, &exp->piece);
 	*ind = *ind + inc_by;
 }
@@ -50,10 +51,7 @@ void	handle_dollar(t_expand *exp, int *i, t_shell *shell)
 void	add_val(t_expand *exp, int *i)
 {
 	if (check_nested_quote(exp->tk[*i], exp->tk[*i + 1]))
-		refresh_args_val(exp, (char [2]){exp->tk[*i + 1], '\0'}, i, 2);
-	// else if (exp->tk[*i] == '$' && is_var_name_char(exp->tk[*i + 1])
-	// 	&& quote != '\'' && !exp->is_here_doc)
-	// 	handle_dollar(exp, i, env);
+		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i + 1], '\0'}), i, 2);
 	else
-		refresh_args_val(exp, (char [2]){exp->tk[*i], '\0'}, i, 1);
+		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i], '\0'}), i, 1);
 }

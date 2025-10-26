@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/25 18:02:12 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:05:13 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
 	int		fd;
 	int		line_num;
 	char	*line;
-	char	*tmp;
+	char	*expanded;
 
 	fd = open_heredoc_file(filename, shell);
 	line_num = 1;
@@ -73,11 +73,15 @@ void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
 		}
 		if (cmd->redirs_cmd->redirs->is_expanded)
 		{
-			tmp = expand_dollar_token(line, shell);
-			free(line);
-			line = tmp;
+			expanded = expand_dollar_token(line, shell);
+			if (ft_strcmp(expanded, "") == 0)
+				free(expanded);
+			else
+			{
+				free(line);
+				line = expanded;
+			}
 		}
-		
 		ft_putstr_fd(line, fd);
 		write(fd, "\n", 1);
 		free(line);

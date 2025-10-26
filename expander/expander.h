@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/09/11 18:29:57 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/11 18:29:57 by rbarkhud         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/25 21:04:28 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/10/25 21:04:28 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +26,6 @@ typedef struct s_expand
 	char	*piece;
 	char	*res;
 	char	*tk;
-	int		is_here_doc;
 }	t_expand;
 
 /*token expansion*/
