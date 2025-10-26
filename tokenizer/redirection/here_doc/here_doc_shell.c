@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/24 13:59:40 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/26 21:56:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell)
 	file_name = open_check_filename();
 	if (!file_name)
 		return (NULL);
-	printf("heredoc delimiter: '%s'      ===== %d\n\n", delimiter,
-		cmd->redirs_cmd->redirs->is_expanded);
 	cmd->redirs_cmd->redirs->is_expanded = cheak_expand_heredoc(&delimiter);
 	printf("heredoc delimiter: '%s'      ===== %d\n\n", delimiter,
 		cmd->redirs_cmd->redirs->is_expanded);
