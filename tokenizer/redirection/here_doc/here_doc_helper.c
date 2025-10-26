@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/26 18:05:13 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/26 22:14:20 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,8 @@ void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
 		if (cmd->redirs_cmd->redirs->is_expanded)
 		{
 			expanded = expand_dollar_token(line, shell);
-			if (ft_strcmp(expanded, "") == 0)
-				free(expanded);
-			else
-			{
-				free(line);
-				line = expanded;
-			}
+			free(line);
+			line = expanded;
 		}
 		ft_putstr_fd(line, fd);
 		write(fd, "\n", 1);

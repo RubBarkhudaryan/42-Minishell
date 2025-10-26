@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_shell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/26 18:03:33 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/26 22:57:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,44 +54,29 @@ char	*open_check_filename(void)
 	}
 }
 
-char *remove_quotes_heredoc(char *delimiter)
-{
-	int		i;
-	int		j;
-	char	*new_delim;
-
-	new_delim = malloc(sizeof(char) * (ft_strlen(delimiter) + 1));
-	if (!new_delim)
-		return (NULL);
-	i = -1;
-	j = 0;
-	while (delimiter[++i])
-	{
-		if (delimiter[i] != '\"' && delimiter[i] != '\'')
-		{
-			new_delim[j] = delimiter[i];
-			j++;
-		}
-	}
-	new_delim[j] = '\0';
-	free(delimiter);
-	return (new_delim);
-}
-
-int	cheak_exp_heredoc(char **delimeter)
+int	cheak_expand_heredoc(char **deleimiter)
 {
 	int		i;
 	char	*tmp;
+	char	*new_delim;
 
-	tmp = *delimeter;
-	i = -1;
-	while (tmp[++i])
+	i = 0;
+	while ((*deleimiter)[i])
 	{
-		if (tmp[i] == '\"' || tmp[i] == '\'')
+		if ((*deleimiter)[i] == '\'' || (*deleimiter)[i] == '\"')
 		{
-			// *delimeter = remove_quotes_heredoc(tmp);
+			tmp = ft_strtrim(*deleimiter, "\'\"");
+			if (!tmp)
+			{
+				perror("minishell");
+				return (0);
+			}
+			new_delim = tmp;
+			free(*deleimiter);
+			*deleimiter = new_delim;
 			return (0);
 		}
+		i++;
 	}
 	return (1);
 }

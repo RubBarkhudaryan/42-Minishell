@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/19 23:24:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/26 22:11:13 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,29 @@ int	apply_redirections(t_shell *shell, t_cmd *cmd, int extra_fd)
 	return (0);
 }
 
+static int	execute_command(t_ast *ast, t_shell *shell, int extra_fd,
+		char **env_str)
+{
+	if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
+	{
+		free_split(env_str);
+		free_shell(shell, 1);
+		exit(EXIT_FAILURE);
+	}
+	if (ast->cmd->cmd_name)
+		execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
+	else if (ast->cmd->redirs_cmd)
+	{
+		free_split(env_str);
+		free_shell(shell, 0);
+		exit(0);
+	}
+	perror("execve");
+	free_split(env_str);
+	free_shell(shell, 0);
+	exit(126);
+}
+
 static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 		char **env_str)
 {
@@ -148,24 +171,7 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 		free(ast->cmd->cmd_name);
 		ast->cmd->cmd_name = tmp;
 	}
-	if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
-	{
-		free_split(env_str);
-		free_shell(shell, 1);
-		exit(EXIT_FAILURE);
-	}
-	if (ast->cmd->cmd_name)
-		execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
-	else if (ast->cmd->redirs_cmd)
-	{
-		free_split(env_str);
-		free_shell(shell, 0);
-		exit(0);
-	}
-	perror("execve");
-	free_split(env_str);
-	free_shell(shell, 0);
-	exit(126);
+	return (execute_command(ast, shell, extra_fd, env_str));
 }
 
 int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)

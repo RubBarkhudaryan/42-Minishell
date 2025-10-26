@@ -36,6 +36,7 @@ void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
 		return ;
+	redir->is_expanded = 1;
 	redir->type = type;
 	redir->is_expanded = 1;
 	redir->filename = ft_strdup(filename);
