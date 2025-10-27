@@ -80,8 +80,6 @@ int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	int	exit_code;
 
-	// if (!ast)
-	// 	return (1);
 	if (ast->type == NODE_SUBSHELL)
 		return (execute_subshell(ast, shell, wait, extra_fd));
 	else if (ast->type == NODE_AND)

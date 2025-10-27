@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:23 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/03 20:14:41 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/27 09:52:33 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	replace_env_value(char *key, char *value, t_env *head)
 	flag = 0;
 	if (!value)
 		flag = 1;
-	if (!key || !head)
+	if (!key || !head || !*key || !value || !*value)
 		return (1);
 	while (head)
 	{
