@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/10 20:34:28 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/27 20:44:05 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	chek_new_line(char **args, int *is_nl)
 			*is_nl = 0;
 		}
 		else
-			return (++ret);
+			break ;
 	}
-	return (1);
+	return (++ret);
 }
 
 int	ft_echo(char **args)
