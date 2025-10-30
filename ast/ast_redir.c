@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/24 01:39:09 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:13:14 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
 	tmp_red = cmd->redirs_cmd->redirs;
 	while (tmp_red && tmp_red->type == TK_HEREDOC)
 	{
-		tmp = here_doc(cmd, tmp_red->filename, shell);
+		tmp = here_doc(cmd, ft_strdup(tmp_red->filename), shell);
 		if (!tmp)
 			return (ft_putstr_fd("malloc failure\n", 2), NULL);
 		free(tmp_red->filename);

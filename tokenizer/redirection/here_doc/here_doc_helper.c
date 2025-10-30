@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/30 18:49:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/30 20:21:03 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	print_heredoc_warning(int line, char *delimiter)
 }
 
 static void	handle_heredoc_exit(t_cmd *cmd, t_shell *shell, char *filename,
-		int fd)
+		char *delimiter)
 {
-	close(fd);
+	close(cmd->redirs_cmd->redirs->heredoc_fd);
+	free(delimiter);
 	free(filename);
 	free_cmd(cmd, 0);
 	free_token_list(shell->token_list);
@@ -58,11 +59,10 @@ int	process_heredoc_line(t_cmd *cmd, char *delimiter, char *filename,
 	line = readline("> ");
 	if (!line)
 		return (print_heredoc_warning(line_num, delimiter), free(line),
-			handle_heredoc_exit(cmd, shell, filename,
-				cmd->redirs_cmd->redirs->heredoc_fd), 0);
+			handle_heredoc_exit(cmd, shell, filename, delimiter), 0);
 	if (ft_strcmp(line, delimiter) == 0)
 		return (free(line), handle_heredoc_exit(cmd, shell, filename,
-				cmd->redirs_cmd->redirs->heredoc_fd), 0);
+				delimiter), 0);
 	if (cmd->redirs_cmd->redirs->is_expanded)
 	{
 		expanded = expand_dollar_token(line, shell);
