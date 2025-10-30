@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/06 18:46:03 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/06 18:46:03 by apatvaka         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 18:44:08 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/10/30 18:44:08 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +31,14 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 	i = -1;
 	while (ast->cmd->args && ast->cmd->args[++i])
+	{
 		if (is_dollar(ast->cmd->args[i]))
 		{
 			temp = expand_dollar_token(ast->cmd->args[i], shell);
 			free(ast->cmd->args[i]);
 			ast->cmd->args[i] = temp;
 		}
+	}
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast, shell, extra_fd));

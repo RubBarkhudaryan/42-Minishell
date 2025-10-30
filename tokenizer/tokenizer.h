@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/23 18:47:09 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:40:32 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_redir
 	t_token_type		type;
 	int					is_expanded;
 	char				*filename;
+	int					heredoc_fd;
 	struct s_redir		*next;
 }						t_redir;
 

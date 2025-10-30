@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/26 23:01:08 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:43:42 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell)
 	if (!file_name)
 		return (NULL);
 	cmd->redirs_cmd->redirs->is_expanded = cheak_expand_heredoc(&delimiter);
-	// printf("heredoc delimiter: [%s]\n", delimiter);
-	// printf("heredoc : [%d]\n", cmd->redirs_cmd->redirs->is_expanded);
 	shell->last_exit_code = run_here_doc(cmd, delimiter, file_name, shell);
 	if (shell->last_exit_code == EXIT_FAILURE)
 		return (free(file_name), NULL);

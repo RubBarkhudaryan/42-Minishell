@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/26 22:14:20 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:49:51 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,42 @@ static int	open_heredoc_file(char *filename, t_shell *shell)
 	return (fd);
 }
 
-void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
+int	process_heredoc_line(t_cmd *cmd, char *delimiter, char *filename,
 		t_shell *shell)
 {
-	int		fd;
 	int		line_num;
 	char	*line;
 	char	*expanded;
 
-	fd = open_heredoc_file(filename, shell);
 	line_num = 1;
+	line = readline("> ");
+	if (!line)
+		return (print_heredoc_warning(line_num, delimiter), free(line),
+			handle_heredoc_exit(cmd, shell, filename,
+				cmd->redirs_cmd->redirs->heredoc_fd), 0);
+	if (ft_strcmp(line, delimiter) == 0)
+		return (free(line), handle_heredoc_exit(cmd, shell, filename,
+				cmd->redirs_cmd->redirs->heredoc_fd), 0);
+	if (cmd->redirs_cmd->redirs->is_expanded)
+	{
+		expanded = expand_dollar_token(line, shell);
+		free(line);
+		line = expanded;
+	}
+	ft_putstr_fd(line, cmd->redirs_cmd->redirs->heredoc_fd);
+	write(cmd->redirs_cmd->redirs->heredoc_fd, "\n", 1);
+	free(line);
+	line_num++;
+	return (1);
+}
+
+void	run_heredoc_child(t_cmd *cmd, char *delimiter, char *filename,
+		t_shell *shell)
+{
+	cmd->redirs_cmd->redirs->heredoc_fd = open_heredoc_file(filename, shell);
 	while (1)
 	{
-		line = readline("> ");
-		if (!line)
-		{
-			print_heredoc_warning(line_num, delimiter);
-			free(line);
-			handle_heredoc_exit(cmd, shell, filename, fd);
-		}
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			handle_heredoc_exit(cmd, shell, filename, fd);
-		}
-		if (cmd->redirs_cmd->redirs->is_expanded)
-		{
-			expanded = expand_dollar_token(line, shell);
-			free(line);
-			line = expanded;
-		}
-		ft_putstr_fd(line, fd);
-		write(fd, "\n", 1);
-		free(line);
-		line_num++;
+		if (!process_heredoc_line(cmd, delimiter, filename, shell))
+			break ;
 	}
 }
