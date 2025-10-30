@@ -12,7 +12,6 @@
 
 #include "./expander.h"
 
-
 char	*expand_dollar_token(char *token, t_shell *shell)
 {
 	t_env		*env_node;
@@ -24,16 +23,19 @@ char	*expand_dollar_token(char *token, t_shell *shell)
 	if (!token || !(*token) || !shell->env || !exp.res)
 		return (free(exp.res), ft_strdup(""));
 	i = 0;
-	while (token[i] && token[i] != '$')
-		++i;
-	refresh_args_val(&exp, ft_substr(token, 0, i), &i, 0);
 	while (token[i])
 	{
+		j = i;
+		while (token[j] && token[j] != '$')
+			++j;
+		refresh_args_val(&exp, ft_substr(token, i, j - i), &i, j - i);
+		if (!token[i])
+			break ;
 		j = 1;
 		while (token[i + j] && is_var_name_char(token[i + j]))
 			++j;
 		if (token[i + j] == '?')
-			refresh_args_val(&exp, ft_itoa(shell->last_exit_code), &i, j);
+			refresh_args_val(&exp, ft_itoa(shell->last_exit_code), &i, 2);
 		else
 		{
 			exp.tk = ft_substr(token, i + 1, j - 1);
@@ -41,12 +43,9 @@ char	*expand_dollar_token(char *token, t_shell *shell)
 				return (free(exp.res), ft_strdup(""));
 			env_node = search_node(exp.tk, shell->env);
 			if (!env_node || !env_node->value)
-			{
-				if (token[i])
-					refresh_args_val(&exp, ft_substr(token, i, ft_strlen(token) - i), &i, 0);
-				return (free(exp.tk), exp.res);
-			}
-			refresh_args_val(&exp, ft_strdup(env_node->value), &i, j);
+				refresh_args_val(&exp, ft_strdup(""), &i, j);
+			else
+				refresh_args_val(&exp, ft_strdup(env_node->value), &i, j);
 			free(exp.tk);
 		}
 	}
