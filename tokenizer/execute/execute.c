@@ -30,6 +30,10 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	char	*temp;
 
 	i = -1;
+	temp = expand_dollar_token(ast->cmd->cmd_name, shell);
+	free(ast->cmd->cmd_name);
+	ast->cmd->cmd_name = ft_strdup(temp);
+	free(temp);
 	while (ast->cmd->args && ast->cmd->args[++i])
 	{
 		if (is_dollar(ast->cmd->args[i]))
