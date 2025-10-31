@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/24 01:58:44 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/10/30 21:30:30 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	get_assignment_type(char *args, char **key, char **value)
 	int		key_len;
 
 	args_value = is_append(args, &key_len, &flag);
-	/* change */
 	if (flag == -1)
 		return (ft_putstr_fd("export: not a valid identifier\n", 2), -1);
 	if (flag == 2)
