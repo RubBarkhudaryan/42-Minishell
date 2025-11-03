@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/03 16:07:08 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/01 16:44:03 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,14 @@ char	**convert_envp_to_string(t_env *head)
 		return (NULL);
 	while (head)
 	{
-		tmp = ft_strjoin(head->key, "=");
-		ret[i] = ft_strjoin(tmp, head->value);
+		if (!head->flag)
+			tmp = ft_strjoin(head->key, "=");
+		else
+			tmp = ft_strdup(head->key);
+		if (head->flag == 0 && head->value == NULL)
+			ret[i] = ft_strdup(tmp);
+		else
+			ret[i] = ft_strjoin(tmp, head->value);
 		free(tmp);
 		head = head->next;
 		++i;

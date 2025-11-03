@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/30 21:30:40 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/01 16:29:19 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include "../parsing_env/env_parser.h"
 # include "../tokenizer/execute/execute.h"
 # include <errno.h>
-# include <stdio.h>  // can you delited this or not?
-# include <unistd.h> // can you delited this or not?
+# include <stdio.h>
+# include <unistd.h>
 
 typedef struct s_shell	t_shell;
 

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/11 00:10:27 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:44:53 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_shell
 	t_token				*token_list;
 	t_ast				*ast;
 	t_env				*env;
+	t_ast				*free_heredoc;
 	int					last_exit_code;
 }						t_shell;
 

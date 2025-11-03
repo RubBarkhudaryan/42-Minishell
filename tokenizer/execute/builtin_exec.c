@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/27 09:49:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:23:57 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,16 @@ int	execute_builtin(t_ast *ast, t_shell *shell, int extra_fd)
 		old_stdin = dup(STDIN_FILENO);
 	}
 	if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
+	{
+		if (extra_fd == -1)
+		{
+			dup2(old_stdout, STDOUT_FILENO);
+			dup2(old_stdin, STDIN_FILENO);
+			close(old_stdout);
+			close(old_stdin);
+		}
 		return (1);
+	}
 	status = execute_builtin_direct(ast, shell);
 	if (extra_fd == -1)
 	{

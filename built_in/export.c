@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/30 21:30:30 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/01 19:45:58 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*is_append(char *args, int *len, int *flag)
 	if (ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
 		return (*flag = -1, NULL);
 	while (args[++i])
-		if (args[i] == '=' || args[i] == '+')
+		if (args[i] == '=' || args[i] == '+' || !ft_isalnum(args[i]))
 			break ;
 	if (i && args[i] == '+' && args[i + 1] == '=')
 		return (*len = i, *flag = 1, &args[i + 2]);
@@ -32,6 +32,7 @@ char	*is_append(char *args, int *len, int *flag)
 			return (*flag = -1, NULL);
 		return (*len = i, *flag = 0, &args[i + 1]);
 	}
+	printf("i: %d, len: %zu\n", i, ft_strlen(args));
 	if (i == (int)ft_strlen(args))
 	{
 		if (!ft_isalnum(args[i - 1]) && args[i - 1] != '_')
@@ -55,9 +56,7 @@ int	get_assignment_type(char *args, char **key, char **value)
 		*key = ft_strdup(args);
 		if (!*key)
 			return (perror("malloc failed\n"), -1);
-		*value = ft_strdup("");
-		if (!*value)
-			return (free(*key), perror("malloc failed\n"), -1);
+		*value = NULL;
 		return (flag);
 	}
 	*key = ft_substr(args, 0, key_len);
@@ -80,13 +79,13 @@ int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 	free(key);
 	if (!flag)
 	{
-		free(node->value);
-		node->value = ft_strdup(value);
-		if (!node->value)
-			return (1);
+		if (node->value)
+			free(node->value);
+		if (value)
+			node->value = ft_strdup(value);
 		free(value);
 	}
-	else
+	else if (flag != 2)
 	{
 		tmp = ft_strjoin(node->value, value);
 		if (!tmp)
@@ -94,6 +93,12 @@ int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 		free(node->value);
 		node->value = tmp;
 		free(value);
+	}
+	else
+	{
+		node->value = NULL;
+		node->flag = 1;
+		return (0);
 	}
 	return (node->flag = 0, 0);
 }
@@ -116,7 +121,13 @@ int	ft_export(char **args, t_shell *shell)
 	{
 		flag = get_assignment_type(args[i], &key, &value);
 		if (flag == -1 || add_or_replace_value(key, value, flag, shell))
-			return (free(value), free(key), 1);
+		{
+			if (value)
+				free(value);
+			if (key)
+				free(key);
+			return (1);
+		}
 	}
 	return (0);
 }

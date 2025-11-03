@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/30 18:43:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:44:27 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,29 @@ t_shell	*init_shell_struct(char **envp)
 	return (shell);
 }
 
+void	adding_redirs(t_ast *ast, t_shell *shell)
+{
+	if (!ast)
+		return ;
+	adding_redirs(ast->left, shell);
+	if (ast->cmd && ast->cmd->token_list)
+		ast->cmd = parse_redirs_ast(ast->cmd, &ast->cmd->token_list, 
+				shell);
+	adding_redirs(ast->right, shell);
+}
+
 void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 {
+	t_token	*tmp;
+
 	if (token_list)
 	{
 		expand_tokens(&token_list);
+		tmp = token_list;
 		shell->token_list = token_list;
-		shell->ast = build_ast(&token_list, shell);
+		shell->ast = build_ast(&tmp, shell);
+		adding_redirs(shell->ast, shell);
+		print_ast(shell->ast, 0);
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
@@ -66,7 +82,7 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 			shell->ast = NULL;
 		}
 		else
-			perror("minishell: AST build failed\n");
+			shell->last_exit_code = 2;
 	}
 }
 
@@ -78,7 +94,7 @@ void	minishell_loop(t_shell *shell)
 	while (true)
 	{
 		init_signals();
-		line = readline("minishell> ");
+		line = readline("\001\033[1;32m\002🐍 minishell ֏ \001\033[0m\002");
 		if (!line)
 		{
 			printf("exit\n");

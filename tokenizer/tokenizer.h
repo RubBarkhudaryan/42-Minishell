@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/30 18:40:32 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/02 19:48:59 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_token
 {
 	char				*token;
 	int					token_type;
+	bool				is_subshell;
 	struct s_token		*next;
 }						t_token;
 

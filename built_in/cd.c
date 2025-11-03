@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/10 20:22:32 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/01 20:15:51 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,27 @@ static int	change_directory(char *path, t_shell *shell)
 	char	*cwd;
 	char	*old_pwd;
 
-	if (chdir(path) != 0)
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
 	{
-		ft_putstr_fd("cd: No such file or directory", 2);
+		perror("minishell: cd");
+		return (1);
+	}
+	if (path && chdir(path) != 0)
+	{
+		free(old_pwd);
+		perror("minishell: cd");
 		return (1);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-	{
-		ft_putstr_fd("cd: PWD not set\n", 2);
-		return (1);
-	}
-	old_pwd = get_value_from_env(shell->env, "PWD");
-	if (replace_env_value("OLDPWD", old_pwd, shell->env)
-		|| replace_env_value("PWD", cwd, shell->env))
-		return (free(cwd), 1);
+		return (perror("minishell: cd"), free(old_pwd), free(cwd),
+			1);
+	if (add_or_replace_value(ft_strdup("OLDPWD"), ft_strdup(old_pwd), 0, shell)
+		|| add_or_replace_value(ft_strdup("PWD"), ft_strdup(cwd), 0, shell))
+		return (free(old_pwd), free(cwd), 1);
 	free(cwd);
+	free(old_pwd);
 	return (0);
 }
 
@@ -48,7 +53,7 @@ int	ft_cd(char **args, t_shell *shell)
 	path = args[1];
 	if (!path)
 		path = get_value_from_env(shell->env, "HOME");
-	if (ft_strcmp(path, "-") == 0)
+	if (path && ft_strcmp(path, "-") == 0)
 	{
 		path = get_value_from_env(shell->env, "OLDPWD");
 		printf("%s\n", path);

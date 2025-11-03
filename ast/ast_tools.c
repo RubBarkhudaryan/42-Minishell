@@ -6,17 +6,19 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:55:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/10 19:46:59 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/02 21:17:52 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-t_token	*find_matching_parenthesis(t_token *start)
+t_token	*find_matching_parenthesis(t_token *start, int *ret_count)
 {
 	int		count;
 	t_token	*current;
+	int		flag;
 
+	flag = 0;
 	count = 0;
 	current = start;
 	while (current != NULL)
@@ -25,6 +27,11 @@ t_token	*find_matching_parenthesis(t_token *start)
 			count++;
 		else if (current->token_type == TK_R_PARENTHESIS)
 		{
+			if (!flag)
+			{
+				*ret_count = count;
+				flag = 1;
+			}
 			count--;
 			if (count == 0)
 				return (current);

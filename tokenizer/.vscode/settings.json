@@ -8,6 +8,9 @@
 		"ast.h": "c",
 		"stdio.h": "c",
 		"env_parser.h": "c",
-		"dirent.h": "c"
+		"dirent.h": "c",
+		"utility": "c",
+		"here_doc.h": "c",
+		"unistd.h": "c"
 	}
 }

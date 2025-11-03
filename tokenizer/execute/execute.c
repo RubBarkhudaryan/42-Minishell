@@ -54,7 +54,8 @@ void	update_env_var(t_ast *ast, t_shell *shell)
 
 	i = -1;
 	tmp = NULL;
-	while (ast->cmd && ast->cmd->args[++i])
+
+	while (ast->cmd && ast->cmd->args && ast->cmd->args[++i])
 		tmp = ast->cmd->args[i];
 	if (!tmp)
 		return ;
