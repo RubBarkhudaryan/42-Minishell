@@ -5,6 +5,8 @@
 		"expander.h": "c",
 		"signals.h": "c",
 		"syntax.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"bulit_in.h": "c",
+		"execute.h": "c"
 	}
 }

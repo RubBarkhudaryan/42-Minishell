@@ -21,6 +21,7 @@ VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=read
 
 VALCHILDEN =	valgrind  --suppressions=readline.supp --track-fds=yes --trace-children=yes
 
+
 OBJS	=	$(SRCS:%.c=%.o)
 
 LIBFT_DIR	=	../libft
@@ -58,8 +59,11 @@ val: $(NAME) clean
 
 child: $(NAME) clean
 	$(VALCHILDEN) ./$(NAME)
+run: $(NAME) clean
+	./$(NAME)
 co: $(NAME) clean
 	./$(NAME)
+
 
 re: fclean all
 

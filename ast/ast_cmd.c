@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/24 01:04:07 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/04 23:39:15 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,20 @@ t_ast	*handle_subshell(t_token **token_list, t_shell *shell)
 {
 	t_ast	*node;
 	t_ast	*subshell;
-	t_token	*matching_paren;
-	t_token	*saved_next;
 
-	matching_paren = find_matching_parenthesis(*token_list);
-	if (!matching_paren)
-		return (NULL);
-	saved_next = matching_paren->next;
-	matching_paren->next = NULL;
 	*token_list = (*token_list)->next;
 	subshell = build_ast(token_list, shell);
-	matching_paren->next = saved_next;
-	*token_list = matching_paren->next;
+	// while ((*token_list) && ((*token_list)->token_type != TK_R_PARENTHESIS
+	// 		|| (*token_list)->token_type != TK_OR
+	// 		|| (*token_list)->token_type != TK_AND
+	// 		|| (*token_list)->token_type != TK_PIPE))
+	// 	(*token_list) = (*token_list)->next;
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (ft_putstr_fd("subshell -> malloc failure", 2), NULL);
 	node->cmd = give_token_for_cmd(token_list, shell);
+	if (*token_list)
+		*token_list = (*token_list)->next;
 	if (!node->cmd)
 		set_cmd(node);
 	node->left = subshell;

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/27 20:44:05 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:59:40 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,15 @@ int	ft_echo(char **args)
 	i = chek_new_line(args, &is_new_line);
 	while (args[i])
 	{
-		if (print_helper(args[i], "minishell1: echo: write error "))
+		if (print_helper(args[i], "minishell: echo: write error "))
 			return (1);
 		if (args[i + 1])
-			if (print_helper(" ", "minishell2: echo: write error "))
+			if (print_helper(" ", "minishell: echo: write error "))
 				return (1);
 		++i;
 	}
 	if (is_new_line)
-		if (print_helper("\n", "minishell3: echo: write error "))
+		if (print_helper("\n", "minishell: echo: write error "))
 			return (1);
 	return (0);
 }

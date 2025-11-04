@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/23 14:45:13 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/02 19:49:52 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ void	free_token_list(t_token *head)
 	while (head)
 	{
 		next = head->next;
-		free(head->token);
+		if (head->token)
+		{
+			free(head->token);
+			head->token = NULL;
+		}
 		free(head);
+		head = NULL;
 		head = next;
 	}
 }
@@ -52,8 +57,8 @@ int	get_token_type(char *value)
 	i = -1;
 	parenthesis_type = get_parenthesis_token_type(value);
 	while (value[++i])
-		if (ft_inset(value[i], "`;")
-			|| (value[i] == '\\' && !ft_inset(value[i + 1], "\'\"")))
+		if (ft_inset(value[i], "`;") || (value[i] == '\\' && !ft_inset(value[i
+					+ 1], "\'\"")))
 			return (TK_ERROR);
 	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
 		return (TK_WORD);
@@ -86,6 +91,7 @@ void	add_token(t_token **head, char *value)
 	new_node->next = NULL;
 	new_node->token_type = get_token_type(value);
 	new_node->token = value;
+	new_node->is_subshell = false;
 	if (!(*head))
 		(*head) = new_node;
 	else

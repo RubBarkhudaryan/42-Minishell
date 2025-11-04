@@ -15,7 +15,7 @@
 
 #include "../tokenizer.h"
 
-/*
+
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
 	t_redir *r;
@@ -41,12 +41,11 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-*/
 
 t_redir_cmd	*parse_redirs(t_token **list)
 {
-	t_redir_cmd	*cmd;
-	t_redir_cmd	*head;
+	t_redir_cmd *cmd;
+	t_redir_cmd *head;
 
 	cmd = init_redir_cmd();
 	if (!cmd)
@@ -59,7 +58,8 @@ t_redir_cmd	*parse_redirs(t_token **list)
 		else if (is_redir((*list)))
 		{
 			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
-				return (ft_putstr_fd("Syntax error near redir.\n", 2), NULL);
+				return (ft_putstr_fd("Syntax error near redir.\n", 2),
+					free_redir_cmd(cmd, 0), NULL);
 			add_redir(cmd, (*list)->token_type, (*list)->next->token);
 			(*list) = (*list)->next;
 		}

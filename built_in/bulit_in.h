@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/16 23:45:01 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/01 16:29:19 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include "../parsing_env/env_parser.h"
 # include "../tokenizer/execute/execute.h"
 # include <errno.h>
-# include <stdio.h>  // can you delited this or not?
-# include <unistd.h> // can you delited this or not?
+# include <stdio.h>
+# include <unistd.h>
 
 typedef struct s_shell	t_shell;
 
@@ -30,4 +30,6 @@ int						ft_export(char **args, t_shell *shell);
 int						print_helper(char *arg, char *error_msg);
 int						print_export(t_env *env);
 char					**env_to_export_string(t_env *head);
+int						add_or_replace_value(char *key, char *value, int flag,
+							t_shell *shell);
 #endif

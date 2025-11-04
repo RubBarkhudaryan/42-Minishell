@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/09 19:00:05 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:44:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_shell		t_shell;
 typedef struct s_token		t_token;
 typedef struct s_redir_cmd	t_redir_cmd;
 typedef enum e_token_type	t_token_type;
+
 typedef enum e_ast_node_type
 {
 	NODE_COMMAND,
@@ -37,10 +38,10 @@ typedef struct s_cmd
 {
 	char					*cmd_name;
 	char					**args;
+	t_token					*token_list;
 	t_redir_cmd				*redirs_cmd;
 	int						in_pipeline;
 	int						out_pipeline;
-
 }							t_cmd;
 
 /*AST Struct*/
@@ -53,20 +54,18 @@ typedef struct s_ast
 }							t_ast;
 
 /*AST builder*/
+
 void						free_ast(t_ast *node, int flag_unlink_heredoc);
 t_ast						*build_ast(t_token **token_list, t_shell *shell);
 t_cmd						*give_token_for_cmd(t_token **token_list,
 								t_shell *shell);
-
-t_token						*find_matching_parenthesis(t_token *start);
+t_token						*find_matching_parenthesis(t_token *start,
+								int *ret_count);
 void						set_type(t_ast *node, int type);
 void						set_cmd(t_ast *node);
-t_cmd						*parse_redirs_ast(t_cmd *cmd, t_token **token_list,
-								t_shell *shell);
 int							count_args(t_token *current);
 int							fill_args(t_cmd *cmd, t_token **token_list,
 								int arg_count);
-t_token						*find_matching_parenthesis(t_token *start);
 // void						set_cmd(t_ast *node);
 void						set_type(t_ast *node, int type);
 t_cmd						*parse_redirs_ast(t_cmd *cmd, t_token **token_list,
@@ -79,4 +78,5 @@ t_ast						*handle_subshell(t_token **token_list,
 /*AST builder utils*/
 void						print_ast(t_ast *node, int level);
 void						free_cmd(t_cmd *cmd, int flag_unlink_heredoc);
+
 #endif
