@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/03 19:33:58 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/04 21:02:28 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ int	is_subshell_paren(t_token *token)
 
 // parse_redirs_ast(cmd, token_list, left, shell)
 
-t_cmd	*give_token_for_cmd(t_token **token_list,  t_shell *shell)
+t_cmd	*give_token_for_cmd(t_token **token_list, t_shell *shell)
 {
 	t_cmd	*cmd;
-	(void)shell;
 	int		arg_count;
 
+	(void)shell;
 	if (!token_list || !*token_list)
 		return (NULL);
 	cmd = malloc(sizeof(t_cmd));
@@ -80,6 +80,9 @@ t_cmd	*give_token_for_cmd(t_token **token_list,  t_shell *shell)
 	if (is_redirection_type((*token_list)))
 	{
 		cmd->token_list = *token_list;
+		while ((*token_list) && ((*token_list)->token_type == TK_WORD
+				|| is_redir(*token_list)))
+			(*token_list) = (*token_list)->next;
 		cmd->args = NULL;
 		cmd->cmd_name = NULL;
 		cmd->in_pipeline = -1;
@@ -87,8 +90,6 @@ t_cmd	*give_token_for_cmd(t_token **token_list,  t_shell *shell)
 		cmd->redirs_cmd = NULL;
 		return (cmd);
 	}
-	if (!is_subshell_paren(*token_list))
-		return (free(cmd), NULL);
 	cmd->redirs_cmd = NULL;
 	cmd->token_list = NULL;
 	arg_count = count_args(*token_list);

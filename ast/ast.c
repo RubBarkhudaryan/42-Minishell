@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/03 19:38:59 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/04 20:49:25 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_ast(t_ast *node, int flag_unlink_heredoc)
 	node = NULL;
 }
 
-t_ast	*pars_cmd(t_token **token_list,  t_shell *shell)
+t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 {
 	if (*token_list && (*token_list)->token_type == TK_L_PARENTHESIS)
 		return (handle_subshell(token_list, shell));
@@ -50,8 +50,7 @@ t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 	t_ast	*node;
 
 	left = pars_cmd(token_list, shell);
-	while (*token_list && (*token_list)->token_type != TK_R_PARENTHESIS
-		&& (*token_list)->token_type == TK_PIPE)
+	while (*token_list && (*token_list)->token_type == TK_PIPE)
 	{
 		*token_list = (*token_list)->next;
 		right = pars_cmd(token_list, shell);
@@ -77,7 +76,8 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 	if (!(*token_list) || !token_list)
 		return (NULL);
 	left = pars_pipe(token_list, shell);
-	shell->free_heredoc = left;
+	if (*token_list)
+		printf("this = %s\n", (*token_list)->token);
 	while (*token_list && ((*token_list)->token_type == TK_OR
 			|| (*token_list)->token_type == TK_AND))
 	{
@@ -116,7 +116,7 @@ void	print_ast(t_ast *node, int level)
 		i = -1;
 		while (node->cmd->args && node->cmd->args[++i])
 			printf("%s ", node->cmd->args[i]);
-		// print_redir_cmd(node->cmd->redirs_cmd);
+		print_redir_cmd(node->cmd->redirs_cmd);
 		printf("\n");
 		break ;
 	case NODE_PIPE:

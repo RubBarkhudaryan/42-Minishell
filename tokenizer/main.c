@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/03 19:44:27 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/04 20:50:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ void	adding_redirs(t_ast *ast, t_shell *shell)
 		return ;
 	adding_redirs(ast->left, shell);
 	if (ast->cmd && ast->cmd->token_list)
-		ast->cmd = parse_redirs_ast(ast->cmd, &ast->cmd->token_list, 
-				shell);
+			ast->cmd = parse_redirs_ast(ast->cmd, &ast->cmd->token_list, shell);
 	adding_redirs(ast->right, shell);
 }
 

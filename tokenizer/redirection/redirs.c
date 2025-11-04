@@ -16,7 +16,6 @@
 #include "../tokenizer.h"
 
 
-/*
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
 	t_redir *r;
@@ -42,7 +41,6 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-*/
 
 t_redir_cmd	*parse_redirs(t_token **list)
 {

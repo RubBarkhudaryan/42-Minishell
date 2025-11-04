@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/03 19:45:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/04 20:49:20 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
 	tmp_red = cmd->redirs_cmd->redirs;
 	while (tmp_red && tmp_red->type == TK_HEREDOC)
 	{
-		printf("heredoc [%s]\n\n", tmp_red->filename);
 		tmp = here_doc(cmd, ft_strdup(tmp_red->filename), shell);
 		if (!tmp)
 			return (ft_putstr_fd("malloc failure\n", 2), NULL);
@@ -82,16 +81,13 @@ static t_cmd	*handle_other_redirs(t_cmd *cmd)
 	return (cmd);
 }
 
-t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list,
-		t_shell *shell)
+t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
 {
-	while ((*token_list) && (*token_list)->token_type == TK_R_PARENTHESIS)
-		(*token_list) = (*token_list)->next;
 	cmd->redirs_cmd = parse_redirs(token_list);
 	if (!cmd->redirs_cmd)
 		return (free_redir_cmd(cmd->redirs_cmd, 0), free(cmd), NULL);
 	if (cmd->redirs_cmd->redirs && cmd->redirs_cmd->redirs->type == TK_HEREDOC)
-		return (handle_heredoc_redir(cmd,  shell));
+		return (handle_heredoc_redir(cmd, shell));
 	else
 		return (handle_other_redirs(cmd));
 }
