@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 21:18:31 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:37:04 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void					free_token_list(t_token *head);
 void					print_token_list(t_token *head);
 int						get_parenthesis_token_type(char *value);
 int						get_token_type(char *value);
-int						parse_subshell(t_token **head, char *str, int i);
 int						ft_is_word_part(char c);
 
 /*redirs list builders*/

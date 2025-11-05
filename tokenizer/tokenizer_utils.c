@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/02 19:49:52 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:35:16 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,23 @@ int	get_token_type(char *value)
 	return (TK_WORD);
 }
 
-void	add_token(t_token **head, char *value)
+int	ft_isspace(char c)
 {
-	t_token	*temp;
-	t_token	*new_node;
+	return ((c >= 9 && c <= 13) || c == ' ');
+}
 
-	if (!head || !value || !(*value))
-		return ;
-	new_node = (t_token *)malloc(sizeof(t_token));
-	if (!new_node)
+int	ft_inset(char c, char *set)
+{
+	int	i;
+
+	if (!set)
+		return (0);
+	i = 0;
+	while (set[i])
 	{
-		free(value);
-		return ;
+		if (c == set[i])
+			return (1);
+		++i;
 	}
-	new_node->next = NULL;
-	new_node->token_type = get_token_type(value);
-	new_node->token = value;
-	new_node->is_subshell = false;
-	if (!(*head))
-		(*head) = new_node;
-	else
-	{
-		temp = (*head);
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_node;
-	}
+	return (0);
 }

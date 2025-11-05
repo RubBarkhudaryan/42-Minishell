@@ -6,13 +6,15 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 21:23:53 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:53:39 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./tokenizer/tokenizer.h"
 
 /*
+*/
+
 void	print_token_list(t_token *head)
 {
 	while (head)
@@ -21,8 +23,6 @@ void	print_token_list(t_token *head)
 		head = head->next;
 	}
 }
-*/
-
 /*utils*/
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
@@ -102,8 +102,7 @@ void	minishell_loop(t_shell *shell)
 			break ;
 		}
 		add_history(line);
-		if (line)
-			token_list = tokenize(line);
+		token_list = tokenize(line);
 		minishell_loop_logic(shell, token_list);
 		free(line);
 	}
