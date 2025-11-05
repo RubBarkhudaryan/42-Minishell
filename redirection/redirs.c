@@ -13,7 +13,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../tokenizer.h"
+#include "../tokenizer/tokenizer.h"
 
 
 void	print_redir_cmd(t_redir_cmd *cmd)

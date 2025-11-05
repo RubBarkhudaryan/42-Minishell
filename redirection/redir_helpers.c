@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../tokenizer.h"
+#include "../tokenizer/tokenizer.h"
 
 t_redir_cmd	*init_redir_cmd(void)
 {

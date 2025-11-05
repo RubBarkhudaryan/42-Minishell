@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/02 19:48:59 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:18:31 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define TOKENIZER_H
 
 # include "../ast/ast.h"
+# include "../execute/execute.h"
 # include "../expander/expander.h"
 # include "../libft/libft.h"
-# include "../parsing_env/env_parser.h"
+# include "../env/env_parser.h"
 # include "../signals/signals.h"
-# include "../syntax_analysis/syntax.h"
-# include "./execute/execute.h"
+# include "../syntax/syntax.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
