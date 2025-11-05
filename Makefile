@@ -6,7 +6,7 @@ LDFLAGS	=	-lreadline -lncurses
 
 
 SRCS	=	main.c \
-			./tokenizer/tokenizer_utils.c ./tokenizer/tokenizer.c ./tokenizer/token_maker.c \
+			./tokenizer/tokenizer_utils.c ./tokenizer/tokenizer.c ./tokenizer/token_maker.c ./tokenizer/token_checker.c \
 			./expander/expander.c ./expander/expand_helpers.c ./expander/expand_handler.c \
 			./signals/signals.c \
 			./redirection/redirs.c redirection/redir_free.c ./redirection/redir_apply.c ./redirection/redir_helpers.c \

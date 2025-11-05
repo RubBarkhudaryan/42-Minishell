@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
-
-int	ft_is_word_part(char c)
-{
-	return (ft_isalnum(c) || ft_inset(c, "!@#$%^*-_+=~`;.?,{}[]\\/"));
-}
+#include "./tokenizer.h"
 
 t_token	*tokenize(char *str)
 {
