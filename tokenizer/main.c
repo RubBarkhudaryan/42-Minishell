@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 19:28:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:04:04 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		{
 			if (syntax_analyze(shell->ast))
 				shell->last_exit_code = execute_node(shell);
-			free_ast(shell->ast, 0);
+			free_ast(shell->ast, 1);
 			shell->ast = NULL;
 		}
 		else

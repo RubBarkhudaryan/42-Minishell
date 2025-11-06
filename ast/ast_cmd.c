@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/04 23:39:15 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:15:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,12 @@ t_ast	*handle_subshell(t_token **token_list, t_shell *shell)
 
 	*token_list = (*token_list)->next;
 	subshell = build_ast(token_list, shell);
-	// while ((*token_list) && ((*token_list)->token_type != TK_R_PARENTHESIS
-	// 		|| (*token_list)->token_type != TK_OR
-	// 		|| (*token_list)->token_type != TK_AND
-	// 		|| (*token_list)->token_type != TK_PIPE))
-	// 	(*token_list) = (*token_list)->next;
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (ft_putstr_fd("subshell -> malloc failure", 2), NULL);
-	node->cmd = give_token_for_cmd(token_list, shell);
 	if (*token_list)
 		*token_list = (*token_list)->next;
+	node->cmd = give_token_for_cmd(token_list, shell);
 	if (!node->cmd)
 		set_cmd(node);
 	node->left = subshell;
