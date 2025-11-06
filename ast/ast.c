@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 19:17:30 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:14:16 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,20 @@ t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 	t_ast	*node;
 
 	left = pars_cmd(token_list, shell);
-	while (*token_list && (*token_list)->token_type == TK_PIPE)
-	{
-		*token_list = (*token_list)->next;
-		right = pars_cmd(token_list, shell);
-		node = malloc(sizeof(t_ast));
-		if (!node)
-			return (ft_putstr_fd("pipe -> malloc failure\n", 2), NULL);
-		node->left = left;
-		node->right = right;
-		node->cmd = NULL;
-		node->type = NODE_PIPE;
-		left = node;
-	}
+	if (*token_list)
+		while (*token_list && (*token_list)->token_type == TK_PIPE)
+		{
+			*token_list = (*token_list)->next;
+			right = pars_cmd(token_list, shell);
+			node = malloc(sizeof(t_ast));
+			if (!node)
+				return (ft_putstr_fd("pipe -> malloc failure\n", 2), NULL);
+			node->left = left;
+			node->right = right;
+			node->cmd = NULL;
+			node->type = NODE_PIPE;
+			left = node;
+		}
 	return (left);
 }
 
@@ -76,8 +77,6 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 	if (!(*token_list) || !token_list)
 		return (NULL);
 	left = pars_pipe(token_list, shell);
-	if (*token_list)
-		printf("this = %s\n", (*token_list)->token);
 	while (*token_list && ((*token_list)->token_type == TK_OR
 			|| (*token_list)->token_type == TK_AND))
 	{

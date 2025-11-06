@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:24:08 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/19 20:47:04 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:00:25 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	check_numeric_arg(char **args, t_shell *shell)
 			ft_putstr_fd(tmp, 2);
 			free(tmp);
 			ft_putstr_fd(" numeric argument required\n", 2);
-			free_shell(shell, 0);
+			free_shell(shell, 1);
 			exit(2);
 		}
 		++i;
@@ -50,7 +50,7 @@ static int	exit_helper(char **args, t_shell *shell)
 	if (args_len(args) == 1)
 	{
 		print_helper("exit\n", "minishell: exit");
-		free_shell(shell, 0);
+		free_shell(shell, 1);
 		exit(0);
 	}
 	return (0);

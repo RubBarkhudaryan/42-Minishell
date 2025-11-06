@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:56:54 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/05 19:11:56 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:20:47 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,5 @@ int	ft_cd(char **args, t_shell *shell)
 	path = args[1];
 	if (!path)
 		path = get_value_from_env(shell->env, "HOME");
-	if (path && ft_strcmp(path, "-") == 0)
-	{
-		path = get_value_from_env(shell->env, "OLDPWD");
-		printf("%s\n", path);
-	}
 	return (change_directory(path, shell));
 }

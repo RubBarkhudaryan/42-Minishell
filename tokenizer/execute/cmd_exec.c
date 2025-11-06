@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/30 18:29:10 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:00:44 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ static int	execute_command(t_ast *ast, t_shell *shell, int extra_fd,
 	else if (ast->cmd->redirs_cmd)
 	{
 		free_split(env_str);
-		free_shell(shell, 0);
+		free_shell(shell, 1);
 		exit(0);
 	}
 	perror("execve");
 	free_split(env_str);
-	free_shell(shell, 0);
+	free_shell(shell, 1);
 	exit(126);
 }
 
@@ -60,7 +60,7 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 		ft_putstr_fd(ast->cmd->cmd_name, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		free_split(env_str);
-		free_shell(shell, 0);
+		free_shell(shell, 1);
 		exit(127);
 	}
 	if (ast->cmd->cmd_name)

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/03 16:23:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:28:54 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,42 @@ int	execute_builtin_direct(t_ast *ast, t_shell *shell)
 		status = ft_exit(ast->cmd->args, shell);
 	return (status);
 }
+static int	setup_and_restore_fds(int extra_fd, int old_fds[2])
+{
+	if (extra_fd == -1)
+	{
+		old_fds[0] = dup(STDIN_FILENO);
+		old_fds[1] = dup(STDOUT_FILENO);
+		if (old_fds[0] == -1 || old_fds[1] == -1)
+			return (0);
+	}
+	return (1);
+}
+
+static void	restore_fds(int extra_fd, int old_stdin, int old_stdout)
+{
+	if (extra_fd == -1)
+	{
+		dup2(old_stdin, STDIN_FILENO);
+		dup2(old_stdout, STDOUT_FILENO);
+		close(old_stdin);
+		close(old_stdout);
+	}
+}
 
 int	execute_builtin(t_ast *ast, t_shell *shell, int extra_fd)
 {
-	int	old_stdout;
-	int	old_stdin;
+	int	old_fds[2];
 	int	status;
 
-	if (extra_fd == -1)
-	{
-		old_stdout = dup(STDOUT_FILENO);
-		old_stdin = dup(STDIN_FILENO);
-	}
+	if (!setup_and_restore_fds(extra_fd, old_fds))
+		return (1);
 	if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
 	{
-		if (extra_fd == -1)
-		{
-			dup2(old_stdout, STDOUT_FILENO);
-			dup2(old_stdin, STDIN_FILENO);
-			close(old_stdout);
-			close(old_stdin);
-		}
+		restore_fds(extra_fd, old_fds[0], old_fds[1]);
 		return (1);
 	}
 	status = execute_builtin_direct(ast, shell);
-	if (extra_fd == -1)
-	{
-		dup2(old_stdout, STDOUT_FILENO);
-		dup2(old_stdin, STDIN_FILENO);
-		close(old_stdout);
-		close(old_stdin);
-	}
+	restore_fds(extra_fd, old_fds[0], old_fds[1]);
 	return (status);
 }
