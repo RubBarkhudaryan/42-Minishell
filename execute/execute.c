@@ -124,7 +124,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int exit_code;
+	int	exit_code;
 
 	if (ast->type == NODE_SUBSHELL)
 		return (execute_subshell(ast, shell, wait, extra_fd));

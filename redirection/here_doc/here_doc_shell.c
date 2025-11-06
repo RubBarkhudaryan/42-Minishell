@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/05 19:35:23 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:12:28 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,16 @@ int	run_here_doc(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 			EXIT_FAILURE);
 	if (pid == 0)
 		run_heredoc_child(cmd, here_doc_data, shell);
-	return (waitpid(pid, &status, 0), get_exit_code(status));
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		printf("helllo\n");
+		shell->last_exit_code = 130;
+		unlink(here_doc_data.filename);
+		return (130);
+	}
+	shell->last_exit_code = get_exit_code(status);
+	return (shell->last_exit_code);
 }
 
 char	*open_check_filename(void)
