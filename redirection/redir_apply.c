@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_apply.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:25:59 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/30 18:32:23 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:57:35 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	apply_redirections(t_shell *shell, t_cmd *cmd, int extra_fd)
 		while (tmp)
 		{
 			if (open_redirect_file(tmp, shell) == -1)
-				return (print_msg(tmp->filename), EXIT_FAILURE);
+				return (EXIT_FAILURE);
 			tmp = tmp->next;
 		}
 	}

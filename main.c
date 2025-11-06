@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/06 19:50:12 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/06 21:06:34 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		shell->token_list = token_list;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
-		print_ast(shell->ast, 0);
+		//print_ast(shell->ast, 0);
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
