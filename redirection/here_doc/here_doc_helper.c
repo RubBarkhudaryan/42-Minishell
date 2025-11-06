@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/05 20:11:06 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:35:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 
 void	run_heredoc_child(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 {
-	reset_signals();
+	handle_heredoc_signals();
 	cmd->redirs_cmd->redirs->heredoc_fd = open_heredoc_file(here_doc_data.filename,
 			shell);
 	here_doc_data.line_count = 1;
