@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/09/23 17:47:54 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/09/23 17:47:54 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
@@ -12,7 +15,7 @@
 
 #include "./signals.h"
 
-volatile sig_atomic_t	g_exit_status;
+volatile sig_atomic_t g_exit_status;
 
 static void	sigint_handler_parent(int signo)
 {
@@ -31,8 +34,8 @@ void	init_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	reset_signals(void)
+void	handle_heredoc_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }

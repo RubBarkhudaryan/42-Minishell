@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/04 20:42:38 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:17:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
-# include "../../ast/ast.h"
-# include "../../built_in/bulit_in.h"
-# include "../../parsing_env/env_parser.h"
+# include "../ast/ast.h"
+# include "../built_in/bulit_in.h"
+# include "../env/env_parser.h"
 # include <stdbool.h>
 # include <sys/stat.h>
 # include <sys/wait.h>

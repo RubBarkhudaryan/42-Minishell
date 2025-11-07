@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/03 19:44:09 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:14:07 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include "../syntax_analysis/syntax.h"
-# include "../tokenizer/redirection/here_doc/here_doc.h"
+# include "../redirection/here_doc/here_doc.h"
+# include "../syntax/syntax.h"
 # include "../tokenizer/tokenizer.h"
 # include <stdbool.h>
 # include <stdio.h>

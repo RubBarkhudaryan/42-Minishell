@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   bulit_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/01 16:29:19 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:18:02 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BULIT_IN_H
 # define BULIT_IN_H
-# include "../parsing_env/env_parser.h"
-# include "../tokenizer/execute/execute.h"
+# include "../env/env_parser.h"
+# include "../execute/execute.h"
 # include <errno.h>
 # include <stdio.h>
 # include <unistd.h>

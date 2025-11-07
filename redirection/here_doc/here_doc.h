@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:51 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/03 19:42:35 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:17:22 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HERE_DOC_H
 # define HERE_DOC_H
 
-# include "../../../ast/ast.h"
-# include "../../../expander/expander.h"
-# include "../../../libft/libft.h"
-# include "../../../parsing_env/env_parser.h"
-# include "../../../syntax_analysis/syntax.h"
+# include "../../ast/ast.h"
+# include "../../expander/expander.h"
+# include "../../libft/libft.h"
+# include "../../env/env_parser.h"
+# include "../../syntax/syntax.h"
 # include "../../execute/execute.h"
 # include <readline/history.h>
 # include <readline/readline.h>

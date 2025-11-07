@@ -13,7 +13,7 @@
 #ifndef EXPANDER_H
 
 # define EXPANDER_H
-# include "../parsing_env/env_parser.h"
+# include "../env/env_parser.h"
 # include "../tokenizer/tokenizer.h"
 # include <dirent.h>
 

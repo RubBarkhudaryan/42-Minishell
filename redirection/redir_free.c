@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redir_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:30:06 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/30 19:58:26 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:19:04 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../tokenizer.h"
+#include "../tokenizer/tokenizer.h"
 
 void	free_redir_list(t_redir *redir, int flag_unlink_heredoc)
 {

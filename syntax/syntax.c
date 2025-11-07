@@ -6,11 +6,28 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:08:37 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/25 20:09:20 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/06 21:14:43 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "syntax.h"
+
+int	check_redirs_validation(t_cmd *cmd)
+{
+	t_redir		*redir;
+
+	redir = cmd->redirs_cmd->redirs;
+	while (redir)
+	{
+		if (!redir->filename)
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+			return (0);
+		}
+		redir = redir->next;
+	}
+	return (1);
+}
 
 int	analyze_command(t_ast *node)
 {
@@ -20,11 +37,15 @@ int	analyze_command(t_ast *node)
 		return (1);
 	if (!node->cmd || !node->cmd->args || !node->cmd->args[0])
 	{
+		if (!node->cmd)
+			return (0);
 		if (!node->cmd->redirs_cmd)
 		{
 			ft_putstr_fd("minishell: syntax error empty command\n", 2);
 			return (0);
 		}
+		else if (!check_redirs_validation(node->cmd))
+			return (0);
 	}
 	return (1);
 }

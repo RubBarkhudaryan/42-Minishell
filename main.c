@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 19:28:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:01:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "./tokenizer/tokenizer.h"
 
+/*
+*/
+
+void	print_token_list(t_token *head)
+{
+	while (head)
+	{
+		printf("token: %s type: %d\n", head->token, head->token_type);
+		head = head->next;
+	}
+}
+/*utils*/
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	if (shell->env)
@@ -59,12 +71,14 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		shell->token_list = token_list;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
-		print_ast(shell->ast, 0);
+		//print_ast(shell->ast, 0);
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
 			if (syntax_analyze(shell->ast))
 				shell->last_exit_code = execute_node(shell);
+			else
+				shell->last_exit_code = 2;
 			free_ast(shell->ast, 0);
 			shell->ast = NULL;
 		}
@@ -80,7 +94,6 @@ void	minishell_loop(t_shell *shell)
 
 	while (true)
 	{
-		init_signals();
 		line = readline("\001\033[1;32m\002🐍 minishell ֏ \001\033[0m\002");
 		if (!line)
 		{
@@ -100,6 +113,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	init_signals();
 	shell = init_shell_struct(envp);
 	if (!shell)
 		return (perror("minishell"), EXIT_FAILURE);
