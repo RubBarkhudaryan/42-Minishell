@@ -57,7 +57,7 @@ t_redir_cmd	*parse_redirs(t_token **list)
 		else if (is_redir((*list)))
 		{
 			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
-				return (ft_putstr_fd("Syntax error near redir.\n", 2),
+				return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2),
 					free_redir_cmd(cmd, 0), NULL);
 			add_redir(cmd, (*list)->token_type, (*list)->next->token);
 			(*list) = (*list)->next;
