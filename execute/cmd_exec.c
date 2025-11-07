@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/06 18:00:44 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:13:07 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	execute_command(t_ast *ast, t_shell *shell, int extra_fd,
 		free_shell(shell, 1);
 		exit(EXIT_FAILURE);
 	}
-	if (ast->cmd->cmd_name)
+	if (ast->cmd && ast->cmd->args)
 		execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
 	else if (ast->cmd->redirs_cmd)
 	{
@@ -53,6 +53,12 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 {
 	char	*tmp;
 
+	if (ast->cmd && !(*ast->cmd->args[0]))
+	{
+		free_split(env_str);
+		free_shell(shell, 0);
+		exit(0);
+	}
 	tmp = find_executable_path(ast, env_str, shell);
 	if (!tmp && ast->cmd->redirs_cmd == NULL)
 	{
@@ -63,7 +69,7 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 		free_shell(shell, 1);
 		exit(127);
 	}
-	if (ast->cmd->cmd_name)
+	if (ast->cmd && ast->cmd->cmd_name)
 	{
 		free(ast->cmd->cmd_name);
 		ast->cmd->cmd_name = tmp;

@@ -6,15 +6,22 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
+<<<<<<< HEAD:main.c
 /*   Updated: 2025/11/07 15:08:35 by apatvaka         ###   ########.fr       */
+=======
+/*   Updated: 2025/11/07 12:51:31 by apatvaka         ###   ########.fr       */
+>>>>>>> fix:tokenizer/main.c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./tokenizer/tokenizer.h"
 
+<<<<<<< HEAD:main.c
 /*
  */
 
+=======
+>>>>>>> fix:tokenizer/main.c
 void	print_token_list(t_token *head)
 {
 	while (head)
@@ -23,7 +30,10 @@ void	print_token_list(t_token *head)
 		head = head->next;
 	}
 }
+<<<<<<< HEAD:main.c
 /*utils*/
+=======
+>>>>>>> fix:tokenizer/main.c
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	if (shell->env)
@@ -71,7 +81,8 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		shell->token_list = token_list;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
-		// print_ast(shell->ast, 0);
+		print_token_list(token_list);
+		print_ast(shell->ast, 0);
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
