@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/01 19:45:58 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/05 19:00:09 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*is_append(char *args, int *len, int *flag)
 			return (*flag = -1, NULL);
 		return (*len = i, *flag = 0, &args[i + 1]);
 	}
-	printf("i: %d, len: %zu\n", i, ft_strlen(args));
 	if (i == (int)ft_strlen(args))
 	{
 		if (!ft_isalnum(args[i - 1]) && args[i - 1] != '_')
@@ -68,15 +67,10 @@ int	get_assignment_type(char *args, char **key, char **value)
 	return (flag);
 }
 
-int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
+static int	handle_existing_node(t_env *node, char *value, int flag)
 {
-	t_env	*node;
 	char	*tmp;
 
-	node = search_node(key, shell->env);
-	if (!node)
-		return (add_env_end(&(shell->env), key, value));
-	free(key);
 	if (!flag)
 	{
 		if (node->value)
@@ -95,12 +89,19 @@ int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
 		free(value);
 	}
 	else
-	{
-		node->value = NULL;
-		node->flag = 1;
-		return (0);
-	}
+		return (node->value = NULL, node->flag = 1, 0);
 	return (node->flag = 0, 0);
+}
+
+int	add_or_replace_value(char *key, char *value, int flag, t_shell *shell)
+{
+	t_env	*node;
+
+	node = search_node(key, shell->env);
+	if (!node)
+		return (add_env_end(&(shell->env), key, value));
+	free(key);
+	return (handle_existing_node(node, value, flag));
 }
 
 int	ft_export(char **args, t_shell *shell)
@@ -110,10 +111,10 @@ int	ft_export(char **args, t_shell *shell)
 	int		flag;
 	int		i;
 
-	key = NULL;
-	value = NULL;
 	if (!args || !*args)
 		return (1);
+	key = NULL;
+	value = NULL;
 	if (args_len(args) == 1)
 		return (print_export(shell->env));
 	i = 0;

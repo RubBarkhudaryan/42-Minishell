@@ -2,19 +2,16 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/31 15:25:26 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/31 15:25:26 by apatvaka         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 18:34:37 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/11/05 18:34:37 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
 
+#include "execute.h"
 
 int	is_dollar(char *tmp)
 {
@@ -29,9 +26,9 @@ int	is_dollar(char *tmp)
 
 void	shlvl_exec(t_shell *shell)
 {
-	short shlvl;
-	char *level;
-	char *tmp;
+	short	shlvl;
+	char	*level;
+	char	*tmp;
 
 	level = get_value_from_env(shell->env, "SHLVL");
 	if (!level)
@@ -49,8 +46,8 @@ void	shlvl_exec(t_shell *shell)
 
 void	update_env_var(t_ast *ast, t_shell *shell)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = -1;
 	tmp = NULL;
@@ -64,9 +61,9 @@ void	update_env_var(t_ast *ast, t_shell *shell)
 
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int i;
-	int status;
-	char *temp;
+	int		i;
+	int		status;
+	char	*temp;
 
 	i = -1;
 	temp = expand_dollar_token(ast->cmd->cmd_name, shell);
@@ -97,9 +94,9 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	pid_t pid;
-	int exit_code;
-	int status;
+	pid_t	pid;
+	int		exit_code;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
