@@ -18,6 +18,6 @@
 # include "../tokenizer/tokenizer.h"
 
 void	init_signals(void);
-void	reset_signals(void);
+void	handle_heredoc_signals(void);
 
 #endif

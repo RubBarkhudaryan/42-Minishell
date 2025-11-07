@@ -7,6 +7,8 @@
 		"syntax.h": "c",
 		"unistd.h": "c",
 		"bulit_in.h": "c",
-		"execute.h": "c"
+		"execute.h": "c",
+		"ast.h": "c",
+		"here_doc.h": "c"
 	}
 }

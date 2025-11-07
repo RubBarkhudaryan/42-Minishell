@@ -1,38 +1,71 @@
-NAME		= minishell
+NAME	=	minishell
 
-CC	= cc
-RM	= rm -f
+CC		=	cc
+CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
+LDFLAGS	=	-lreadline -lncurses
 
-SRC	= src/main.c utils/utils.c built_in/echo.c
-OBJ_DIR	= obj
-OBJ	= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
-INC_DIR		= includes
-LIBFT_DIR	= libft
-LIBFT		= $(LIBFT_DIR)/libft.a
+SRCS	=	main.c \
+			./tokenizer/tokenizer_utils.c ./tokenizer/tokenizer.c ./tokenizer/token_maker.c ./tokenizer/token_checker.c \
+			./expander/expander.c ./expander/expand_helpers.c ./expander/expand_handler.c \
+			./signals/signals.c \
+			./redirection/redirs.c redirection/redir_free.c ./redirection/redir_apply.c ./redirection/redir_helpers.c \
+			./redirection/here_doc/here_doc_shell.c ./redirection/here_doc/here_doc_helper.c\
+			./syntax/syntax_utils.c ./syntax/syntax.c \
+			./ast/ast.c ./ast/ast_helper.c ./ast/ast_redir.c ./ast/ast_tools.c ./ast/ast_cmd.c\
+			./env/env_parser.c ./env/env_utils.c ./env/parsing_helper.c \
+			./execute/execute.c ./execute/cmd_exec.c ./execute/builtin_exec.c ./execute/utils.c ./execute/exec_utils.c ./execute/pipe_exec.c \
+			./built_in/cd.c ./built_in/echo.c ./built_in/env.c ./built_in/export.c\
+			./built_in/export_utils.c ./built_in/exit.c\
+			./built_in/pwd.c ./built_in/unset.c ./built_in/utils.c\
 
-CFLAGS		= -Wall -Wextra -Werror -g3 -I$(INC_DIR) -I$(LIBFT_DIR)
-LDFLAGS		= -L$(LIBFT_DIR) -lft -lreadline -lncurses
+VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
 
-all: $(LIBFT) $(NAME)
+VALCHILDEN =	valgrind  --suppressions=readline.supp --track-fds=yes --trace-children=yes
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+OBJS	=	$(SRCS:%.c=%.o)
 
-$(LIBFT):
+LIBFT_DIR	=	./libft
+LIBFT_A		=	$(LIBFT_DIR)/libft.a
+
+# PARS_ENV = ../parsing_env
+
+all: $(LIBFT_A)  $(NAME)
+
+# $(PARS_ENV):
+# 	$(MAKE) -C $(PARS_ENV)
+
+$(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
+$(NAME): $(OBJS) $(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(LDFLAGS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
+	rm -f $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(RM) -r $(OBJ_DIR)
 
 fclean: clean
+	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(RM) $(NAME)
+
+val: $(NAME) clean
+	$(VALGRIND) ./$(NAME)
+
+child: $(NAME) clean
+	$(VALCHILDEN) ./$(NAME)
+run: $(NAME) clean
+	./$(NAME)
+co: $(NAME) clean
+	./$(NAME)
+
 
 re: fclean all
 

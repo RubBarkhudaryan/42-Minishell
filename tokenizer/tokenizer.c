@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
-
-int	ft_is_word_part(char c)
-{
-	return (ft_isalnum(c) || ft_inset(c, "!@#$%^*-_+=~`;.?,{}[]\\/"));
-}
+#include "./tokenizer.h"
 
 t_token	*tokenize(char *str)
 {
@@ -32,12 +27,13 @@ t_token	*tokenize(char *str)
 			i = make_word_token(&head, str, i);
 		else if (ft_inset(str[i], "|&<>"))
 			i = make_specials_token(&head, str, i);
-		else if (ft_inset(str[i], "()"))
-			i = parse_subshell(&head, str, i);
+		else if (str[i] == '(' || str[i] == ')')
+		{
+			add_token(&head, ft_substr(str, i, 1));
+			++i;
+		}
 		else
 			++i;
-		if (i == -1)
-			return (free_token_list(head), NULL);
 	}
 	return (head);
 }
