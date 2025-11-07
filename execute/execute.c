@@ -101,6 +101,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	pid = fork();
 	if (pid == -1)
 		return (free_shell(shell, 0), perror("minishell"), 1);
+	g_status = 1;
 	if (pid == 0)
 	{
 		apply_redirections(shell, ast->cmd, extra_fd);

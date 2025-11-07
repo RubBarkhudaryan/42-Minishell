@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/06 20:48:55 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/07 16:17:42 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ int	run_here_doc(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 	if (pid == -1)
 		return (free(here_doc_data.filename), perror("minishell"),
 			EXIT_FAILURE);
+	g_status = 1;
 	if (pid == 0)
 		run_heredoc_child(cmd, here_doc_data, shell);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, sigint_handler_parent);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-		shell->last_exit_code = 130;
 		unlink(here_doc_data.filename);
-		return (130);
+		return (1);
 	}
 	shell->last_exit_code = get_exit_code(status);
 	return (shell->last_exit_code);
@@ -100,8 +101,8 @@ char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell)
 	here_doc_data.delimiter = delimiter;
 	here_doc_data.filename = file_name;
 	shell->last_exit_code = run_here_doc(cmd, here_doc_data, shell);
-	if (shell->last_exit_code == EXIT_FAILURE)
-		return (free(file_name), free(delimiter), NULL);
+	// if (shell->last_exit_code == EXIT_FAILURE)
+	// 	return (free(file_name), free(delimiter), NULL);
 	free(delimiter);
 	return (file_name);
 }

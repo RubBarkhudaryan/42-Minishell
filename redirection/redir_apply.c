@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:25:59 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/06 20:57:35 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:55:43 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,23 @@ int	open_fd(t_redir *redir, int redir_fd, int flags, mode_t mode)
 
 int	open_redirect_file(t_redir *redir, t_shell *shell)
 {
+	int	fd;
+
+	fd = 0;
 	(void)shell;
 	if (redir->type == TK_REDIR_INPUT)
-		return (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
+		fd = (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
 	else if (redir->type == TK_REDIR_OUTPUT)
-		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_TRUNC,
+		fd = (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_TRUNC,
 				0644));
 	else if (redir->type == TK_APPEND)
-		return (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND,
+		fd = (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND,
 				0644));
 	else if (redir->type == TK_HEREDOC)
-		return (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
-	else
-		return (-1);
+		fd = (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
+	if(fd == -1 && redir->type != TK_HEREDOC)
+		print_msg(redir->filename);
+	return (fd);
 }
 
 int	apply_redirections(t_shell *shell, t_cmd *cmd, int extra_fd)
@@ -106,7 +110,7 @@ int	apply_redirections(t_shell *shell, t_cmd *cmd, int extra_fd)
 		while (tmp)
 		{
 			if (open_redirect_file(tmp, shell) == -1)
-				return (EXIT_FAILURE);
+				return ( EXIT_FAILURE);
 			tmp = tmp->next;
 		}
 	}

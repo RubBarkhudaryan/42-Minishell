@@ -3,25 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-<<<<<<< HEAD:main.c
-/*   Updated: 2025/11/07 15:08:35 by apatvaka         ###   ########.fr       */
-=======
-/*   Updated: 2025/11/07 12:51:31 by apatvaka         ###   ########.fr       */
->>>>>>> fix:tokenizer/main.c
+/*   Updated: 2025/11/07 16:16:08 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./tokenizer/tokenizer.h"
 
-<<<<<<< HEAD:main.c
-/*
- */
+volatile sig_atomic_t g_status = 0;
 
-=======
->>>>>>> fix:tokenizer/main.c
 void	print_token_list(t_token *head)
 {
 	while (head)
@@ -30,10 +22,6 @@ void	print_token_list(t_token *head)
 		head = head->next;
 	}
 }
-<<<<<<< HEAD:main.c
-/*utils*/
-=======
->>>>>>> fix:tokenizer/main.c
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	if (shell->env)
@@ -81,8 +69,6 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		shell->token_list = token_list;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
-		print_token_list(token_list);
-		print_ast(shell->ast, 0);
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
@@ -120,10 +106,11 @@ void	minishell_loop(t_shell *shell)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell;
+	t_shell			*shell;
 
 	(void)argc;
 	(void)argv;
+	g_status = 0;
 	init_signals();
 	shell = init_shell_struct(envp);
 	if (!shell)

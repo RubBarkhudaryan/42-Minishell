@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/11 00:09:36 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/07 16:21:40 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	exe_builtin_process(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell"), EXIT_FAILURE);
+	g_status = 1;
 	if (pid == 0)
 	{
 		if (apply_redirections(shell, ast->cmd, extra_fd) == 1)

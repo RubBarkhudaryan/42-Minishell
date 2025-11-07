@@ -17,7 +17,10 @@
 # include <signal.h>
 # include "../tokenizer/tokenizer.h"
 
+extern volatile sig_atomic_t g_status;
+
 void	init_signals(void);
 void	handle_heredoc_signals(void);
+void	sigint_handler_parent(int signo);
 
 #endif

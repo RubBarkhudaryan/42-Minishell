@@ -36,7 +36,10 @@ void	add_redir(t_redir_cmd *cmd, int type, char *filename)
 	redir->is_expanded = 1;
 	redir->type = type;
 	redir->is_expanded = 1;
-	redir->filename = ft_strdup(filename);
+	if (filename)
+		redir->filename = ft_strdup(filename);
+	else
+		redir->filename = NULL;
 	redir->next = NULL;
 	if (!cmd->redirs)
 		cmd->redirs = redir;

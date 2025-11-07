@@ -15,17 +15,19 @@
 
 #include "./signals.h"
 
-volatile sig_atomic_t g_exit_status;
-
-static void	sigint_handler_parent(int signo)
+void	sigint_handler_parent(int signo)
 {
 	(void)signo;
 	write(STDOUT_FILENO, "\n", 1);
-	if (rl_line_buffer)
-		rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	g_exit_status = 130;
+
+	if (g_status == 0)
+	{
+		if (rl_line_buffer)
+			rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	g_status = 0;
 }
 
 void	init_signals(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/07 15:08:12 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/07 16:20:38 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	execute_builtin(t_ast *ast, t_shell *shell, int extra_fd)
 		restore_fds(extra_fd, old_fds[0], old_fds[1]);
 		return (1);
 	}
+	
 	status = execute_builtin_direct(ast, shell);
 	restore_fds(extra_fd, old_fds[0], old_fds[1]);
 	return (status);
