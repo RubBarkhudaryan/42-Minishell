@@ -6,13 +6,13 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/07 16:16:08 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:16:31 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./tokenizer/tokenizer.h"
 
-volatile sig_atomic_t g_status = 0;
+// volatile sig_atomic_t g_status = 0;
 
 void	print_token_list(t_token *head)
 {
@@ -74,8 +74,8 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		{
 			if (syntax_analyze(shell->ast))
 				shell->last_exit_code = execute_node(shell);
-			else
-				shell->last_exit_code = 2;
+			// else
+			// 	shell->last_exit_code = 2;
 			free_ast(shell->ast, 0);
 			shell->ast = NULL;
 		}
@@ -97,20 +97,24 @@ void	minishell_loop(t_shell *shell)
 			printf("exit\n");
 			break ;
 		}
-		add_history(line);
-		token_list = tokenize(line);
-		minishell_loop_logic(shell, token_list);
+		if (ft_strcmp(line, ""))
+		{
+			add_history(line);
+			signal(SIGINT, SIG_IGN);
+			token_list = tokenize(line);
+			minishell_loop_logic(shell, token_list);
+			signal(SIGINT, sigint_handler_parent);
+		}
 		free(line);
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell			*shell;
+	t_shell	*shell;
 
 	(void)argc;
 	(void)argv;
-	g_status = 0;
 	init_signals();
 	shell = init_shell_struct(envp);
 	if (!shell)

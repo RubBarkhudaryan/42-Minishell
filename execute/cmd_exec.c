@@ -6,11 +6,11 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/07 16:22:03 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:12:25 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "./execute.h"
 
 void	print_msg(char *name)
 {
@@ -53,6 +53,7 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 {
 	char	*tmp;
 
+	handle_child_signals();
 	if (ast->cmd && ast->cmd->args && !(*ast->cmd->args[0]))
 	{
 		free_split(env_str);
@@ -94,11 +95,11 @@ int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 	if (pid == -1)
 		return (free_split(env_str), free_shell(shell, 1), perror("minishell"),
 			1);
-	g_status = 1;
 	if (pid == 0)
 		handle_child_process(ast, shell, extra_fd, env_str);
 	free_split(env_str);
 	if (!wait)
 		return (0);
-	return (waitpid(pid, &status, 0), get_exit_code(status));
+	waitpid(pid, &status, 0);
+	return (get_exit_code(status));
 }

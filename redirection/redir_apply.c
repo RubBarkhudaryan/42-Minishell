@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:25:59 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/07 15:55:43 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/08 13:39:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	apply_redirections(t_shell *shell, t_cmd *cmd, int extra_fd)
 		while (tmp)
 		{
 			if (open_redirect_file(tmp, shell) == -1)
-				return ( EXIT_FAILURE);
+				return (EXIT_FAILURE);
 			tmp = tmp->next;
 		}
 	}

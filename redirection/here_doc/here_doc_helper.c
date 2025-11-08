@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/07 15:08:54 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:13:40 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "here_doc.h"
+#include "./here_doc.h"
 
 void	print_heredoc_warning(int line, char *delimiter)
 {
@@ -73,7 +73,6 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 
 void	run_heredoc_child(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 {
-	handle_heredoc_signals();
 	cmd->redirs_cmd->redirs->heredoc_fd = open_heredoc_file(here_doc_data.filename,
 			shell);
 	here_doc_data.line_count = 1;
