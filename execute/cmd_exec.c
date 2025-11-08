@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 14:12:25 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/08 19:09:53 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	execute_command(t_ast *ast, t_shell *shell, int extra_fd,
 		free_shell(shell, 1);
 		exit(EXIT_FAILURE);
 	}
-	if (ast->cmd && ast->cmd->args)
+	if (ast->cmd && ast->cmd->cmd_name && ast->cmd->args)
 		execve(ast->cmd->cmd_name, ast->cmd->args, env_str);
 	else if (ast->cmd->redirs_cmd)
 	{
@@ -100,6 +100,5 @@ int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 	free_split(env_str);
 	if (!wait)
 		return (0);
-	waitpid(pid, &status, 0);
-	return (get_exit_code(status));
+	return (waitpid(pid, &status, 0), get_exit_code(status));
 }
