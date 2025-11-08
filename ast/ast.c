@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/06 20:14:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/08 15:17:53 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_ast(t_ast *node, int flag_unlink_heredoc)
 	node = NULL;
 }
 
-t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
+t_ast	*parse_cmd(t_token **token_list, t_shell *shell)
 {
 	if (*token_list && (*token_list)->token_type == TK_L_PARENTHESIS)
 		return (handle_subshell(token_list, shell));
@@ -43,18 +43,18 @@ t_ast	*pars_cmd(t_token **token_list, t_shell *shell)
 		return (handle_regular_command(token_list, shell));
 }
 
-t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
+t_ast	*parse_pipe(t_token **token_list, t_shell *shell)
 {
 	t_ast	*left;
 	t_ast	*right;
 	t_ast	*node;
 
-	left = pars_cmd(token_list, shell);
+	left = parse_cmd(token_list, shell);
 	if (*token_list)
 		while (*token_list && (*token_list)->token_type == TK_PIPE)
 		{
 			*token_list = (*token_list)->next;
-			right = pars_cmd(token_list, shell);
+			right = parse_cmd(token_list, shell);
 			node = malloc(sizeof(t_ast));
 			if (!node)
 				return (ft_putstr_fd("pipe -> malloc failure\n", 2), NULL);
@@ -67,7 +67,7 @@ t_ast	*pars_pipe(t_token **token_list, t_shell *shell)
 	return (left);
 }
 
-t_ast	*pars_ast(t_token **token_list, t_shell *shell)
+t_ast	*parse_ast(t_token **token_list, t_shell *shell)
 {
 	t_ast			*left;
 	t_ast			*right;
@@ -76,13 +76,13 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 
 	if (!(*token_list) || !token_list)
 		return (NULL);
-	left = pars_pipe(token_list, shell);
+	left = parse_pipe(token_list, shell);
 	while (*token_list && ((*token_list)->token_type == TK_OR
 			|| (*token_list)->token_type == TK_AND))
 	{
 		type = (*token_list)->token_type;
 		*token_list = (*token_list)->next;
-		right = pars_pipe(token_list, shell);
+		right = parse_pipe(token_list, shell);
 		node = malloc(sizeof(t_ast));
 		if (!node)
 			return (ft_putstr_fd("ast -> malloc failure\n", 2), NULL);
@@ -97,7 +97,7 @@ t_ast	*pars_ast(t_token **token_list, t_shell *shell)
 
 t_ast	*build_ast(t_token **token_list, t_shell *shell)
 {
-	return (pars_ast(token_list, shell));
+	return (parse_ast(token_list, shell));
 }
 
 void	print_ast(t_ast *node, int level)
