@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/10/09 18:19:07 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/09 18:19:07 by apatvaka         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/09 13:48:36 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/11/09 13:48:36 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +54,8 @@ t_redir_cmd	*parse_redirs(t_token **list)
 		else if (is_redir((*list)))
 		{
 			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
-				return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2),
-					free_redir_cmd(cmd, 0), NULL);
+				return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+						2), free_redir_cmd(cmd, 0), NULL);
 			add_redir(cmd, (*list)->token_type, (*list)->next->token);
 			(*list) = (*list)->next;
 		}

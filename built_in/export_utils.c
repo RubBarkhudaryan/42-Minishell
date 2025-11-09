@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:22:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/01 16:44:18 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:53:31 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*get_env_entry(t_env *node)
 	char	*tmp_value;
 
 	if (node->flag || !node->value)
-		return ( ft_strdup(node->key));
+		return (ft_strdup(node->key));
 	tmp_key = ft_strjoin(node->key, "=\"");
 	if (!tmp_key)
 		return (NULL);

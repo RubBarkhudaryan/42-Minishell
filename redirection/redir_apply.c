@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_apply.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:25:59 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 13:39:45 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:45:35 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ int	open_redirect_file(t_redir *redir, t_shell *shell)
 		fd = (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
 	else if (redir->type == TK_REDIR_OUTPUT)
 		fd = (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_TRUNC,
-				0644));
+					0644));
 	else if (redir->type == TK_APPEND)
 		fd = (open_fd(redir, STDOUT_FILENO, O_WRONLY | O_CREAT | O_APPEND,
-				0644));
+					0644));
 	else if (redir->type == TK_HEREDOC)
 		fd = (open_fd(redir, STDIN_FILENO, O_RDONLY, 0));
-	if(fd == -1 && redir->type != TK_HEREDOC)
+	if (fd == -1 && redir->type != TK_HEREDOC)
 		print_msg(redir->filename);
 	return (fd);
 }

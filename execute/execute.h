@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/05 21:17:45 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:43:48 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,7 @@ void					setup_pipe_fds(t_ast *ast, int pipefd, int type_fd);
 // utils
 void					free_shell(t_shell *shell, int flag_unlink_heredoc);
 void					print_msg(char *name);
+void					update_env_var(t_ast *ast, t_shell *shell);
+void					shlvl_exec(t_shell *shell);
+int						is_dollar(char *tmp);
 #endif

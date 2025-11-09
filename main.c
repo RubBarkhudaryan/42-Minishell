@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/08 19:35:09 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:17:15 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 // volatile sig_atomic_t g_status = 0;
 
-void	print_token_list(t_token *head)
-{
-	while (head)
-	{
-		printf("token: %s type: %d\n", head->token, head->token_type);
-		head = head->next;
-	}
-}
+// void	print_token_list(t_token *head)
+// {
+// 	while (head)
+// 	{
+// 		printf("token: %s type: %d\n", head->token, head->token_type);
+// 		head = head->next;
+// 	}
+// }
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	if (shell->env)
@@ -69,13 +69,16 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		shell->token_list = token_list;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
+		if (validate_parenthesis(token_list))
+		{
+			ft_putstr_fd("minishell: syntax error unexpected token near \n", 2);
+			free_ast(shell->ast, 0);
+		}
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
 			if (syntax_analyze(shell->ast))
 				shell->last_exit_code = execute_node(shell);
-			// else
-			// 	shell->last_exit_code = 2;
 			free_ast(shell->ast, 0);
 			shell->ast = NULL;
 		}

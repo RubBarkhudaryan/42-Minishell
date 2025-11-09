@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 19:33:33 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:04:47 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,6 @@ void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 	free(cmd);
 }
 
-int	is_redirection_type(t_token *token)
-{
-	while (token)
-	{
-		if (token->token_type == TK_REDIR_INPUT
-			|| token->token_type == TK_REDIR_OUTPUT
-			|| token->token_type == TK_APPEND
-			|| token->token_type == TK_HEREDOC)
-			return (1);
-		else if (token->token_type == TK_PIPE || token->token_type == TK_AND
-			|| token->token_type == TK_OR)
-			return (0);
-		token = token->next;
-	}
-	return (0);
-}
-
-int	is_subshell_paren(t_token *token)
-{
-	while (token)
-	{
-		if (token->token_type != TK_R_PARENTHESIS)
-			return (1);
-		token = token->next;
-	}
-	return (0);
-}
-
-// parse_redirs_ast(cmd, token_list, left, shell)
 static t_cmd	*handle_redirection_cmd(t_cmd *cmd, t_token **token_list)
 {
 	cmd->token_list = *token_list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 21:14:07 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:04:21 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ t_ast						*handle_subshell(t_token **token_list,
 /*AST builder utils*/
 void						print_ast(t_ast *node, int level);
 void						free_cmd(t_cmd *cmd, int flag_unlink_heredoc);
-
+int							is_subshell_paren(t_token *token);
+int							is_redirection_type(t_token *token);
+char						**ft_splitdup(char **args);
 #endif

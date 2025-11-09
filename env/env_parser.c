@@ -6,16 +6,34 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/01 16:44:03 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:14:55 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_parser.h"
 
+char	*create_env_string(t_env *node)
+{
+	char	*tmp;
+	char	*result;
+
+	if (!node->flag)
+		tmp = ft_strjoin(node->key, "=");
+	else
+		tmp = ft_strdup(node->key);
+	if (!tmp)
+		return (NULL);
+	if (node->flag == 0 && node->value == NULL)
+		result = ft_strdup(tmp);
+	else
+		result = ft_strjoin(tmp, node->value);
+	free(tmp);
+	return (result);
+}
+
 char	**convert_envp_to_string(t_env *head)
 {
 	char	**ret;
-	char	*tmp;
 	int		i;
 	int		len;
 
@@ -28,20 +46,18 @@ char	**convert_envp_to_string(t_env *head)
 		return (NULL);
 	while (head)
 	{
-		if (!head->flag)
-			tmp = ft_strjoin(head->key, "=");
-		else
-			tmp = ft_strdup(head->key);
-		if (head->flag == 0 && head->value == NULL)
-			ret[i] = ft_strdup(tmp);
-		else
-			ret[i] = ft_strjoin(tmp, head->value);
-		free(tmp);
+		ret[i] = create_env_string(head);
+		if (!ret[i])
+		{
+			while (i-- > 0)
+				free(ret[i]);
+			free(ret);
+			return (NULL);
+		}
 		head = head->next;
 		++i;
 	}
-	ret[i] = NULL;
-	return (ret);
+	return (ret[i] = NULL, ret);
 }
 
 char	*get_value_from_env(t_env *head, char *key)

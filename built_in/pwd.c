@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 11:35:58 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/05 19:13:37 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:53:12 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_pwd(t_env *env)
 			return (perror("minishell"), 1);
 	}
 	tmp = ft_strjoin(cwd, "\n");
-	if(flag)
+	if (flag)
 		free(cwd);
 	if (!tmp)
 		return (perror("minishell"), 1);

@@ -6,37 +6,11 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:24:08 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 20:05:14 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:51:46 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
-
-static int	is_valid_numeric_string(char *str)
-{
-	int		i;
-	int		count;
-
-	i = 0;
-	count = 0;
-	while (str && str[i])
-	{
-		if (!ft_isdigit(str[i]))
-		{
-			while (str && str[i] && (str[i] == '-' || str[i] == '+'))
-			{
-				count++;
-				++i;
-			}
-			if (count == 1)
-				return (1);
-			return (0);
-		}
-		if (str[i])
-			++i;
-	}
-	return (1);
-}
 
 static void	handle_numeric_error(char *arg, t_shell *shell)
 {
@@ -62,13 +36,13 @@ int	ft_in_limit(char *num)
 	positive = "9223372036854775807";
 	if (*num == '-')
 	{
-		if (ft_strncmp(negative, num, ft_strlen(negative)) < 0)
+		if (ft_strcmp(negative, num) < 0)
 			return (1);
 		return (0);
 	}
 	else
 	{
-		if (ft_strncmp(positive, num, ft_strlen(positive)) < 0)
+		if (ft_strcmp(positive, num) < 0)
 			return (1);
 		return (0);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 14:13:40 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:48:02 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	handle_heredoc_exit(t_cmd *cmd, t_shell *shell,
 	exit(0);
 }
 
-static int	open_heredoc_file(char *filename, t_shell *shell)
+static int	open_heredoc(char *filename, t_shell *shell)
 {
 	int	fd;
 
@@ -73,7 +73,7 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 
 void	run_heredoc_child(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 {
-	cmd->redirs_cmd->redirs->heredoc_fd = open_heredoc_file(here_doc_data.filename,
+	cmd->redirs_cmd->redirs->heredoc_fd = open_heredoc(here_doc_data.filename,
 			shell);
 	here_doc_data.line_count = 1;
 	while (1)
@@ -82,44 +82,3 @@ void	run_heredoc_child(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 			break ;
 	}
 }
-
-// static void	handle_heredoc_exit(t_cmd *cmd, t_shell *shell,
-// 		t_here_doc here_doc_data, t_ast *left)
-// {
-// 	t_token	*tmp;
-
-// 	// t_token	*tmp1;
-// 	// t_token	*tmp2;
-// 	close(cmd->redirs_cmd->redirs->heredoc_fd);
-// 	free(here_doc_data.delimiter);
-// 	free(here_doc_data.filename);
-// 	free_cmd(cmd, 0);
-// 	free_ast(left, 0);
-// 	if (shell->token_list_subshell)
-// 	{
-// 		tmp2 = shell->token_list_subshell;
-// 		tmp = shell->token_list;
-// 		while (tmp->next)
-// 		{
-// 			printf("AFTER HEREDOC CHILD = %s\n", tmp->token);
-// 			tmp = tmp->next;
-// 		}
-// 		while (tmp2)
-// 		{
-// 			printf("SAVED SUBSHELL TOKENS = %s\n", tmp2->token);
-// 			tmp2 = tmp2->next;
-// 		}
-// 		tmp->next = shell->token_list_subshell;
-// 		shell->token_list_subshell = NULL;
-// 	}
-// 	tmp1 = shell->token_list;
-// 	while (tmp1)
-// 	{
-// 		printf("aloooo == %s\n", tmp1->token);
-// 		tmp1 = tmp1->next;
-// 	}
-// 	free_token_list(shell->token_list);
-// 	free_env_list(shell->env);
-// 	free(shell);
-// 	exit(0);
-// }

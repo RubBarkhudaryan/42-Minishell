@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/07 16:20:38 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:07:33 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	execute_builtin_direct(t_ast *ast, t_shell *shell)
 		status = ft_exit(ast->cmd->args, shell);
 	return (status);
 }
+
 static int	setup_and_restore_fds(int extra_fd, int old_fds[2])
 {
 	if (extra_fd == -1)
@@ -78,7 +79,6 @@ int	execute_builtin(t_ast *ast, t_shell *shell, int extra_fd)
 		restore_fds(extra_fd, old_fds[0], old_fds[1]);
 		return (1);
 	}
-	
 	status = execute_builtin_direct(ast, shell);
 	restore_fds(extra_fd, old_fds[0], old_fds[1]);
 	return (status);

@@ -6,41 +6,14 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 18:20:04 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/09 14:03:05 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-static char	**ft_splitdup(char **args)
+static bool	setup_cmd_from_redirs(t_cmd *cmd)
 {
-	int		i;
-	char	**ret;
-	int		count;
-
-	i = -1;
-	count = args_len(args) + 1;
-	ret = malloc(sizeof(char *) * count);
-	if (!ret)
-		return (NULL);
-	while (args && args[++i])
-	{
-		ret[i] = ft_strdup(args[i]);
-		if (!ret[i])
-		{
-			free_split(ret);
-			return (NULL);
-		}
-	}
-	ret[i] = NULL;
-	return (ret);
-}
-
-static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
-{
-	char	*tmp;
-	t_redir	*tmp_red;
-
 	if (cmd->redirs_cmd->argv)
 	{
 		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
@@ -51,16 +24,33 @@ static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
 		cmd->args = NULL;
 		cmd->cmd_name = NULL;
 	}
+	return (cmd->cmd_name != NULL || cmd->args == NULL);
+}
+
+static bool	process_heredocs(t_cmd *cmd, t_shell *shell)
+{
+	t_redir	*tmp_red;
+	char	*tmp;
+
 	tmp_red = cmd->redirs_cmd->redirs;
 	while (tmp_red && tmp_red->type == TK_HEREDOC)
 	{
 		tmp = here_doc(cmd, ft_strdup(tmp_red->filename), shell);
 		if (!tmp)
-			return (free_cmd(cmd, 1), cmd = NULL, NULL);
+			return (false);
 		free(tmp_red->filename);
 		tmp_red->filename = tmp;
 		tmp_red = tmp_red->next;
 	}
+	return (true);
+}
+
+static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
+{
+	if (!setup_cmd_from_redirs(cmd))
+		return (NULL);
+	if (!process_heredocs(cmd, shell))
+		return (free_cmd(cmd, 1), NULL);
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
 	return (cmd);
@@ -90,29 +80,4 @@ t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
 		return (handle_heredoc_redir(cmd, shell));
 	else
 		return (handle_other_redirs(cmd));
-}
-int	is_valid_token_type(t_token_type type)
-{
-	return (type == TK_WORD || type == TK_REDIR_INPUT || type == TK_REDIR_OUTPUT
-		|| type == TK_APPEND || type == TK_HEREDOC);
-}
-
-int	fill_args(t_cmd *cmd, t_token **token_list, int arg_count)
-{
-	int	i;
-
-	cmd->args = malloc(sizeof(char *) * (arg_count + 1));
-	if (!cmd->args)
-		return (0);
-	i = 0;
-	while (*token_list && is_valid_token_type((*token_list)->token_type))
-	{
-		cmd->args[i] = ft_strdup((*token_list)->token);
-		if (!cmd->args[i])
-			return (free_cmd(cmd, 0), 0);
-		*token_list = (*token_list)->next;
-		i++;
-	}
-	cmd->args[i] = NULL;
-	return (1);
 }
