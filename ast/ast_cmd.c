@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 13:31:28 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:45:45 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_ast	*handle_subshell(t_token **token_list, t_shell *shell)
 	if (!node->cmd)
 		set_cmd(node);
 	node->left = subshell;
+	node->left->cmd->in_subshell = true;
 	node->right = NULL;
 	node->type = NODE_SUBSHELL;
 	return (node);

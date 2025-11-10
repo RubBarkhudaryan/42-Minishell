@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 14:04:47 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:47:13 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static t_cmd	*handle_redirection_cmd(t_cmd *cmd, t_token **token_list)
 		(*token_list) = (*token_list)->next;
 	cmd->args = NULL;
 	cmd->cmd_name = NULL;
+	cmd->in_subshell = false;
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
 	cmd->redirs_cmd = NULL;
@@ -63,6 +64,7 @@ static t_cmd	*handle_regular_cmd(t_cmd *cmd, t_token **token_list)
 		cmd->cmd_name = NULL;
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
+	cmd->in_subshell = false;
 	if (!fill_args(cmd, token_list, arg_count))
 		return (free_cmd(cmd, 0), NULL);
 	return (cmd);

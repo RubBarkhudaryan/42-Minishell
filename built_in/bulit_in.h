@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 13:52:20 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:44:51 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "../env/env_parser.h"
 # include "../execute/execute.h"
 # include <errno.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <unistd.h>
 
@@ -25,7 +26,7 @@ int						ft_unset(char **args, t_env **env);
 int						ft_pwd(t_env *env);
 int						ft_cd(char **args, t_shell *shell);
 int						ft_env(char **args, t_shell *shell);
-int						ft_exit(char **args, t_shell *shell);
+int						ft_exit(char **args, bool flag, t_shell *shell);
 int						ft_export(char **args, t_shell *shell);
 int						print_helper(char *arg, char *error_msg);
 int						print_export(t_env *env);

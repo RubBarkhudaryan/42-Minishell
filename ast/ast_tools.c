@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:55:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 19:29:35 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:40:25 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	set_cmd(t_ast *node)
 	node->cmd->token_list = NULL;
 	node->cmd->redirs_cmd = NULL;
 	node->cmd->in_pipeline = -1;
+	node->cmd->in_subshell = false;
 	node->cmd->out_pipeline = -1;
 }

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/09 14:04:21 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:40:36 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_cmd
 	char					**args;
 	t_token					*token_list;
 	t_redir_cmd				*redirs_cmd;
+	int						in_subshell;
 	int						in_pipeline;
 	int						out_pipeline;
 }							t_cmd;
