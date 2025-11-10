@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:17 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 14:14:55 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:07:24 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,11 @@ char	**convert_envp_to_string(t_env *head)
 	while (head)
 	{
 		ret[i] = create_env_string(head);
-		if (!ret[i])
-		{
-			while (i-- > 0)
-				free(ret[i]);
-			free(ret);
-			return (NULL);
-		}
 		head = head->next;
 		++i;
 	}
-	return (ret[i] = NULL, ret);
+	ret[i] = NULL;
+	return (ret);
 }
 
 char	*get_value_from_env(t_env *head, char *key)

@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 19:09:53 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 15:03:10 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 	if (!env_str)
 	{
 		perror("minishell");
-		free_split(env_str);
-		return (free_shell(shell, 0), 1);
+		return (1);
 	}
 	pid = fork();
 	if (pid == -1)
