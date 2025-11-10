@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 13:43:48 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:48:46 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ int						launch_process(t_ast *ast, t_shell *shell, int extra_fd,
 int						apply_redirections(t_shell *shell, t_cmd *cmd,
 							int extra_fd);
 void					setup_pipe_fds(t_ast *ast, int pipefd, int type_fd);
-// utils
+
+/*utils*/
 void					free_shell(t_shell *shell, int flag_unlink_heredoc);
 void					print_msg(char *name);
 void					update_env_var(t_ast *ast, t_shell *shell);
 void					shlvl_exec(t_shell *shell);
 int						is_dollar(char *tmp);
+int						has_heredoc(t_cmd *cmd);
 #endif

@@ -1,13 +1,13 @@
 NAME	=	minishell
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLGS	=	-Wall -Wextra -Werror -g3#-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
 
 
 SRCS	=	main.c \
 			./tokenizer/tokenizer_utils.c ./tokenizer/tokenizer.c ./tokenizer/token_maker.c ./tokenizer/token_checker.c \
-			./expander/expander.c ./expander/expand_helpers.c ./expander/expand_handler.c \
+			./expander/expander.c ./expander/expand_helpers.c\
 			./signals/signals.c \
 			./redirection/redirs.c redirection/redir_free.c ./redirection/redir_apply.c ./redirection/redir_helpers.c \
 			./redirection/here_doc/here_doc_shell.c ./redirection/here_doc/here_doc_helper.c\
@@ -40,13 +40,10 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(LDFLAGS) -o $(NAME)
+	$(CC) $(CFLGS) $(OBJS) $(LIBFT_A) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

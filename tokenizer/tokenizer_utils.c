@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/09 14:08:25 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:56:35 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ int	get_token_type(char *value)
 	i = -1;
 	parenthesis_type = get_parenthesis_token_type(value);
 	while (value[++i])
-		if (ft_inset(value[i], "`;") || (value[i] == '\\' && !ft_inset(value[i
-					+ 1], "\'\"")))
+	{
+		if (ft_inset(value[i], "`;")
+			|| (value[i] == '\\' && !ft_inset(value[i + 1], "\'\"")))
 			return (TK_ERROR);
+	}
 	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
 		return (TK_WORD);
 	else if (ft_strlen(value) == 1 && *value == '|')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/10 15:47:13 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:47:20 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 	free(cmd);
 }
 
-static t_cmd	*handle_redirection_cmd(t_cmd *cmd, t_token **token_list)
+static t_cmd	*handle_redirection_cmd(t_cmd *cmd,
+				bool is_expand, t_token **token_list)
 {
 	cmd->token_list = *token_list;
 	while ((*token_list) && ((*token_list)->token_type == TK_WORD
@@ -45,13 +46,15 @@ static t_cmd	*handle_redirection_cmd(t_cmd *cmd, t_token **token_list)
 	cmd->args = NULL;
 	cmd->cmd_name = NULL;
 	cmd->in_subshell = false;
+	cmd->is_expand = is_expand;
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
 	cmd->redirs_cmd = NULL;
 	return (cmd);
 }
 
-static t_cmd	*handle_regular_cmd(t_cmd *cmd, t_token **token_list)
+static t_cmd	*handle_regular_cmd(t_cmd *cmd,
+				bool is_expand, t_token **token_list)
 {
 	int	arg_count;
 
@@ -65,12 +68,14 @@ static t_cmd	*handle_regular_cmd(t_cmd *cmd, t_token **token_list)
 	cmd->in_pipeline = -1;
 	cmd->out_pipeline = -1;
 	cmd->in_subshell = false;
+	cmd->is_expand = is_expand;
 	if (!fill_args(cmd, token_list, arg_count))
 		return (free_cmd(cmd, 0), NULL);
 	return (cmd);
 }
 
-t_cmd	*give_token_for_cmd(t_token **token_list, t_shell *shell)
+t_cmd	*give_token_for_cmd(t_token **token_list,
+		bool is_expand, t_shell *shell)
 {
 	t_cmd	*cmd;
 
@@ -81,7 +86,7 @@ t_cmd	*give_token_for_cmd(t_token **token_list, t_shell *shell)
 	if (!cmd)
 		return (NULL);
 	if (is_redirection_type((*token_list)))
-		return (handle_redirection_cmd(cmd, token_list));
+		return (handle_redirection_cmd(cmd, is_expand, token_list));
 	else
-		return (handle_regular_cmd(cmd, token_list));
+		return (handle_regular_cmd(cmd, is_expand, token_list));
 }

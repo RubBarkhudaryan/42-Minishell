@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:08:37 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/06 21:14:43 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:53:52 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_redirs_validation(t_cmd *cmd)
 	{
 		if (!redir->filename)
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+			ft_putstr_fd(REDIR_ERR, 2);
 			return (0);
 		}
 		redir = redir->next;

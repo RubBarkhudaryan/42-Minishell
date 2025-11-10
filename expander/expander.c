@@ -3,68 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 22:43:30 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/02 13:23:46 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 21:19:55 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./expander.h"
 
-void	change_val(char **str1, char **str2)
+char	*expand_dollar_token(char *token, t_shell *shell, bool skip_expand)
 {
-	free(*str1);
-	*str1 = ft_strdup(*str2);
-	free(*str2);
-}
+	t_env		*env_node;
+	t_expand	exp;
+	int			i;
+	int			j;
 
-char	*join_args(char *str1, char *str2)
-{
-	int		i;
-	int		j;
-	char	*join;
-
-	if (!str1 && str2)
-		return (ft_strdup(str2));
-	if (str1 && !str2)
-		return (ft_strdup(str1));
-	if (!str1 && !str2)
-		return (NULL);
-	join = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
-	if (!join)
-		return (NULL);
-	i = -1;
-	j = -1;
-	while (str1[++i])
-		join[i] = str1[i];
-	while (str2[++j])
-		join[i + j] = str2[j];
-	join[i + j] = '\0';
-	return (join);
-}
-
-void	expand_tokens(t_token **token_list)
-{
-	t_token	*token;
-	char	*tmp_tk;
-	int		is_here_doc;
-
-	token = *token_list;
-	is_here_doc = 0;
-	while (token)
+	exp.res = ft_strdup("");
+	if (!token || !(*token) || !shell->env || !exp.res)
+		return (free(exp.res), ft_strdup(""));
+	if ((token[0] == '\'' && token[1]) || skip_expand)
+		return (free(exp.res), ft_strdup(token));
+	i = 0;
+	while (token[i])
 	{
-		if (token->token_type == TK_HEREDOC)
-			is_here_doc = 1;
-		if (token->token_type == TK_WORD)
+		j = i;
+		while (token[j] && token[j] != '$')
+			++j;
+		refresh_args_val(&exp, ft_substr(token, i, j - i), &i, j - i);
+		if (!token[i])
+			break ;
+		j = 1;
+		while (token[i + j] && is_var_name_char(token[i + j]))
+			++j;
+		if (token[i + j] == '?')
+			refresh_args_val(&exp, ft_itoa(shell->last_exit_code), &i, 2);
+		else
 		{
-			tmp_tk = expand_nested_quote(token->token, is_here_doc);
-			if (!tmp_tk)
-				return ;
-			change_val(&token->token, &tmp_tk);
+			exp.tk = ft_substr(token, i + 1, j - 1);
+			if (!exp.tk)
+				return (free(exp.res), ft_strdup(""));
+			env_node = search_node(exp.tk, shell->env);
+			if (!env_node || !env_node->value)
+				refresh_args_val(&exp, ft_strdup(""), &i, j);
+			else
+				refresh_args_val(&exp, ft_strdup(env_node->value), &i, j);
+			free(exp.tk);
 		}
-		else if (is_here_doc && token->token_type == TK_WORD)
-			is_here_doc = 0;
-		token = token->next;
 	}
+	return (exp.res);
+}
+
+char	*expand_nested_quote(char *token, int is_here_doc)
+{
+	int i;
+	t_expand exp;
+	char quote;
+
+	i = 0;
+	quote = 0;
+	exp.tk = ft_strdup(token);
+	exp.res = ft_strdup("");
+	if (!exp.tk || !exp.res)
+		return (NULL);
+	while (exp.tk[i])
+	{
+		if (!quote && ft_inset(exp.tk[i], "\'\""))
+		{
+			quote = exp.tk[i];
+			if (is_here_doc)
+				add_val(&exp, &i);
+			else
+				++i;
+		}
+		else if (quote && exp.tk[i] == quote)
+		{
+			quote = 0;
+			if (is_here_doc)
+				add_val(&exp, &i);
+			else
+				++i;
+		}
+		else
+			add_val(&exp, &i);
+	}
+	return (free(exp.tk), exp.res);
 }

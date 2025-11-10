@@ -12,6 +12,35 @@
 
 #include "../tokenizer/tokenizer.h"
 
+t_redir_cmd	*parse_redirs(t_token **list)
+{
+	t_redir_cmd	*cmd;
+	t_redir_cmd	*head;
+
+	cmd = init_redir_cmd();
+	if (!cmd)
+		return (NULL);
+	head = cmd;
+	while ((*list))
+	{
+		if ((*list)->token_type == TK_WORD)
+			add_arg(cmd, (*list)->token);
+		else if (is_redir((*list)))
+		{
+			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
+				return (ft_putstr_fd(REDIR_ERR, 2),
+					free_redir_cmd(cmd, 0), NULL);
+			add_redir(cmd, (*list)->token_type, (*list)->next->token);
+			(*list) = (*list)->next;
+		}
+		else
+			break ;
+		(*list) = (*list)->next;
+	}
+	return (head);
+}
+
+/*
 void	print_redir_cmd(t_redir_cmd *cmd)
 {
 	t_redir	*r;
@@ -37,31 +66,4 @@ void	print_redir_cmd(t_redir_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
-
-t_redir_cmd	*parse_redirs(t_token **list)
-{
-	t_redir_cmd	*cmd;
-	t_redir_cmd	*head;
-
-	cmd = init_redir_cmd();
-	if (!cmd)
-		return (NULL);
-	head = cmd;
-	while ((*list))
-	{
-		if ((*list)->token_type == TK_WORD)
-			add_arg(cmd, (*list)->token);
-		else if (is_redir((*list)))
-		{
-			if (!(*list)->next || (*list)->next->token_type != TK_WORD)
-				return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-						2), free_redir_cmd(cmd, 0), NULL);
-			add_redir(cmd, (*list)->token_type, (*list)->next->token);
-			(*list) = (*list)->next;
-		}
-		else
-			break ;
-		(*list) = (*list)->next;
-	}
-	return (head);
-}
+*/

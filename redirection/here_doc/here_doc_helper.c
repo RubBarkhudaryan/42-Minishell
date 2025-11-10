@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 13:48:02 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:05:14 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 		return (free(line), handle_heredoc_exit(cmd, shell, here_doc_data), 0);
 	if (cmd->redirs_cmd->redirs->is_expanded)
 	{
-		expanded = expand_dollar_token(line, shell);
+		expanded = expand_dollar_token(line, shell, 0);
 		free(line);
 		line = expanded;
 	}

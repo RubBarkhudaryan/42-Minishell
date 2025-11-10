@@ -16,18 +16,23 @@ static void	expand_command_variables(t_ast *ast, t_shell *shell)
 {
 	int		i;
 	char	*temp;
+	char	*res;
 
 	i = -1;
-	temp = expand_dollar_token(ast->cmd->cmd_name, shell);
+	temp = expand_dollar_token(ast->cmd->cmd_name, shell, 0);
+	res = expand_nested_quote(temp, has_heredoc(ast->cmd));
 	free(ast->cmd->cmd_name);
-	ast->cmd->cmd_name = ft_strdup(temp);
+	ast->cmd->cmd_name = ft_strdup(res);
 	free(temp);
+	free(res);
 	while (ast->cmd->args && ast->cmd->args[++i])
 	{
 		if (is_dollar(ast->cmd->args[i]))
 		{
-			temp = expand_dollar_token(ast->cmd->args[i], shell);
+			temp = expand_dollar_token(ast->cmd->args[i], shell, 0);
+			res = expand_nested_quote(temp, has_heredoc(ast->cmd));
 			free(ast->cmd->args[i]);
+			free(temp);
 			ast->cmd->args[i] = temp;
 		}
 	}

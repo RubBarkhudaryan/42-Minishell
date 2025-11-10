@@ -6,12 +6,14 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/05 21:37:04 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:51:44 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
+
+# define REDIR_ERR "minishell: syntax error near unexpected token `newline'\n"
 
 # include "../ast/ast.h"
 # include "../execute/execute.h"

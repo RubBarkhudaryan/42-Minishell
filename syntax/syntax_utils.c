@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 17:39:05 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/09 13:25:33 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:52:45 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_redir(t_token *token)
 
 int	validate_parenthesis(t_token *token_list)
 {
-	int count_paren;
+	int	count_paren;
 
 	count_paren = 0;
 	while (token_list)

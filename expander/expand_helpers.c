@@ -10,17 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "./expander.h"
 
 int	is_var_name_char(char c)
 {
 	return (ft_isalnum(c) || c == '_');
-}
-
-int	check_nested_quote(char curr_tk, char next_tk)
-{
-	return ((curr_tk == '\\' && next_tk == '\"')
-		|| (curr_tk == '\\' && next_tk == '\''));
 }
 
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
@@ -31,27 +25,56 @@ void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
 	*ind = *ind + inc_by;
 }
 
-void	handle_dollar(t_expand *exp, int *i, t_shell *shell)
-{
-	char	*dollar_tk;
-	int		k;
-
-	k = *i + 1;
-	if (ft_isdigit(exp->tk[k]))
-		return ;
-	while (exp->tk[k] && is_var_name_char(exp->tk[k]))
-		++k;
-	exp->piece = ft_substr(exp->tk, *i, k - *i);
-	dollar_tk = expand_dollar_token(exp->piece, shell);
-	free(exp->piece);
-	refresh_args_val(exp, dollar_tk, i, k - *i);
-	free(dollar_tk);
-}
-
 void	add_val(t_expand *exp, int *i)
 {
-	if (check_nested_quote(exp->tk[*i], exp->tk[*i + 1]))
+	if (exp->tk[*i] == '\\' && ft_inset(exp->tk[*i + 1], "\'\""))
 		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i + 1], '\0'}), i, 2);
 	else
 		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i], '\0'}), i, 1);
 }
+
+void	change_val(char **str1, char **str2)
+{
+	free(*str1);
+	*str1 = ft_strdup(*str2);
+	free(*str2);
+}
+
+char	*join_args(char *str1, char *str2)
+{
+	int		i;
+	int		j;
+	char	*join;
+
+	if (!str1 && str2)
+		return (ft_strdup(str2));
+	if (str1 && !str2)
+		return (ft_strdup(str1));
+	if (!str1 && !str2)
+		return (NULL);
+	join = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
+	if (!join)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (str1[++i])
+		join[i] = str1[i];
+	while (str2[++j])
+		join[i + j] = str2[j];
+	join[i + j] = '\0';
+	return (join);
+}
+
+// int	check_expand_case(char *token)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (token[i])
+// 	{
+// 		if (token[i] == '\'')
+// 			return (0);
+// 		++i;
+// 	}
+// 	return (1);
+// }

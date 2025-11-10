@@ -13,9 +13,11 @@
 #ifndef EXPANDER_H
 
 # define EXPANDER_H
+
 # include "../env/env_parser.h"
 # include "../tokenizer/tokenizer.h"
 # include <dirent.h>
+# include <stdbool.h>
 
 typedef struct s_shell		t_shell;
 typedef struct s_token		t_token;
@@ -29,20 +31,16 @@ typedef struct s_expand
 }	t_expand;
 
 /*token expansion*/
-void	expand_tokens(t_token **token_list);
-char	*expand_dollar_token(char *token, t_shell *shell);
 char	*expand_nested_quote(char *token, int is_here_doc);
+char	*expand_dollar_token(char *token, t_shell *shell, bool skip_expand);
+char	*expand_wildcard(char *wildcard);
 
 /*expansion helpers*/
 int		is_var_name_char(char c);
+// int		check_expand_case(char *token);
 char	*join_args(char *str1, char *str2);
-int		check_nested_quote(char curr_tk, char next_tk);
 void	change_val(char **str1, char **str2);
-void	handle_dollar(t_expand *exp, int *i, t_shell *shell);
 void	add_val(t_expand *exp, int *i);
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by);
-
-/*wildcard handle*/
-char	*expand_wildcard(char *wildcard);
 
 #endif

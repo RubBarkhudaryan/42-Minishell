@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 15:40:36 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:40:10 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ typedef struct s_cmd
 	char					**args;
 	t_token					*token_list;
 	t_redir_cmd				*redirs_cmd;
-	int						in_subshell;
+	bool					in_subshell;
+	bool					is_expand;
 	int						in_pipeline;
 	int						out_pipeline;
 }							t_cmd;
@@ -59,7 +60,7 @@ typedef struct s_ast
 void						free_ast(t_ast *node, int flag_unlink_heredoc);
 t_ast						*build_ast(t_token **token_list, t_shell *shell);
 t_cmd						*give_token_for_cmd(t_token **token_list,
-								t_shell *shell);
+								bool in_subshell, t_shell *shell);
 t_token						*find_matching_parenthesis(t_token *start,
 								int *ret_count);
 void						set_type(t_ast *node, int type);
@@ -73,7 +74,7 @@ t_cmd						*parse_redirs_ast(t_cmd *cmd, t_token **token_list,
 								t_shell *shell);
 int							is_valid_token_type(t_token_type type);
 t_ast						*handle_regular_command(t_token **token_list,
-								t_shell *shell);
+								bool in_subshell, t_shell *shell);
 t_ast						*handle_subshell(t_token **token_list,
 								t_shell *shell);
 /*AST builder utils*/
