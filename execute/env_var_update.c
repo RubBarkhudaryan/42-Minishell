@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:41:40 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 13:43:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:29:44 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	is_dollar(char *tmp)
 	return (0);
 }
 
-void	shlvl_exec(t_shell *shell)
+void	shlvl_exec(t_shell *shell, int flag)
 {
-	short	shlvl;
+	int		shlvl;
 	char	*level;
 	char	*tmp;
 
@@ -36,9 +36,12 @@ void	shlvl_exec(t_shell *shell)
 		return ;
 	}
 	shlvl = ft_atoi(level);
-	tmp = ft_itoa(shlvl + 1);
+	if (flag)
+		tmp = ft_itoa(shlvl + 1);
+	else
+		tmp = ft_itoa(shlvl - 1);
 	if (!tmp)
-		return (perror("malloc failed\n"), (void)0);
+		return (perror("minishell"), (void)0);
 	add_or_replace_value(ft_strdup("SHLVL"), ft_strdup(tmp), 0, shell);
 	free(tmp);
 }
@@ -48,11 +51,14 @@ void	update_env_var(t_ast *ast, t_shell *shell)
 	int		i;
 	char	*tmp;
 
-	i = -1;
+	i = 0;
 	tmp = NULL;
-	while (ast->cmd && ast->cmd->args && ast->cmd->args[++i])
+	while (ast->cmd && ast->cmd->args && ast->cmd->args[i])
+	{
 		tmp = ast->cmd->args[i];
-	if (!tmp)
+		++i;
+	}
+	if (!tmp || !*tmp)
 		return ;
 	add_or_replace_value(ft_strdup("_"), ft_strdup(tmp), 0, shell);
 }

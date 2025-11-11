@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/10 15:44:51 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:59:56 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int						print_export(t_env *env);
 char					**env_to_export_string(t_env *head);
 int						add_or_replace_value(char *key, char *value, int flag,
 							t_shell *shell);
+int						is_numeric_arg(char **args);
 int						is_valid_numeric_string(char *str);
 int						has_valid_sign_prefix(char *str, int *i);
 #endif

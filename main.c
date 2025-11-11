@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 22:51:03 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 20:44:34 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:11:20 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	print_token_list(t_token *head)
 		head = head->next;
 	}
 }
+
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	if (shell->env)
@@ -95,6 +96,7 @@ void	minishell_loop(t_shell *shell)
 		line = readline("\001\033[1;32m\002🐍 minishell ֏ \001\033[0m\002");
 		if (!line)
 		{
+			shlvl_exec(shell, 0);
 			printf("exit\n");
 			break ;
 		}

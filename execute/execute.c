@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/11/09 13:44:33 by apatvaka          #+#    #+#             */
 /*   Updated: 2025/11/09 13:44:33 by apatvaka         ###   ########.fr       */
 /*                                                                            */
@@ -12,11 +15,12 @@
 
 #include "execute.h"
 
+
 static void	expand_command_variables(t_ast *ast, t_shell *shell)
 {
-	int		i;
-	char	*temp;
-	char	*res;
+	int i;
+	char *temp;
+	char *res;
 
 	i = -1;
 	temp = expand_dollar_token(ast->cmd->cmd_name, shell, 0);
@@ -32,21 +36,22 @@ static void	expand_command_variables(t_ast *ast, t_shell *shell)
 			temp = expand_dollar_token(ast->cmd->args[i], shell, 0);
 			res = expand_nested_quote(temp, has_heredoc(ast->cmd));
 			free(ast->cmd->args[i]);
+			ast->cmd->args[i] = ft_strdup(res);
 			free(temp);
-			ast->cmd->args[i] = temp;
+			free(res);
 		}
 	}
 }
 
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int	status;
+	int status;
 
 	expand_command_variables(ast, shell);
 	update_env_var(ast, shell);
 	if (ast->cmd->cmd_name && ft_strcmp(ast->cmd->cmd_name,
 			"./minishell") == 0)
-		shlvl_exec(shell);
+		shlvl_exec(shell, 1);
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast, shell, extra_fd));
@@ -58,9 +63,9 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	pid_t	pid;
-	int		exit_code;
-	int		status;
+	pid_t pid;
+	int exit_code;
+	int status;
 
 	pid = fork();
 	if (pid == -1)
@@ -86,7 +91,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 
 int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
-	int	exit_code;
+	int exit_code;
 
 	if (ast->type == NODE_SUBSHELL)
 		return (execute_subshell(ast, shell, wait, extra_fd));

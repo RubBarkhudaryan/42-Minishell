@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_expander.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 19:23:41 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/30 19:23:41 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:41:03 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
