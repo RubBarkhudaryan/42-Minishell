@@ -6,48 +6,57 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 22:43:30 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 21:19:55 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/11 22:12:16 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./expander.h"
 
-char	*expand_dollar_token(char *token, t_shell *shell, bool skip_expand)
+char	*expand_dollar_token(char *token, t_shell *shell, bool expand)
 {
-	t_env		*env_node;
 	t_expand	exp;
 	int			i;
 	int			j;
+	char		quote;
 
+	if (!token || !shell || !shell->env)
+		return (ft_strdup(""));
+	if (!expand)
+		return (ft_strdup(token));
 	exp.res = ft_strdup("");
-	if (!token || !(*token) || !shell->env || !exp.res)
-		return (free(exp.res), ft_strdup(""));
-	if ((token[0] == '\'' && token[1]) || skip_expand)
-		return (free(exp.res), ft_strdup(token));
+	if (!exp.res)
+		return (NULL);
 	i = 0;
 	while (token[i])
 	{
 		j = i;
-		while (token[j] && token[j] != '$')
+		while (token[j] && !ft_inset(token[j], "$\'\""))
 			++j;
 		refresh_args_val(&exp, ft_substr(token, i, j - i), &i, j - i);
 		if (!token[i])
 			break ;
-		j = 1;
-		while (token[i + j] && is_var_name_char(token[i + j]))
-			++j;
-		if (token[i + j] == '?')
-			refresh_args_val(&exp, ft_itoa(shell->last_exit_code), &i, 2);
+		if (ft_inset(token[j], "\'\""))
+		{
+			i = j;
+			quote = token[j++];
+			while (token[j] && token[j] != quote)
+				++j;
+			refresh_args_val(&exp, ft_substr(token, i, j - i + 1), &i, j - i
+				+ 1);
+		}
 		else
 		{
+			j = 1;
+			while (token[i + j] && is_var_name_char(token[i + j]))
+				++j;
 			exp.tk = ft_substr(token, i + 1, j - 1);
-			if (!exp.tk)
-				return (free(exp.res), ft_strdup(""));
-			env_node = search_node(exp.tk, shell->env);
-			if (!env_node || !env_node->value)
-				refresh_args_val(&exp, ft_strdup(""), &i, j);
+			char *tmp = get_value_from_env(shell->env, exp.tk);
+			if(!tmp)
+				tmp = ft_strdup("");
 			else
-				refresh_args_val(&exp, ft_strdup(env_node->value), &i, j);
+				tmp = ft_strdup(tmp);
+			printf("temp: %s\n", tmp);
+			refresh_args_val(&exp, tmp, &i, j);
 			free(exp.tk);
 		}
 	}
@@ -56,9 +65,9 @@ char	*expand_dollar_token(char *token, t_shell *shell, bool skip_expand)
 
 char	*expand_nested_quote(char *token, int is_here_doc)
 {
-	int i;
-	t_expand exp;
-	char quote;
+	int			i;
+	t_expand	exp;
+	char		quote;
 
 	i = 0;
 	quote = 0;

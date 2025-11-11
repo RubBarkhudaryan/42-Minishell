@@ -16,31 +16,263 @@
 #include "execute.h"
 
 
+// int	quotes_count(char *token)
+// {
+// 	int i;
+// 	int count;
+// 	int in_quote;
+
+// 	i = 0;
+// 	count = 0;
+// 	in_quote = 0;
+// 	while (token[i])
+// 	{
+// 		if (token[i] == '\'' || token[i] == '\"')
+// 		{
+// 			if (in_quote == 0)
+// 			{
+// 				in_quote = token[i];
+// 				count++;
+// 			}
+// 			else if (in_quote == token[i])
+// 				in_quote = 0;
+// 		}
+// 		i++;
+// 	}
+// 	return (count);
+// }
+
+// char	**split_by_quotes(char *token)
+// {
+// 	char **arr;
+// 	char in_quote;
+// 	int k;
+// 	int i;
+// 	int j;
+
+// 	arr = malloc(sizeof(char *) * (quotes_count(token) + 1));
+// 	if (!arr)
+// 		return (NULL);
+// 	i = 0;
+// 	k = 0;
+// 	in_quote = ' ';
+// 	while (token[i])
+// 	{
+// 		j = 0;
+// 		if (ft_inset(token[i + j], "\'\""))
+// 		{
+// 			in_quote = token[i + j];
+// 			++j;
+// 			while (token[i + j] && token[i + j] != in_quote)
+// 				++j;
+// 			in_quote = ' ';
+// 		}
+// 		else
+// 		{
+// 			while (token[i + j] && !ft_inset(token[i + j], "\'\""))
+// 				++j;
+// 		}
+// 		arr[k] = ft_substr(token, i, j);
+// 		++k;
+// 		i += j;
+// 	}
+// 	arr[k] = NULL;
+// 	return (arr);
+// }
+
+// char	**split_by_quotes(char *token)
+// {
+// 	char	**arr;
+// 	char	in_quote;
+// 	int		k;
+// 	int		i;
+// 	int		j;
+// 	int		segment_count;
+
+// 	// Count all segments (quoted + non-quoted)
+// 	segment_count = 0;
+// 	i = 0;
+// 	while (token[i])
+// 	{
+// 		segment_count++;
+// 		if (ft_inset(token[i], "\'\""))
+// 		{
+// 			in_quote = token[i++];
+// 			while (token[i] && token[i] != in_quote)
+// 				i++;
+// 			if (token[i] == in_quote)
+// 				i++;
+// 		}
+// 		else
+// 		{
+// 			while (token[i] && !ft_inset(token[i], "\'\""))
+// 				i++;
+// 		}
+// 	}
+
+// 	arr = malloc(sizeof(char *) * (segment_count + 1));
+// 	if (!arr)
+// 		return (NULL);
+	
+// 	i = 0;
+// 	k = 0;
+// 	in_quote = 0;
+// 	while (token[i])
+// 	{
+// 		j = 0;
+// 		if (ft_inset(token[i], "\'\""))
+// 		{
+// 			in_quote = token[i];
+// 			j = 1; // Skip opening quote
+// 			while (token[i + j] && token[i + j] != in_quote)
+// 				j++;
+// 			if (token[i + j] == in_quote)
+// 			{
+// 				arr[k] = ft_substr(token, i + 1, j - 1); // Exclude quotes
+// 				if (arr[k])
+// 					k++;
+// 				i += j + 1; // Move past closing quote
+// 			}
+// 			else
+// 			{
+// 				// Unmatched quote - take rest of string
+// 				arr[k] = ft_substr(token, i + 1, j);
+// 				if (arr[k])
+// 					k++;
+// 				i += j + 1;
+// 			}
+// 			in_quote = 0;
+// 		}
+// 		else
+// 		{
+// 			while (token[i + j] && !ft_inset(token[i + j], "\'\""))
+// 				j++;
+// 			arr[k] = ft_substr(token, i, j);
+// 			if (arr[k])
+// 				k++;
+// 			i += j;
+// 		}
+// 	}
+// 	arr[k] = NULL;
+// 	return (arr);
+// }
+
+char	**split_by_quotes(char *token)
+{
+	char	**arr;
+	char	in_quote;
+	int		k;
+	int		i;
+	int		j;
+	int		segment_count;
+
+	// First, count total segments (quoted + non-quoted)
+	segment_count = 0;
+	i = 0;
+	while (token[i])
+	{
+		segment_count++;
+		if (ft_inset(token[i], "\'\""))
+		{
+			in_quote = token[i++];
+			while (token[i] && token[i] != in_quote)
+				i++;
+			if (token[i] == in_quote)
+				i++; // Skip closing quote
+		}
+		else
+		{
+			while (token[i] && !ft_inset(token[i], "\'\""))
+				i++;
+		}
+	}
+
+	arr = malloc(sizeof(char *) * (segment_count + 1));
+	if (!arr)
+		return (NULL);
+	
+	// Now extract segments
+	i = 0;
+	k = 0;
+	while (token[i] && k < segment_count)
+	{
+		j = 0;
+		if (ft_inset(token[i], "\'\""))
+		{
+			in_quote = token[i];
+			j = 1; // Include opening quote
+			while (token[i + j] && token[i + j] != in_quote)
+				j++;
+			if (token[i + j] == in_quote)
+				j++; // Include closing quote
+			
+			arr[k] = ft_substr(token, i, j);
+			if (!arr[k])
+			{
+				// Free previously allocated strings on failure
+				while (k > 0)
+					free(arr[--k]);
+				free(arr);
+				return (NULL);
+			}
+			k++;
+			i += j;
+		}
+		else
+		{
+			while (token[i + j] && !ft_inset(token[i + j], "\'\""))
+				j++;
+			arr[k] = ft_substr(token, i, j);
+			if (!arr[k])
+			{
+				while (k > 0)
+					free(arr[--k]);
+				free(arr);
+				return (NULL);
+			}
+			k++;
+			i += j;
+		}
+	}
+	arr[k] = NULL; // NULL terminate the array
+	return (arr);
+}
+
 static void	expand_command_variables(t_ast *ast, t_shell *shell)
 {
 	int i;
+	int j;
+	int expand;
 	char *temp;
 	char *res;
+	char **arr;
 
 	i = -1;
-	temp = expand_dollar_token(ast->cmd->cmd_name, shell, 0);
-	res = expand_nested_quote(temp, has_heredoc(ast->cmd));
-	free(ast->cmd->cmd_name);
-	ast->cmd->cmd_name = ft_strdup(res);
-	free(temp);
-	free(res);
 	while (ast->cmd->args && ast->cmd->args[++i])
 	{
-		if (is_dollar(ast->cmd->args[i]))
+		j = -1;
+		arr = split_by_quotes(ast->cmd->args[i]);
+		free(ast->cmd->args[i]);
+		ast->cmd->args[i] = ft_strdup("");
+		while (arr[++j])
 		{
-			temp = expand_dollar_token(ast->cmd->args[i], shell, 0);
-			res = expand_nested_quote(temp, has_heredoc(ast->cmd));
-			free(ast->cmd->args[i]);
-			ast->cmd->args[i] = ft_strdup(res);
+			expand = 1;
+			if (arr[j][0] == '\'')
+				expand = 0;
+			temp = expand_nested_quote(arr[j], has_heredoc(ast->cmd));
+			res = expand_dollar_token(temp, shell, expand);
+			free(arr[j]);
+			arr[j] = ft_strdup(res);
 			free(temp);
 			free(res);
+			temp = ft_strjoin(ast->cmd->args[i], arr[j]);
+			free(ast->cmd->args[i]);
+			ast->cmd->args[i] = temp;
 		}
+		free_split(arr);
 	}
+	free(ast->cmd->cmd_name);
+	ast->cmd->cmd_name = ft_strdup(ast->cmd->args[0]);
 }
 
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
@@ -48,6 +280,10 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	int status;
 
 	expand_command_variables(ast, shell);
+	printf("this ois [%s]\n", ast->cmd->cmd_name);
+	int i = -1;
+	while (ast->cmd->args[++i])
+		printf("args = [%s]\n", ast->cmd->args[i]);
 	update_env_var(ast, shell);
 	if (ast->cmd->cmd_name && ft_strcmp(ast->cmd->cmd_name,
 			"./minishell") == 0)

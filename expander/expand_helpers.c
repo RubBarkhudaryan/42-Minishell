@@ -64,17 +64,3 @@ char	*join_args(char *str1, char *str2)
 	join[i + j] = '\0';
 	return (join);
 }
-
-// int	check_expand_case(char *token)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (token[i])
-// 	{
-// 		if (token[i] == '\'')
-// 			return (0);
-// 		++i;
-// 	}
-// 	return (1);
-// }

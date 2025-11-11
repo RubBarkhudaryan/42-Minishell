@@ -32,12 +32,11 @@ typedef struct s_expand
 
 /*token expansion*/
 char	*expand_nested_quote(char *token, int is_here_doc);
-char	*expand_dollar_token(char *token, t_shell *shell, bool skip_expand);
+char	*expand_dollar_token(char *token, t_shell *shell, bool expand);
 char	*expand_wildcard(char *wildcard);
 
 /*expansion helpers*/
 int		is_var_name_char(char c);
-// int		check_expand_case(char *token);
 char	*join_args(char *str1, char *str2);
 void	change_val(char **str1, char **str2);
 void	add_val(t_expand *exp, int *i);

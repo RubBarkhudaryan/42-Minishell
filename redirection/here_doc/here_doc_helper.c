@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/10 19:05:14 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/11 22:12:26 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 		return (free(line), handle_heredoc_exit(cmd, shell, here_doc_data), 0);
 	if (cmd->redirs_cmd->redirs->is_expanded)
 	{
-		expanded = expand_dollar_token(line, shell, 0);
+		expanded = expand_dollar_token(line, shell, 1);
 		free(line);
 		line = expanded;
 	}
