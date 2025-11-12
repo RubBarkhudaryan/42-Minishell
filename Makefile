@@ -5,7 +5,7 @@ CFLGS	=	-Wall -Wextra -Werror -g3#-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
 
 
-SRCS	=	main.c \
+SRCS	=	main.c main_utils.c\
 			./tokenizer/tokenizer_utils.c ./tokenizer/tokenizer.c ./tokenizer/token_maker.c ./tokenizer/token_checker.c \
 			./expander/expander.c ./expander/expand_helpers.c ./expander/expand_utils.c\
 			./signals/signals.c ./signals/signals2.c \
