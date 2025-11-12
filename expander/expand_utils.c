@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 18:24:36 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/12 19:20:17 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/13 03:37:51 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ int	count_segments(const char *token)
 		if (ft_inset(token[i], "\'\""))
 		{
 			quote = token[i++];
-			while (token[i] && token[i] != quote)
+			while (token[i])
+			{
+				if (token[i] != '\\' && token[i + 1] == quote)
+					break ;
 				i++;
+			}
 			if (token[i])
 				i++;
 			count++;
@@ -60,8 +64,12 @@ char	**split_by_quotes(const char *token)
 		{
 			quote = token[i];
 			j = i + 1;
-			while (token[j] && token[j] != quote)
+			while (token[j])
+			{
+				if (token[j] != '\\' && token[j + 1] == quote)
+					break ;
 				j++;
+			}
 			if (token[j])
 				j++;
 			arr[k++] = ft_substr(token, i, j - i);
@@ -78,4 +86,29 @@ char	**split_by_quotes(const char *token)
 	}
 	arr[k] = NULL;
 	return (arr);
+}
+
+char	*join_args(char *str1, char *str2)
+{
+	int		i;
+	int		j;
+	char	*join;
+
+	if (!str1 && str2)
+		return (ft_strdup(str2));
+	if (str1 && !str2)
+		return (ft_strdup(str1));
+	if (!str1 && !str2)
+		return (NULL);
+	join = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
+	if (!join)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (str1[++i])
+		join[i] = str1[i];
+	while (str2[++j])
+		join[i + j] = str2[j];
+	join[i + j] = '\0';
+	return (join);
 }

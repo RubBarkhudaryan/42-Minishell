@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 17:48:09 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/09/23 17:48:09 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/11/13 03:34:27 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/11/13 03:34:27 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
+#ifndef MINISHELL_H
 
-# define SIGNALS_H
+# define MINISHELL_H
 
-# include <signal.h>
-# include "../tokenizer/tokenizer.h"
+# include "./tokenizer/tokenizer.h"
 
-extern volatile sig_atomic_t	g_status;
-
-void	parent_sigint_handler(int signo);
-void	setup_signals(void);
-void	setup_child_signals(void);
-void	setup_heredoc_signals(void);
-void	reset_signals(void);
-void	ignore_signals(void);
+void	free_shell(t_shell *shell, int flag_unlink_heredoc);
+t_shell	*init_shell_struct(char **envp);
+void	adding_redirs(t_ast *ast, t_shell *shell);
+void	minishell_loop_logic(t_shell *shell, t_token *token_list);
+void	minishell_loop(t_shell *shell);
 
 #endif

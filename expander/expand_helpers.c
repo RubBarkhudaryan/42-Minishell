@@ -21,7 +21,7 @@ void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
 {
 	exp->piece = join_args(exp->res, join);
 	free(join);
-	change_val(&exp->res, exp->piece);
+	change_val(&exp->res, &exp->piece);
 	*ind = *ind + inc_by;
 }
 
@@ -34,34 +34,15 @@ void	add_val(t_expand *exp, int *i)
 		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i], '\0'}), i, 1);
 }
 
-void	change_val(char **str1, char *str2)
+void	change_val(char **target, char **source)
 {
-	free(*str1);
-	*str1 = ft_strdup(str2);
-	free(str2);
+	free(*target);
+	*target = ft_strdup(*source);
+	free(*source);
 }
 
-char	*join_args(char *str1, char *str2)
+void	refresh_val(char **target, char *source)
 {
-	int		i;
-	int		j;
-	char	*join;
-
-	if (!str1 && str2)
-		return (ft_strdup(str2));
-	if (str1 && !str2)
-		return (ft_strdup(str1));
-	if (!str1 && !str2)
-		return (NULL);
-	join = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
-	if (!join)
-		return (NULL);
-	i = -1;
-	j = -1;
-	while (str1[++i])
-		join[i] = str1[i];
-	while (str2[++j])
-		join[i + j] = str2[j];
-	join[i + j] = '\0';
-	return (join);
+	free(*target);
+	*target = ft_strdup(source);
 }

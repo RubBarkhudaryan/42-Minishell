@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/08 14:13:14 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/13 02:42:19 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	exe_builtin_process(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 		return (perror("minishell"), EXIT_FAILURE);
 	if (pid == 0)
 	{
+		setup_child_signals();
 		if (apply_redirections(shell, ast->cmd, extra_fd) == 1)
 		{
 			free_shell(shell, 1);
@@ -37,8 +38,7 @@ int	exe_builtin_process(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	}
 	if (!wait)
 		return (0);
-	waitpid(pid, &status, 0);
-	return (get_exit_code(status));
+	return (waitpid(pid, &status, 0), get_exit_code(status));
 }
 
 void	setup_pipe_fds(t_ast *ast, int pipefd, int type_fd)
@@ -71,6 +71,7 @@ int	last_pipe_exec(t_ast *ast, t_shell *shell, int pipe_fd)
 	close(pipe_fd);
 	while (wait(&status) != -1)
 		;
+	g_status = exit_code;
 	return (exit_code);
 }
 

@@ -41,7 +41,8 @@ char	*expand_wildcard(char *wildcard);
 /*expansion helpers*/
 int		is_var_name_char(char c);
 char	*join_args(char *str1, char *str2);
-void	change_val(char **target, char *src);
+void	change_val(char **target, char **source);
+void	refresh_val(char **target, char *source);
 void	add_val(t_expand *exp, int *i);
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by);
 

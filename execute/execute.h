@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/12 18:42:39 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/13 02:08:32 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,4 @@ void					print_msg(char *name);
 void					update_env_var(t_ast *ast, t_shell *shell);
 void					shlvl_exec(t_shell *shell, int flag);
 int						is_dollar(char *tmp);
-int						has_heredoc(t_cmd *cmd);
 #endif

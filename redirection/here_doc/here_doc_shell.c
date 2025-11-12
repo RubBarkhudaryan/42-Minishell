@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/12 20:18:28 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/13 03:27:54 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,20 @@ int	run_here_doc(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 	pid_t	pid;
 	int		status;
 
-	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 		return (free(here_doc_data.filename), perror("minishell"),
 			EXIT_FAILURE);
 	if (pid == 0)
 	{
-		handle_child_signals();
+		setup_heredoc_signals();
 		run_heredoc_child(cmd, here_doc_data, shell);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	signal(SIGINT, sigint_handler_parent);
-	if (WIFSIGNALED(status))
-	{
-		write(1, "\n", 1);
-		shell->last_exit_code = get_exit_code(status);
-	}
-	else
-		shell->last_exit_code = WEXITSTATUS(status);
-	return (shell->last_exit_code);
+	reset_signals();
+	return (get_exit_code(status));
 }
 
 char	*open_check_filename(void)
@@ -54,7 +48,7 @@ char	*open_check_filename(void)
 			perror("minishell");
 			return (NULL);
 		}
-		filename = ft_strjoin("/tmp/.her_doc", tmp);
+		filename = ft_strjoin("/tmp/.here_doc", tmp);
 		if (!filename)
 		{
 			free(tmp);
