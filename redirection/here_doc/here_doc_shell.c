@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/11 20:08:00 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/12 20:18:28 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	check_expand_heredoc(char **deleimiter)
 	{
 		if ((*deleimiter)[i] == '\'' || (*deleimiter)[i] == '\"')
 		{
-			tmp = expand_nested_quote(*deleimiter, 0);
+			tmp = expand_nested_quote(*deleimiter);
 			if (!tmp)
 			{
 				perror("minishell");

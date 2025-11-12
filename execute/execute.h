@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/11 13:08:50 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:42:39 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../ast/ast.h"
 # include "../built_in/bulit_in.h"
 # include "../env/env_parser.h"
+# include "../expander/expander.h"
 # include <stdbool.h>
 # include <sys/stat.h>
 # include <sys/wait.h>

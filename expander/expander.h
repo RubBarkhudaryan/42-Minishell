@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/25 21:04:28 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/10/25 21:04:28 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/11/12 18:31:16 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/11/12 18:31:16 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 # define EXPANDER_H
 
+# include "../ast/ast.h"
 # include "../env/env_parser.h"
 # include "../tokenizer/tokenizer.h"
 # include <dirent.h>
 # include <stdbool.h>
 
+typedef struct s_ast		t_ast;
 typedef struct s_shell		t_shell;
 typedef struct s_token		t_token;
 typedef struct s_redir_cmd	t_redir_cmd;
@@ -31,15 +33,20 @@ typedef struct s_expand
 }	t_expand;
 
 /*token expansion*/
-char	*expand_nested_quote(char *token, int is_here_doc);
+void	expand_command_variables(t_ast *ast, t_shell *shell);
+char	*expand_nested_quote(char *token);
 char	*expand_dollar_token(char *token, t_shell *shell, bool expand);
 char	*expand_wildcard(char *wildcard);
 
 /*expansion helpers*/
 int		is_var_name_char(char c);
 char	*join_args(char *str1, char *str2);
-void	change_val(char **str1, char **str2);
+void	change_val(char **target, char *src);
 void	add_val(t_expand *exp, int *i);
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by);
+
+/*expansion utils*/
+int		count_segments(const char *token);
+char	**split_by_quotes(const char *token);
 
 #endif

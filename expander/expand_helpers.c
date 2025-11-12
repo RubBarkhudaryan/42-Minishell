@@ -21,23 +21,24 @@ void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by)
 {
 	exp->piece = join_args(exp->res, join);
 	free(join);
-	change_val(&exp->res, &exp->piece);
+	change_val(&exp->res, exp->piece);
 	*ind = *ind + inc_by;
 }
 
 void	add_val(t_expand *exp, int *i)
 {
 	if (exp->tk[*i] == '\\' && ft_inset(exp->tk[*i + 1], "\'\""))
-		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i + 1], '\0'}), i, 2);
+		refresh_args_val(exp,
+			ft_strdup((char [2]){exp->tk[*i + 1], '\0'}), i, 2);
 	else
 		refresh_args_val(exp, ft_strdup((char [2]){exp->tk[*i], '\0'}), i, 1);
 }
 
-void	change_val(char **str1, char **str2)
+void	change_val(char **str1, char *str2)
 {
 	free(*str1);
-	*str1 = ft_strdup(*str2);
-	free(*str2);
+	*str1 = ft_strdup(str2);
+	free(str2);
 }
 
 char	*join_args(char *str1, char *str2)
