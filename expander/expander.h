@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/12 18:31:16 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/12 18:31:16 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/11/13 18:00:14 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/11/13 18:00:14 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../ast/ast.h"
 # include "../env/env_parser.h"
 # include "../tokenizer/tokenizer.h"
+# include <stdio.h>
 # include <dirent.h>
 # include <stdbool.h>
 
@@ -32,6 +33,12 @@ typedef struct s_expand
 	char	*tk;
 }	t_expand;
 
+typedef struct s_file
+{
+	char			*filename;
+	struct s_file	*next;
+}	t_file;
+
 /*token expansion*/
 void	expand_command_variables(t_ast *ast, t_shell *shell);
 char	*expand_nested_quote(char *token);
@@ -45,9 +52,12 @@ void	change_val(char **target, char **source);
 void	refresh_val(char **target, char *source);
 void	add_val(t_expand *exp, int *i);
 void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by);
-
-/*expansion utils*/
 int		count_segments(const char *token);
 char	**split_by_quotes(const char *token);
+
+/*wildcard helpers*/
+void	free_wildcard_list(t_file *files);
+char	*get_filename(char *wildcard);
+char	*get_extension(char *wildcard);
 
 #endif
