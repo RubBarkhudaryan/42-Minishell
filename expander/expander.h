@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 18:00:14 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/13 18:00:14 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/11/14 22:15:11 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/11/14 22:15:11 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include "../ast/ast.h"
 # include "../env/env_parser.h"
 # include "../tokenizer/tokenizer.h"
-# include <stdio.h>
 # include <dirent.h>
 # include <stdbool.h>
+# include <stdio.h>
 
 typedef struct s_ast		t_ast;
+typedef struct s_cmd		t_cmd;
 typedef struct s_shell		t_shell;
 typedef struct s_token		t_token;
 typedef struct s_redir_cmd	t_redir_cmd;
@@ -63,5 +64,9 @@ char	*join_filenames(char *str1, char *str2, char delim);
 int		wildcard_match(const char *pattern, const char *str);
 int		is_matching_with_wildcard(char *pattern, char *file);
 
-
+int		check_asterisk(t_cmd *cmd);
+char	**join_expand_wildcards(t_cmd *cmd, int *len);
+char	**join_split(char **join, char **tmp);
+int		check_str(char *tmp);
+void	update_args(t_cmd *cmd, int len, char **expand_asterisks);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:25:43 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/14 16:36:14 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/14 21:48:40 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	free_wildcard_list(t_file *files)
 {
 	t_file	*temp;
+
 	while (files)
 	{
 		temp = files;

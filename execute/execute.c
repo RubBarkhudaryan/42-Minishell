@@ -1,11 +1,34 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/14 22:17:25 by apatvaka          #+#    #+#             */
+/*   Updated: 2025/11/14 22:17:25 by apatvaka         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "./execute.h"
+
+void	add_wildcard(t_cmd *cmd)
+{
+	char	**expand_asterisks;
+	int		len;
+
+	len = 0;
+	expand_asterisks = join_expand_wildcards(cmd, &len);
+	update_args(cmd, len, expand_asterisks);
+	free_split(expand_asterisks);
+}
 
 int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	int	status;
 
+	if (check_asterisk(ast->cmd))
+		add_wildcard(ast->cmd);
 	expand_command_variables(ast, shell);
 	update_env_var(ast, shell);
 	if (ast->cmd->cmd_name && ft_strcmp(ast->cmd->cmd_name,
