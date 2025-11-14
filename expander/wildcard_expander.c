@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 19:23:41 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/13 19:52:51 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:58:29 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,49 +81,65 @@ char	*make_wildcard(char *source)
 	return (wildcard.res);
 }
 
-int	is_matching_with_wildcard(char *wildcard, char *file)
+int	wildcard_match(const char *pattern, const char *str)
 {
-	char	*f_filename;
-	char	*f_extension;
-	char	*w_filename;
-	char	*w_extension;
-	int		i;
-	int		j;
-
-	f_filename = get_filename(file);
-	f_extension = get_extension(file);
-	w_filename = get_filename(wildcard);
-	w_extension = get_filename(wildcard);
-	if (!f_filename || !f_extension || !w_filename || w_extension)
-		return (0);
+	const char	*star;
+	const char	*ss;
 	
-}
-
-int	main(void)
-{
-	t_file	*files;
-	DIR		*dir;
-
-
-	dir = opendir(".");
-
-	files = get_dir_struct(dir);
-	while (files)
+	star = NULL;
+	ss = str;
+	if (!str)
+		return (0);
+	while (*str)
 	{
-		printf("filename: %s\n", files->filename);
-		files = files->next;
+		if (*pattern == '?' || *pattern == *str)
+		{
+			pattern++;
+			str++;
+			continue;
+		}
+		if (*pattern == '*')
+		{
+			star = pattern++;
+			ss = str;
+			continue;
+		}
+		if (star)
+		{
+			pattern = star + 1;
+			str = ++ss;
+			continue;
+		}
+		return (0);
 	}
-
-	char	*wildcard = make_wildcard("***************......c***r**t**jhello*");
-
-	printf("WILDCARD %s\n", wildcard);
-	printf("FILENAME %s\n", get_filename(wildcard));
-	printf("EXTENSION %s\n", get_extension(wildcard));
-
-	return (0);
+	while (*pattern == '*')
+		pattern++;
+	return (*pattern == 0);
 }
 
-/*
+int is_matching_with_wildcard(char *pattern, char *file)
+{
+	char	*f_name;
+	char	*f_ext;
+	char	*p_name;
+	char	*p_ext;
+	int		status;
+
+	f_name = get_filename(file);
+	f_ext = get_extension(file);
+	p_name = get_filename(pattern);
+	p_ext = get_extension(pattern);
+	if (!p_ext)
+		status = wildcard_match(p_name, f_name);
+	else
+		status = wildcard_match(p_name, f_name)
+			&& wildcard_match(p_ext, f_ext);
+	free(f_name);
+	free(f_ext);
+	free(p_name);
+	free(p_ext);
+	return (status);
+}
 
 char	*join_filenames(char *str1, char *str2, char delim)
 {
@@ -151,59 +167,29 @@ char	*join_filenames(char *str1, char *str2, char delim)
 	return (join);
 }
 
-char	*get_file_extension(char *wildcard)
+char	**expand_wildcard(char *source)
 {
-	int	i;
-
-	if (!wildcard)
-		return (NULL);
-	i = 0;
-	while (wildcard[i] && wildcard[i] != '.')
-		++i;
-	if (wildcard[i] == '.')
-		++i;
-	return (ft_substr(wildcard, i, ft_strlen(wildcard + i)));
-}
-
-char	*expand_wildcard(char *wildcard)
-{
-	char			*res;
-	DIR				*dir;
-	struct dirent	*dirp;
-	char			*extension;
-	char			*tmp;
+	t_expand	file;
+	t_file		*files;
+	DIR			*dir;
+	char		**res;
 
 	dir = opendir(".");
-	res = ft_strdup("");
 	if (!dir)
-		return (perror("minishell"), free(res), NULL);
-	if (ft_strcmp(wildcard, "*") == 0 || ft_strcmp(wildcard, "*.*") == 0)
+		return (NULL);
+	file.res = ft_strdup("");
+	file.tk = make_wildcard(source);
+	files = get_dir_struct(dir);
+	while (files)
 	{
-		dirp = readdir(dir);
-		while (dirp)
+		if (is_matching_with_wildcard(file.tk, files->filename))
 		{
-			if (ft_strcmp(dirp->d_name, ".") && ft_strcmp(dirp->d_name, ".."))
-			{
-				tmp = join_filenames(res, dirp->d_name, ' ');
-				free(res);
-				res = tmp;
-			}
-			dirp = readdir(dir);
+			file.piece = join_filenames(files->filename, file.res, ' ');
+			free(file.res);
+			file.res = file.piece;
 		}
+		files = files->next;
 	}
-	else
-	{
-		extension = get_file_extension(wildcard);
-		if (!extension)
-			return (perror("minishell : file extension not found"), NULL);
-		if (ft_strcmp(extension, "*") == 0)
-		{
-		}
-		else
-		{
-		}
-	}
-	closedir(dir);
-	return (res);
+	res = ft_split(file.res, ' ');
+	return (free(file.res), free(file.tk), res);
 }
-*/

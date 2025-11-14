@@ -4,7 +4,7 @@ CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 LDFLAGS	=	-lreadline -lncurses
 
-SRCS	=	./wildcard_expander.c\
+SRCS	=	./wildcard_expander.c ./wildcard_helpers.c\
 
 VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all
 

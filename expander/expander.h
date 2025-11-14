@@ -43,7 +43,7 @@ typedef struct s_file
 void	expand_command_variables(t_ast *ast, t_shell *shell);
 char	*expand_nested_quote(char *token);
 char	*expand_dollar_token(char *token, t_shell *shell, bool expand);
-char	*expand_wildcard(char *wildcard);
+char	**expand_wildcard(char *source);
 
 /*expansion helpers*/
 int		is_var_name_char(char c);
@@ -59,5 +59,9 @@ char	**split_by_quotes(const char *token);
 void	free_wildcard_list(t_file *files);
 char	*get_filename(char *wildcard);
 char	*get_extension(char *wildcard);
+char	*join_filenames(char *str1, char *str2, char delim);
+int		wildcard_match(const char *pattern, const char *str);
+int		is_matching_with_wildcard(char *pattern, char *file);
+
 
 #endif

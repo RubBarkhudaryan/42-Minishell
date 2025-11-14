@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:25:43 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/13 19:45:13 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:36:14 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ char	*get_extension(char *wildcard)
 			break ;
 		++i;
 	}
+	if (!wildcard[i])
+		return (NULL);
 	return (ft_substr(wildcard, i + 1, ft_strlen(wildcard) - i));
 }
