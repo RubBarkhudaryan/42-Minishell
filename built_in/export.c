@@ -6,37 +6,37 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:07:18 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 13:18:57 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:05:22 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
 
-char	*is_append(char *args, int *len, int *flag)
+char	*is_append(char *a, int *len, int *flag)
 {
 	int	i;
 
-	if (!args || !*args)
+	if (!a || !*a)
 		return (*flag = -1, NULL);
 	i = -1;
-	if (ft_isdigit(args[0]) || args[0] == '=' || args[0] == '+')
+	if (ft_isdigit(a[0]) || a[0] == '=' || a[0] == '+')
 		return (*flag = -1, NULL);
-	while (args[++i])
-		if (args[i] == '=' || args[i] == '+' || !ft_isalnum(args[i]))
+	while (a[++i])
+		if (a[i] == '=' || a[i] == '+' || (!ft_isalnum(a[i]) && a[i] != '_'))
 			break ;
-	if (i && args[i] == '+' && args[i + 1] == '=')
-		return (*len = i, *flag = 1, &args[i + 2]);
-	if (i && args[i] == '=')
+	if (i && a[i] == '+' && a[i + 1] == '=')
+		return (*len = i, *flag = 1, &a[i + 2]);
+	if (i && a[i] == '=')
 	{
-		if (!ft_isalnum(args[i - 1]))
+		if (!ft_isalnum(a[i - 1]) && a[i - 1] != '_')
 			return (*flag = -1, NULL);
-		return (*len = i, *flag = 0, &args[i + 1]);
+		return (*len = i, *flag = 0, &a[i + 1]);
 	}
-	if (i == (int)ft_strlen(args))
+	if (i == (int)ft_strlen(a))
 	{
-		if (!ft_isalnum(args[i - 1]))
+		if (!ft_isalnum(a[i - 1]))
 			return (*flag = -1, NULL);
-		return (*len = i, *flag = 2, args);
+		return (*len = i, *flag = 2, a);
 	}
 	return (*flag = -1, NULL);
 }
