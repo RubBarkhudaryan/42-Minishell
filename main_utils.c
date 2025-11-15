@@ -69,9 +69,8 @@ void	minishell_loop_logic(t_shell *shell, t_token *token_list)
 		shell->token_list = token_list;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
-		if (validate_parenthesis(token_list))
+		if (check_quoted_str(token_list) || validate_parenthesis(token_list))
 		{
-			ft_putstr_fd("minishell: syntax error unexpected token near \n", 2);
 			free_ast(shell->ast, 0);
 			shell->ast = NULL;
 		}
