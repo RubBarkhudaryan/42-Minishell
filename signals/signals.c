@@ -15,7 +15,6 @@
 
 #include "./signals.h"
 
-
 void	parent_sigint_handler(int signo)
 {
 	(void)signo;

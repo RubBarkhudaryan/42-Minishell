@@ -7,7 +7,8 @@ LDFLAGS	=	-lreadline -lncurses
 
 SRCS	=	main.c main_utils.c\
 			./tokenizer/tokenizer_utils.c ./tokenizer/tokenizer.c ./tokenizer/token_maker.c ./tokenizer/token_checker.c \
-			./expander/expander.c ./expander/expand_helpers.c ./expander/expand_utils.c ./expander/wildcard_expander.c ./expander/wildcard_helpers.c ./expander/wildcard_utils.c \
+			./expander/expander.c ./expander/expand_helpers.c ./expander/expand_utils.c ./expander/expand_commands.c\
+			./expander/wildcard_expander.c ./expander/wildcard_helpers.c ./expander/wildcard_maker_utils.c ./expander/wildcard_checker_utils.c ./expander/wildcard_match_utils.c\
 			./signals/signals.c ./signals/signals2.c \
 			./redirection/redirs.c redirection/redir_free.c ./redirection/redir_apply.c ./redirection/redir_helpers.c \
 			./redirection/here_doc/here_doc_shell.c ./redirection/here_doc/here_doc_helper.c\
@@ -29,12 +30,7 @@ OBJS	=	$(SRCS:%.c=%.o)
 LIBFT_DIR	=	./libft
 LIBFT_A		=	$(LIBFT_DIR)/libft.a
 
-# PARS_ENV = ../parsing_env
-
 all: $(LIBFT_A)  $(NAME)
-
-# $(PARS_ENV):
-# 	$(MAKE) -C $(PARS_ENV)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -62,7 +58,6 @@ run: $(NAME) clean
 	./$(NAME)
 co: $(NAME) clean
 	./$(NAME)
-
 
 re: fclean all
 

@@ -6,39 +6,52 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 18:24:36 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/13 17:59:57 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:59:29 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./expander.h"
 
+static void	init_split_elems(t_index *ind, char ***arr, int size, int init_val)
+{
+	ind->i = init_val;
+	ind->j = init_val;
+	ind->k = init_val;
+	(*arr) = malloc(sizeof(char *) * size);
+}
+
+static int	loop_string(const char *string, int start, char quote)
+{
+	int	i;
+
+	i = start;
+	while (string[i] && string[i] != quote)
+		++i;
+	if (string[i])
+		++i;
+	return (i);
+}
+
 int	count_segments(const char *token)
 {
-	int		i;
-	int		count;
-	char	quote;
+	int	i;
+	int	count;
 
+	if (!token)
+		return (0);
 	i = 0;
 	count = 0;
 	while (token[i])
 	{
 		if (ft_inset(token[i], "\'\""))
 		{
-			quote = token[i++];
-			while (token[i])
-			{
-				if (token[i] != '\\' && token[i + 1] == quote)
-					break ;
-				i++;
-			}
-			if (token[i])
-				i++;
+			i = loop_string(token, i + 1, token[i]);
 			count++;
 		}
 		else
 		{
 			while (token[i] && !ft_inset(token[i], "\'\""))
-				i++;
+				++i;
 			count++;
 		}
 	}
@@ -48,44 +61,29 @@ int	count_segments(const char *token)
 char	**split_by_quotes(const char *token)
 {
 	char	**arr;
-	int		i;
-	int		j;
-	int		k;
-	char	quote;
+	t_index	ind;
 
-	i = 0;
-	k = 0;
-	arr = malloc(sizeof(char *) * (count_segments(token) + 1));
-	if (!arr)
+	init_split_elems(&ind, &arr, count_segments(token) + 1, 0);
+	if (!token || !arr)
 		return (NULL);
-	while (token[i])
+	while (token[ind.i])
 	{
-		if (ft_inset(token[i], "\'\""))
+		if (ft_inset(token[ind.i], "\'\""))
 		{
-			quote = token[i];
-			j = i + 1;
-			while (token[j])
-			{
-				if (token[j] != '\\' && token[j + 1] == quote)
-					break ;
-				j++;
-			}
-			if (token[j])
-				j++;
-			arr[k++] = ft_substr(token, i, j - i);
-			i = j;
+			ind.j = loop_string(token, ind.i + 1, token[ind.i]);
+			arr[ind.k++] = ft_substr(token, ind.i, (ind.j - ind.i));
+			ind.i = ind.j;
 		}
 		else
 		{
-			j = i;
-			while (token[j] && !ft_inset(token[j], "\'\""))
-				j++;
-			arr[k++] = ft_substr(token, i, j - i);
-			i = j;
+			ind.j = ind.i;
+			while (token[ind.j] && !ft_inset(token[ind.j], "\'\""))
+				++ind.j;
+			arr[ind.k++] = ft_substr(token, ind.i, ind.j - ind.i);
+			ind.i = ind.j;
 		}
 	}
-	arr[k] = NULL;
-	return (arr);
+	return (arr[ind.k] = NULL, arr);
 }
 
 char	*join_args(char *str1, char *str2)

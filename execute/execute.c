@@ -27,9 +27,9 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 {
 	int	status;
 
+	expand_command_variables(ast, shell);
 	if (check_asterisk(ast->cmd))
 		add_wildcard(ast->cmd);
-	expand_command_variables(ast, shell);
 	update_env_var(ast, shell);
 	if (ast->cmd->cmd_name && ft_strcmp(ast->cmd->cmd_name,
 			"./minishell") == 0)

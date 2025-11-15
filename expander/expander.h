@@ -40,6 +40,13 @@ typedef struct s_file
 	struct s_file	*next;
 }	t_file;
 
+typedef struct s_index
+{
+	int	i;
+	int	j;
+	int	k;
+}	t_index;
+
 /*token expansion*/
 void	expand_command_variables(t_ast *ast, t_shell *shell);
 char	*expand_nested_quote(char *token);
@@ -56,17 +63,37 @@ void	refresh_args_val(t_expand *exp, char *join, int *ind, int inc_by);
 int		count_segments(const char *token);
 char	**split_by_quotes(const char *token);
 
-/*wildcard helpers*/
-void	free_wildcard_list(t_file *files);
+/*wildcard maker*/
+char	*make_wildcard(char *source);
+int		wildcard_match(const char *pattern, const char *str);
+
+/*wildcard utils*/
+void	free_wildcard_tools(t_file *files, DIR *dir, t_expand *exp);
 char	*get_filename(char *wildcard);
 char	*get_extension(char *wildcard);
 char	*join_filenames(char *str1, char *str2, char delim);
-int		wildcard_match(const char *pattern, const char *str);
-int		is_matching_with_wildcard(char *pattern, char *file);
 
+/*wildcard matching funcs*/
+int		wildcard_match(const char *pattern, const char *str);
+int		is_matching_with_wildcard(char *pattern, char *file, int show_hidden);
+
+/**/
+int		set_show_hiddens(char *pattern);
+void	append_match(t_expand *file, char *filename);
+void	process_files(t_expand *file, t_file *files, int show_hiddens);
+
+/*wildcard maker utils*/
 int		check_asterisk(t_cmd *cmd);
 char	**join_expand_wildcards(t_cmd *cmd, int *len);
 char	**join_split(char **join, char **tmp);
 int		check_str(char *tmp);
 void	update_args(t_cmd *cmd, int len, char **expand_asterisks);
+void	append_char(t_expand *w, char c);
+void	append_star(t_expand *w);
+int		match_question_or_char(const char **p, const char **s);
+int		match_star(const char **p, const char **s,
+			const char **star, const char **ss);
+int		backtrack_star(const char **p, const char **s,
+			const char **star, const char **ss);
+
 #endif

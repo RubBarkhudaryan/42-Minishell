@@ -6,11 +6,39 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 19:56:35 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:55:01 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
+
+int	check_quoted_token_type(char *value)
+{
+	int		i;
+	int		quote;
+	char	q;
+
+	i = 0;
+	quote = 0;
+	q = ' ';
+	while (value[i])
+	{
+		if (!quote && ft_inset(value[i], "\'\""))
+		{
+			quote = 1;
+			q = value[i];
+		}
+		else if (quote && ft_inset(value[i], "\'\"") && q == value[i])
+		{
+			quote = 0;
+			q = ' ';
+		}
+		++i;
+	}
+	if (ft_inset(q, "\'\""))
+		return (TK_ERROR);
+	return (TK_WORD);
+}
 
 void	free_token_list(t_token *head)
 {
@@ -58,8 +86,7 @@ int	get_token_type(char *value)
 	parenthesis_type = get_parenthesis_token_type(value);
 	while (value[++i])
 	{
-		if (ft_inset(value[i], "`;")
-			|| (value[i] == '\\' && !ft_inset(value[i + 1], "\'\"")))
+		if (ft_inset(value[i], "`;"))
 			return (TK_ERROR);
 	}
 	if (ft_isalpha(value[0]) || (ft_strlen(value) >= 2 && *value == '-'))
@@ -74,5 +101,5 @@ int	get_token_type(char *value)
 		return (TK_ERROR);
 	else if (parenthesis_type != -1 && ft_inset(*value, "<>()"))
 		return (parenthesis_type);
-	return (TK_WORD);
+	return (check_quoted_token_type(value));
 }
