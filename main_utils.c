@@ -93,7 +93,7 @@ void	minishell_loop(t_shell *shell)
 	while (true)
 	{
 		setup_signals();
-		line = readline("\001\033[1;32m\002🐍 minishell ֏ \001\033[0m\002");
+		line = readline("\001\033[1;32m\002🦂 minishell ֏ \001\033[0m\002");
 		if (!line)
 		{
 			shlvl_exec(shell, 0);

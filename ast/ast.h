@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 19:40:10 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/15 20:30:29 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void						set_cmd(t_ast *node);
 int							count_args(t_token *current);
 int							fill_args(t_cmd *cmd, t_token **token_list,
 								int arg_count);
-// void						set_cmd(t_ast *node);
 void						set_type(t_ast *node, int type);
 t_cmd						*parse_redirs_ast(t_cmd *cmd, t_token **token_list,
 								t_shell *shell);

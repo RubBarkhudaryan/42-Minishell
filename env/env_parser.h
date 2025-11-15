@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_parser.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:21:31 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/10/03 16:09:09 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/15 20:31:02 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-// flag -> 0 - not exported, 1 - exported
 typedef struct s_env
 {
 	char			*key;

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:15:00 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/03 16:59:40 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/15 20:29:54 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bulit_in.h"
-
-//	char	*test2[] = {"echo", "-n", "Hello", "World", NULL};
 
 static int	len_of_split(char **args)
 {
