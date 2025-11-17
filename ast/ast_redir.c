@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 02:15:01 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:14:53 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-static bool	process_heredocs(t_cmd *cmd, t_shell *shell)
+bool	process_heredocs(t_cmd *cmd, t_shell *shell)
 {
 	t_redir	*tmp_red;
 	char	*tmp;
@@ -30,16 +30,14 @@ static bool	process_heredocs(t_cmd *cmd, t_shell *shell)
 	return (true);
 }
 
-static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
-{
-	if (!process_heredocs(cmd, shell))
-		return (free_cmd(cmd, 1), NULL);
-	cmd->in_pipeline = -1;
-	cmd->out_pipeline = -1;
-	return (cmd);
-}
+// static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
+// {
+// 	if (!process_heredocs(cmd, shell))
+// 		return (free_cmd(cmd, 1), NULL);
+// 	return (cmd);
+// }
 
-t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
+t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list)
 {
 	int		type;
 	t_redir	*last_redir;
@@ -65,9 +63,5 @@ t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
 			return (free_cmd(cmd, 0), NULL);
 		*token_list = (*token_list)->next;
 	}
-	if (cmd->redirs_cmd && cmd->redirs_cmd->type == TK_HEREDOC)
-		return (handle_heredoc_redir(cmd, shell));
-	cmd->in_pipeline = -1;
-	cmd->out_pipeline = -1;
-	return (cmd);
+	return (cmd->in_pipeline = -1, cmd->out_pipeline = -1, cmd);
 }

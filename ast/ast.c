@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/17 02:26:25 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:51:41 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_ast *parse_ast(t_token **list, t_shell *shell)
 	t_ast *node;
 
 	if (!(*list) || !list)
-		return (NULL);
+		return (printf("Hello\n"),NULL);
 	left = parse_pipe(list, shell);
 	if (!left)
 		return (NULL);
@@ -121,10 +121,10 @@ t_ast *parse_ast(t_token **list, t_shell *shell)
 
 t_ast *build_ast(t_token **list, t_shell *shell)
 {
-	t_ast *res;
+	t_ast	*res;
 
 	res = parse_ast(list, shell);
-	if (*list || !res)
+	if (!res)
 	{
 		if (!(*list))
 			printf("error\n");
@@ -136,7 +136,8 @@ t_ast *build_ast(t_token **list, t_shell *shell)
 	return (res);
 }
 
-/*
+
+
 void	print_ast(t_ast *node, int level)
 {
 	int	i;
@@ -170,4 +171,3 @@ void	print_ast(t_ast *node, int level)
 	print_ast(node->left, level + 1);
 	print_ast(node->right, level + 1);
 }
-*/

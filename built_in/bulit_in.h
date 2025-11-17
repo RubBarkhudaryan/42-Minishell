@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bulit_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:05:55 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 01:57:04 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:52:14 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BULIT_IN_H
 # include "../env/env_parser.h"
 # include "../execute/execute.h"
+# include "../libft/libft.h"
 # include <errno.h>
 # include <stdbool.h>
 # include <stdio.h>

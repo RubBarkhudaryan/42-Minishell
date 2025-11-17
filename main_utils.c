@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/11/16 00:26:40 by rbarkhud          #+#    #+#             */
 /*   Updated: 2025/11/16 00:26:40 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
+
 
 /*
 void	print_token_list(t_token *head)
@@ -34,42 +38,43 @@ void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 
 t_shell	*init_shell_struct(char **envp)
 {
-	t_shell	*shell;
-	t_env	*env;
+	t_shell *shell;
 
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 		return (perror("malloc"), NULL);
-	env = parse_environment(envp);
-	if (!env)
+	shell->env = parse_environment(envp);
+	if (!shell->env)
 		return (free(shell), NULL);
-	shell->env = env;
 	shell->ast = NULL;
 	shell->last_exit_code = 0;
 	shell->interactive = true;
+	shlvl_exec(shell);
 	return (shell);
 }
 
-void	adding_redirs(t_ast *ast, t_shell *shell)
+void	find_heredoc_in_ast(t_ast *ast, t_shell *shell)
 {
 	if (!ast)
 		return ;
-	adding_redirs(ast->left, shell);
-	if (ast->cmd && ast->cmd->token_list)
-		ast->cmd = parse_redirs_ast(ast->cmd, &ast->cmd->token_list, shell);
-	adding_redirs(ast->right, shell);
+	find_heredoc_in_ast(ast->left, shell);
+	if (ast->cmd && ast->cmd->redirs_cmd
+		&& ast->cmd->redirs_cmd->type == TK_HEREDOC)
+		process_heredocs(ast->cmd, shell);
+	find_heredoc_in_ast(ast->right, shell);
 }
 
 void	minishell_loop_logic(t_shell *shell, t_token *lst)
 {
-	t_token	*tmp;
+	t_token *tmp;
 
 	if (lst)
 	{
 		tmp = lst;
 		shell->token_list = lst;
 		shell->ast = build_ast(&tmp, shell);
-		adding_redirs(shell->ast, shell);
+		print_ast(shell->ast, 0);
+		find_heredoc_in_ast(shell->ast, shell);
 		if (!shell->ast || check_quoted_str(lst))
 		{
 			shell->last_exit_code = 2;
@@ -88,8 +93,8 @@ void	minishell_loop_logic(t_shell *shell, t_token *lst)
 
 void	minishell_loop(t_shell *shell)
 {
-	t_token	*token_list;
-	char	*line;
+	t_token *token_list;
+	char *line;
 
 	while (true)
 	{
@@ -98,8 +103,7 @@ void	minishell_loop(t_shell *shell)
 		check_exit_status(shell);
 		if (!line)
 		{
-			shlvl_exec(shell, 0);
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 2);
 			break ;
 		}
 		if (line[0])

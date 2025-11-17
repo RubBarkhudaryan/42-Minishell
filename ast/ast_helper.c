@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 02:37:45 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:00:38 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-t_cmd	*init_cmd()
+t_cmd	*init_cmd(void)
 {
 	t_cmd	*cmd;
 
@@ -61,13 +61,11 @@ t_cmd	*make_cmd(t_token **list, t_shell *shell)
 	t_redir	*last_redir;
 
 	(void)shell;
-	if (!list || !*list)
-		return (NULL);
 	cmd = init_cmd();
 	if (!cmd)
 		return (NULL);
 	cmd->args = ft_calloc((count_args(*list) + 1), sizeof(char *));
-	if(!cmd->args)
+	if (!cmd->args)
 		return (free(cmd), NULL);
 	i = 0;
 	last_redir = NULL;

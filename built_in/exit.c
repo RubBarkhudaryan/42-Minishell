@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:24:08 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 02:33:10 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 15:59:16 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	handle_numeric_error(char *arg, t_shell *shell)
 {
 	char	*tmp;
 
-	shlvl_exec(shell, 0);
 	print_helper("exit\n", "minishell: exit");
 	tmp = ft_strjoin("minishell: exit: ", arg);
 	if (!tmp)
@@ -80,7 +79,6 @@ static int	exit_helper(char **args, t_shell *shell)
 	}
 	if (args_len(args) == 1)
 	{
-		shlvl_exec(shell, 0);
 		if (!shell->interactive)
 			ft_putstr_fd("exit\n", 2);
 		free_shell(shell, 1);
@@ -98,20 +96,18 @@ int	ft_exit(char **args, t_shell *shell)
 	exit_code = 0;
 	if (exit_helper_result == 1)
 	{
-		shlvl_exec(shell, 0);
 		free_shell(shell, 1);
 		exit(1);
 	}
 	else if (exit_helper_result == -1)
 		return (1);
-	shlvl_exec(shell, 0);
 	exit_code = ft_atoi(args[1]);
 	if (exit_code > 255)
 		exit_code = exit_code % 256;
 	else if (exit_code < 0)
 		exit_code = 256 + (exit_code % 256);
 	if (shell->interactive)
-		print_helper("exit\n", NULL);
+		ft_putstr_fd("exit\n", 2);
 	free_shell(shell, 1);
 	exit(exit_code);
 }

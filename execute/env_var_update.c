@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:41:40 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/13 17:58:12 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:03:23 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_dollar(char *tmp)
 	return (0);
 }
 
-void	shlvl_exec(t_shell *shell, int flag)
+void	shlvl_exec(t_shell *shell)
 {
 	int		shlvl;
 	char	*level;
@@ -36,10 +36,7 @@ void	shlvl_exec(t_shell *shell, int flag)
 		return ;
 	}
 	shlvl = ft_atoi(level);
-	if (flag)
-		tmp = ft_itoa(shlvl + 1);
-	else
-		tmp = ft_itoa(shlvl - 1);
+	tmp = ft_itoa(shlvl + 1);
 	if (!tmp)
 		return (perror("minishell"), (void)0);
 	add_or_replace_value(ft_strdup("SHLVL"), ft_strdup(tmp), 0, shell);

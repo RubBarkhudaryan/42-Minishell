@@ -15,6 +15,7 @@
 # define MINISHELL_H
 
 # include "./tokenizer/tokenizer.h"
+# include "./ast/ast.h"
 
 void	free_shell(t_shell *shell, int flag_unlink_heredoc);
 t_shell	*init_shell_struct(char **envp);

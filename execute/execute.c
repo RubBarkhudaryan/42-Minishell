@@ -31,9 +31,6 @@ int	execute_command(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	if (check_asterisk(ast->cmd))
 		add_wildcard(ast->cmd);
 	update_env_var(ast, shell);
-	if (ast->cmd->cmd_name && ft_strcmp(ast->cmd->cmd_name,
-			"./minishell") == 0)
-		shlvl_exec(shell, 1);
 	if (is_builtin(ast->cmd->cmd_name) && ast->cmd->out_pipeline == -1
 		&& ast->cmd->in_pipeline == -1)
 		return (execute_builtin(ast, shell, extra_fd));
