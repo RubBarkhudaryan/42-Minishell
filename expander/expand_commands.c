@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 19:26:57 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/15 19:38:19 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:15:01 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,16 @@ static char	*expand_splitted_arr(char **arr, t_shell *shell)
 
 void	expand_command_redirections(t_cmd *cmd, t_shell *shell)
 {
-	int			i;
 	char		**arr;
 	t_redir		*redirs;
 
 	if (cmd->redirs_cmd)
 	{
-		redirs = cmd->redirs_cmd->redirs;
+		redirs = cmd->redirs_cmd;
 		while (redirs)
 		{
 			if (redirs->type != TK_HEREDOC)
 			{
-				i = -1;
 				arr = split_by_quotes(redirs->filename);
 				free(redirs->filename);
 				redirs->filename = expand_splitted_arr(arr, shell);
@@ -62,15 +60,13 @@ void	expand_command_redirections(t_cmd *cmd, t_shell *shell)
 
 void	expand_command_variables(t_ast *ast, t_shell *shell)
 {
-	int			i;
-	int			j;
-	char		**arr;
+	int		i;
+	char	**arr;
 
 	i = -1;
 	expand_command_redirections(ast->cmd, shell);
 	while (ast->cmd->args && ast->cmd->args[++i])
 	{
-		j = -1;
 		arr = split_by_quotes(ast->cmd->args[i]);
 		free(ast->cmd->args[i]);
 		ast->cmd->args[i] = expand_splitted_arr(arr, shell);

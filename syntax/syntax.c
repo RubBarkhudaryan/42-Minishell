@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 16:08:37 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/13 03:41:18 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:15:00 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@ int	check_redirs_validation(t_cmd *cmd)
 {
 	t_redir		*redir;
 
-	redir = cmd->redirs_cmd->redirs;
+	redir = cmd->redirs_cmd;
 	while (redir)
 	{
 		if (!redir->filename)
 		{
 			ft_putstr_fd(REDIR_ERR, 2);
-			g_status = 2;
 			return (0);
 		}
 		redir = redir->next;
@@ -39,21 +38,14 @@ int	analyze_command(t_ast *node)
 	if (!node->cmd || !node->cmd->args || !node->cmd->args[0])
 	{
 		if (!node->cmd)
-		{
-			g_status = 2;
 			return (0);
-		}
 		if (!node->cmd->redirs_cmd)
 		{
 			ft_putstr_fd("minishell: syntax error empty command\n", 2);
-			g_status = 2;
 			return (0);
 		}
 		else if (!check_redirs_validation(node->cmd))
-		{
-			g_status = 2;
 			return (0);
-		}
 	}
 	return (1);
 }
@@ -67,7 +59,6 @@ int	analyze_pipe(t_ast *node)
 	if (!node->left || !node->right)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-		g_status = 2;
 		return (0);
 	}
 	return (syntax_analyze(node->left) && syntax_analyze(node->right));
@@ -86,7 +77,6 @@ int	analyze_logical(t_ast *node)
 			ft_putstr_fd("&&'\n", 2);
 		else if (node->type == NODE_OR)
 			ft_putstr_fd("||'\n", 2);
-		g_status = 2;
 		return (0);
 	}
 	return (syntax_analyze(node->left) && syntax_analyze(node->right));
@@ -97,10 +87,7 @@ int	syntax_analyze(t_ast *ast)
 	t_ast	*node;
 
 	if (!ast)
-	{
-		g_status = 2;
 		return (0);
-	}
 	node = ast;
 	if (node->type == NODE_COMMAND)
 		return (analyze_command(node));

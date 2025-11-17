@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/13 17:58:06 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/16 18:39:30 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,6 @@ static int	handle_child_process(t_ast *ast, t_shell *shell, int extra_fd,
 	char	*tmp;
 
 	setup_child_signals();
-	if (ast->cmd && ast->cmd->args && !(*ast->cmd->args[0]))
-	{
-		free_split(env_str);
-		free_shell(shell, 0);
-		exit(0);
-	}
 	tmp = find_executable_path(ast, env_str, shell);
 	if (!tmp && ast->cmd->redirs_cmd == NULL)
 	{

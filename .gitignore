@@ -1,5 +1,5 @@
+.vscode
+minishell
 *.o
 *.out
 *.a
-minishell
-.vscode

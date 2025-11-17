@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:22 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/11 22:12:26 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:15:01 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_heredoc_warning(int line, char *delimiter)
 static void	handle_heredoc_exit(t_cmd *cmd, t_shell *shell,
 		t_here_doc here_doc_data)
 {
-	close(cmd->redirs_cmd->redirs->heredoc_fd);
+	close(cmd->redirs_cmd->heredoc_fd);
 	free(here_doc_data.delimiter);
 	free(here_doc_data.filename);
 	free_token_list(shell->token_list);
@@ -58,14 +58,14 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 				shell, here_doc_data), 0);
 	if (ft_strcmp(line, here_doc_data.delimiter) == 0)
 		return (free(line), handle_heredoc_exit(cmd, shell, here_doc_data), 0);
-	if (cmd->redirs_cmd->redirs->is_expanded)
+	if (cmd->redirs_cmd->is_expanded)
 	{
 		expanded = expand_dollar_token(line, shell, 1);
 		free(line);
 		line = expanded;
 	}
-	ft_putstr_fd(line, cmd->redirs_cmd->redirs->heredoc_fd);
-	write(cmd->redirs_cmd->redirs->heredoc_fd, "\n", 1);
+	ft_putstr_fd(line, cmd->redirs_cmd->heredoc_fd);
+	write(cmd->redirs_cmd->heredoc_fd, "\n", 1);
 	free(line);
 	(here_doc_data.line_count)++;
 	return (1);
@@ -73,7 +73,7 @@ int	process_heredoc_line(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 
 void	run_heredoc_child(t_cmd *cmd, t_here_doc here_doc_data, t_shell *shell)
 {
-	cmd->redirs_cmd->redirs->heredoc_fd = open_heredoc(here_doc_data.filename,
+	cmd->redirs_cmd->heredoc_fd = open_heredoc(here_doc_data.filename,
 			shell);
 	here_doc_data.line_count = 1;
 	while (1)

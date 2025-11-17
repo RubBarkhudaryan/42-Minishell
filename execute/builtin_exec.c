@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:23:30 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/13 17:58:05 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 01:56:39 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	execute_builtin_direct(t_ast *ast, t_shell *shell)
 	else if (ft_strcmp(ast->cmd->cmd_name, "unset") == 0)
 		status = ft_unset(ast->cmd->args, &(shell->env));
 	else if (ft_strcmp(ast->cmd->cmd_name, "exit") == 0)
-		status = ft_exit(ast->cmd->args, ast->cmd->in_subshell, shell);
+		status = ft_exit(ast->cmd->args, shell);
 	return (status);
 }
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 03:33:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/13 03:33:00 by rbarkhud         ###   ########.fr       */
+/*   Created: 2025/11/16 00:26:40 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/11/16 00:26:40 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_token_list(t_token *head)
 {
 	while (head)
 	{
-		printf("token: %s type: %d\n", head->token, head->token_type);
+		printf("token: %s type: %d\n", head->token, head->type);
 		head = head->next;
 	}
 }
@@ -46,6 +46,7 @@ t_shell	*init_shell_struct(char **envp)
 	shell->env = env;
 	shell->ast = NULL;
 	shell->last_exit_code = 0;
+	shell->interactive = true;
 	return (shell);
 }
 
@@ -59,26 +60,26 @@ void	adding_redirs(t_ast *ast, t_shell *shell)
 	adding_redirs(ast->right, shell);
 }
 
-void	minishell_loop_logic(t_shell *shell, t_token *token_list)
+void	minishell_loop_logic(t_shell *shell, t_token *lst)
 {
 	t_token	*tmp;
 
-	if (token_list)
+	if (lst)
 	{
-		tmp = token_list;
-		shell->token_list = token_list;
+		tmp = lst;
+		shell->token_list = lst;
 		shell->ast = build_ast(&tmp, shell);
 		adding_redirs(shell->ast, shell);
-		if (check_quoted_str(token_list) || validate_parenthesis(token_list))
+		if (!shell->ast || check_quoted_str(lst))
 		{
+			shell->last_exit_code = 2;
 			free_ast(shell->ast, 0);
 			shell->ast = NULL;
 		}
 		free_token_list(shell->token_list);
 		if (shell->ast)
 		{
-			if (syntax_analyze(shell->ast))
-				shell->last_exit_code = execute_node(shell);
+			shell->last_exit_code = execute_node(shell);
 			free_ast(shell->ast, 0);
 			shell->ast = NULL;
 		}
@@ -94,22 +95,21 @@ void	minishell_loop(t_shell *shell)
 	{
 		setup_signals();
 		line = readline("\001\033[1;32m\002🦂 minishell ֏ \001\033[0m\002");
+		check_exit_status(shell);
 		if (!line)
 		{
 			shlvl_exec(shell, 0);
 			printf("exit\n");
 			break ;
 		}
-		if (ft_strcmp(line, ""))
+		if (line[0])
 		{
 			add_history(line);
 			token_list = tokenize(line);
+			if (!check_syntax(token_list, line, shell))
+				continue ;
 			minishell_loop_logic(shell, token_list);
 		}
-		if (g_status != 0)
-			shell->last_exit_code = g_status;
-		else
-			g_status = shell->last_exit_code;
 		free(line);
 	}
 }

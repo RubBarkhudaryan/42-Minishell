@@ -55,6 +55,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	if (pid == 0)
 	{
 		setup_child_signals();
+		shell->interactive = false;
 		apply_redirections(shell, ast->cmd, extra_fd);
 		exit_code = execute_ast(ast->left, shell, wait, -1);
 		if (extra_fd != -1)
@@ -68,8 +69,7 @@ int	execute_subshell(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	}
 	if (!wait)
 		return (0);
-	waitpid(pid, &status, 0);
-	return (get_exit_code(status));
+	return (waitpid(pid, &status, 0), get_exit_code(status));
 }
 
 int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
@@ -88,7 +88,7 @@ int	execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd)
 	else if (ast->type == NODE_OR)
 	{
 		exit_code = execute_ast(ast->left, shell, wait, extra_fd);
-		if (exit_code != 0)
+		if (exit_code != 0 && exit_code != 130)
 			return (execute_ast(ast->right, shell, wait, extra_fd));
 		return (exit_code);
 	}

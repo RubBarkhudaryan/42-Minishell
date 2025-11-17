@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:24:08 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/11 13:08:26 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:33:10 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	check_numeric_arg(char **args, t_shell *shell)
 	return (0);
 }
 
-static int	exit_helper(char **args, bool flag, t_shell *shell)
+static int	exit_helper(char **args, t_shell *shell)
 {
 	if (check_numeric_arg(args, shell))
 		return (1);
@@ -74,14 +74,14 @@ static int	exit_helper(char **args, bool flag, t_shell *shell)
 			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 			return (-1);
 		}
-		if (!flag)
+		if (!shell->interactive)
 			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		return (1);
 	}
 	if (args_len(args) == 1)
 	{
 		shlvl_exec(shell, 0);
-		if (!flag)
+		if (!shell->interactive)
 			ft_putstr_fd("exit\n", 2);
 		free_shell(shell, 1);
 		exit(0);
@@ -89,12 +89,12 @@ static int	exit_helper(char **args, bool flag, t_shell *shell)
 	return (0);
 }
 
-int	ft_exit(char **args, bool flag, t_shell *shell)
+int	ft_exit(char **args, t_shell *shell)
 {
 	int	exit_code;
 	int	exit_helper_result;
 
-	exit_helper_result = exit_helper(args, flag, shell);
+	exit_helper_result = exit_helper(args, shell);
 	exit_code = 0;
 	if (exit_helper_result == 1)
 	{
@@ -110,7 +110,7 @@ int	ft_exit(char **args, bool flag, t_shell *shell)
 		exit_code = exit_code % 256;
 	else if (exit_code < 0)
 		exit_code = 256 + (exit_code % 256);
-	if (!flag)
+	if (shell->interactive)
 		print_helper("exit\n", NULL);
 	free_shell(shell, 1);
 	exit(exit_code);

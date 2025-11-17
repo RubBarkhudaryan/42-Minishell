@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_utils.c                                   :+:      :+:    :+:   */
+/*   wildcard_checker_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:07:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/14 22:12:45 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/15 21:56:32 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_asterisk(t_cmd *cmd)
 	if (!cmd)
 		return (0);
 	i = -1;
-	while (cmd->args[++i])
+	while (cmd->args && cmd->args[++i])
 	{
 		if (check_str(cmd->args[i]))
 			return (1);

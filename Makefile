@@ -1,7 +1,7 @@
 NAME	=	minishell
 
 CC		=	cc
-CFLGS	=	-Wall -Wextra -Werror -g3#-fsanitize=address
+CFLGS	=	-Wall -Wextra -Werror -g3
 LDFLAGS	=	-lreadline -lncurses
 
 
@@ -51,13 +51,13 @@ fclean: clean
 
 val: $(NAME) clean
 	$(VALGRIND) ./$(NAME)
-
-child: $(NAME) clean
-	$(VALCHILDEN) ./$(NAME)
-run: $(NAME) clean
-	./$(NAME)
-co: $(NAME) clean
-	./$(NAME)
+#
+#child: $(NAME) clean
+#	$(VALCHILDEN) ./$(NAME)
+#run: $(NAME) clean
+#	./$(NAME)
+#co: $(NAME) clean
+#	./$(NAME)
 
 re: fclean all
 

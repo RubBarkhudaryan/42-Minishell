@@ -25,7 +25,6 @@ typedef struct s_ast		t_ast;
 typedef struct s_cmd		t_cmd;
 typedef struct s_shell		t_shell;
 typedef struct s_token		t_token;
-typedef struct s_redir_cmd	t_redir_cmd;
 
 typedef struct s_expand
 {
