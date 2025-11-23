@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/23 21:12:22 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:54:11 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_ast	*build_ast(t_token **list, t_shell *shell)
 	t_ast	*res;
 
 	res = parse_ast(list, shell);
-	print_ast(res, 0);
 	if ((*list) || !res)
 	{
 		if ((*list))

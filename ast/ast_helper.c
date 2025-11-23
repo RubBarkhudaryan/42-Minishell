@@ -58,7 +58,6 @@ t_cmd	*make_cmd(t_token **list, t_shell *shell)
 	t_cmd	*cmd;
 	int		type;
 	int		i;
-	t_redir	*last_redir;
 
 	(void)shell;
 	cmd = init_cmd();
@@ -68,7 +67,6 @@ t_cmd	*make_cmd(t_token **list, t_shell *shell)
 	if (!cmd->args)
 		return (free(cmd), NULL);
 	i = 0;
-	last_redir = NULL;
 	while ((*list) && is_valid_token_type((*list)->type))
 	{
 		if ((*list)->type == TK_WORD)

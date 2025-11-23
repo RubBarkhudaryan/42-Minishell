@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/17 16:59:07 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:51:48 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void						throw_error(char *target);
 void						print_ast(t_ast *node, int level);
 void						free_cmd(t_cmd *cmd, int flag_unlink_heredoc);
 int							is_subshell_paren(t_token *token);
+int							is_redir(t_token *token);
 int							is_redirection_type(t_token *token);
 char						**ft_splitdup(char **args);
 bool						process_heredocs(t_cmd *cmd, t_shell *shell);
