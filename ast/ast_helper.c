@@ -84,18 +84,7 @@ t_cmd	*make_cmd(t_token **list, t_shell *shell)
 			(*list) = (*list)->next;
 			if (!(*list))
 				return (free_cmd(cmd, 1), NULL);
-			if (!cmd->redirs_cmd)
-			{
-				cmd->redirs_cmd = init_redir(type, (*list)->token);
-				last_redir = cmd->redirs_cmd;
-			}
-			else
-			{
-				last_redir->next = init_redir(type, (*list)->token);
-				last_redir = last_redir->next;
-			}
-			if (!last_redir)
-				return (free_cmd(cmd, 1), NULL);
+			add_redir(&cmd->redirs_cmd, init_redir(type, (*list)->token));
 		}
 		(*list) = (*list)->next;
 	}

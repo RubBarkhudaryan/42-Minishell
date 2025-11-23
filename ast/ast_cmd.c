@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/23 21:05:57 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:41:37 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_ast	*parse_regular_command(t_token **list, t_shell *shell)
 t_ast	*parse_subshell(t_token **list, t_shell *shell)
 {
 	t_ast	*subshell;
+	int		type;
 
 	subshell = create_ast_node(NULL, NULL, NODE_SUBSHELL, NULL);
 	if (!subshell)
@@ -40,9 +41,18 @@ t_ast	*parse_subshell(t_token **list, t_shell *shell)
 	if (!(*list) || (*list)->type != TK_R_PARENTHESIS)
 		return (free_ast(subshell, 1), NULL);
 	(*list) = (*list)->next;
-	subshell->cmd = make_cmd(list, shell);
-	if (!subshell->cmd || (subshell->cmd && subshell->cmd->cmd_name))
+	subshell->cmd = init_cmd();
+	if (!subshell->cmd)
 		return (free_ast(subshell, 1), NULL);
+	while((*list) && is_redir(*list))
+	{
+		type = (*list)->type;
+		(*list) = (*list)->next;
+		if (!(*list))
+			return (free_ast(subshell, 1), NULL);
+		add_redir(&subshell->cmd->redirs_cmd, init_redir(type, (*list)->token));
+		(*list) = (*list)->next;
+	}
 	return (subshell);
 }
 
