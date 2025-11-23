@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/23 21:10:02 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:12:22 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_ast	*build_ast(t_token **list, t_shell *shell)
 	return (res);
 }
 
+/*
 void	print_ast(t_ast *node, int level)
 {
 	int	i;
@@ -140,4 +141,4 @@ void	print_ast(t_ast *node, int level)
 	print_ast(node->left, level + 1);
 	print_ast(node->right, level + 1);
 }
-
+*/
