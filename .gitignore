@@ -3,3 +3,4 @@ minishell
 *.o
 *.out
 *.a
+*.json

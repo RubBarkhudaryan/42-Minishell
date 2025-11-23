@@ -99,8 +99,7 @@ t_cmd	*make_cmd(t_token **list, t_shell *shell)
 		}
 		(*list) = (*list)->next;
 	}
-	cmd->args[i] = NULL;
 	if (i > 0)
 		cmd->cmd_name = ft_strdup(cmd->args[0]);
-	return (cmd);
+	return (cmd->args[i] = NULL, cmd);
 }

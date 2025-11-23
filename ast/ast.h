@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/17 15:15:13 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:59:07 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define AST_H
 
 # include "../redirection/here_doc/here_doc.h"
-# include "../syntax/syntax.h"
 # include "../tokenizer/tokenizer.h"
 # include <stdbool.h>
 # include <stdio.h>
@@ -84,7 +83,3 @@ bool						process_heredocs(t_cmd *cmd, t_shell *shell);
 t_cmd						*init_cmd(void);
 t_ast						*parse_ast(t_token **token_list, t_shell *shell);
 #endif
-
-/*
-grelu em mi hat funkcia vor ete ast->node null a ed token listi elem-ic unenq error
-*/

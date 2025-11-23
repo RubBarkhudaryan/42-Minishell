@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/17 15:51:41 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:10:02 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-t_ast *create_ast_node(t_ast *left, t_ast *right, int type, t_cmd *cmd)
+t_ast	*create_ast_node(t_ast *left, t_ast *right, int type, t_cmd *cmd)
 {
-	t_ast *node;
+	t_ast	*node;
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
@@ -31,37 +31,7 @@ t_ast *create_ast_node(t_ast *left, t_ast *right, int type, t_cmd *cmd)
 	return (node);
 }
 
-void throw_error(char *target)
-{
-	ft_putstr_fd(ERR_MSG, 2);
-	ft_putstr_fd(target, 2);
-	ft_putstr_fd("'\n", 2);
-}
-
-void free_ast(t_ast *node, int flag_unlink_heredoc)
-{
-	if (!node)
-		return;
-	if (node->right)
-	{
-		free_ast(node->right, flag_unlink_heredoc);
-		node->right = NULL;
-	}
-	if (node->left)
-	{
-		free_ast(node->left, flag_unlink_heredoc);
-		node->left = NULL;
-	}
-	if (node->cmd)
-	{
-		free_cmd(node->cmd, flag_unlink_heredoc);
-		node->cmd = NULL;
-	}
-	free(node);
-	node = NULL;
-}
-
-t_ast *parse_cmd(t_token **token_list, t_shell *shell)
+t_ast	*parse_cmd(t_token **token_list, t_shell *shell)
 {
 	if (*token_list && (*token_list)->type == TK_L_PARENTHESIS)
 		return (parse_subshell(token_list, shell));
@@ -69,11 +39,11 @@ t_ast *parse_cmd(t_token **token_list, t_shell *shell)
 		return (parse_regular_command(token_list, shell));
 }
 
-t_ast *parse_pipe(t_token **list, t_shell *shell)
+t_ast	*parse_pipe(t_token **list, t_shell *shell)
 {
-	t_ast *left;
-	t_ast *right;
-	t_ast *node;
+	t_ast	*left;
+	t_ast	*right;
+	t_ast	*node;
 
 	left = parse_cmd(list, shell);
 	if (!left)
@@ -92,15 +62,15 @@ t_ast *parse_pipe(t_token **list, t_shell *shell)
 	return (left);
 }
 
-t_ast *parse_ast(t_token **list, t_shell *shell)
+t_ast	*parse_ast(t_token **list, t_shell *shell)
 {
-	t_ast *left;
-	t_ast *right;
-	t_token_type type;
-	t_ast *node;
+	t_ast			*left;
+	t_ast			*right;
+	t_ast			*node;
+	t_token_type	type;
 
 	if (!(*list) || !list)
-		return (printf("Hello\n"),NULL);
+		return (NULL);
 	left = parse_pipe(list, shell);
 	if (!left)
 		return (NULL);
@@ -119,24 +89,23 @@ t_ast *parse_ast(t_token **list, t_shell *shell)
 	return (left);
 }
 
-t_ast *build_ast(t_token **list, t_shell *shell)
+t_ast	*build_ast(t_token **list, t_shell *shell)
 {
 	t_ast	*res;
 
 	res = parse_ast(list, shell);
-	if (!res)
+	print_ast(res, 0);
+	if ((*list) || !res)
 	{
-		if (!(*list))
-			printf("error\n");
-		else
+		if ((*list))
 			throw_error((*list)->token);
+		else
+			printf("minishell: syntax error: unexpected end of line\n");
 		shell->last_exit_code = 2;
 		return (free_ast(res, 0), NULL);
 	}
 	return (res);
 }
-
-
 
 void	print_ast(t_ast *node, int level)
 {
@@ -171,3 +140,4 @@ void	print_ast(t_ast *node, int level)
 	print_ast(node->left, level + 1);
 	print_ast(node->right, level + 1);
 }
+

@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ast_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 15:14:53 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:46:16 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
+
+int	is_redir(t_token *token)
+{
+	if (!token)
+		return (0);
+	return ((token->type >= TK_REDIR_INPUT && token->type <= TK_HEREDOC));
+}
 
 bool	process_heredocs(t_cmd *cmd, t_shell *shell)
 {

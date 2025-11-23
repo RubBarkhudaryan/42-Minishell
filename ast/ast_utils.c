@@ -6,28 +6,11 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 13:55:44 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/16 21:47:13 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:36:55 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
-
-// int	is_redirection_type(t_token *token)
-// {
-// 	while (token)
-// 	{
-// 		if (token->type == TK_REDIR_INPUT
-// 			|| token->type == TK_REDIR_OUTPUT
-// 			|| token->type == TK_APPEND
-// 			|| token->type == TK_HEREDOC)
-// 			return (1);
-// 		else if (token->type == TK_PIPE || token->type == TK_AND
-// 			|| token->type == TK_OR)
-// 			return (0);
-// 		token = token->next;
-// 	}
-// 	return (0);
-// }
 
 int	is_subshell_paren(t_token *token)
 {
@@ -88,4 +71,27 @@ int	fill_args(t_cmd *cmd, t_token **token_list, int arg_count)
 	}
 	cmd->args[i] = NULL;
 	return (1);
+}
+
+void	free_ast(t_ast *node, int flag_unlink_heredoc)
+{
+	if (!node)
+		return ;
+	if (node->right)
+	{
+		free_ast(node->right, flag_unlink_heredoc);
+		node->right = NULL;
+	}
+	if (node->left)
+	{
+		free_ast(node->left, flag_unlink_heredoc);
+		node->left = NULL;
+	}
+	if (node->cmd)
+	{
+		free_cmd(node->cmd, flag_unlink_heredoc);
+		node->cmd = NULL;
+	}
+	free(node);
+	node = NULL;
 }

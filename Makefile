@@ -12,7 +12,6 @@ SRCS	=	main.c main_utils.c\
 			./signals/signals.c ./signals/signals2.c \
 			./redirection/redirs.c redirection/redir_free.c ./redirection/redir_apply.c ./redirection/redir_helpers.c \
 			./redirection/here_doc/here_doc_shell.c ./redirection/here_doc/here_doc_helper.c\
-			./syntax/syntax_utils.c ./syntax/syntax.c \
 			./ast/ast.c ./ast/ast_helper.c ./ast/ast_redir.c ./ast/ast_tools.c ./ast/ast_cmd.c ./ast/ast_utils.c\
 			./env/env_parser.c ./env/env_utils.c ./env/parsing_helper.c \
 			./execute/execute.c ./execute/cmd_exec.c ./execute/builtin_exec.c ./execute/utils.c ./execute/exec_utils.c ./execute/pipe_exec.c ./execute/env_var_update.c \

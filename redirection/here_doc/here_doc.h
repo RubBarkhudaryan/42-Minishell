@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 20:26:51 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/07 16:11:08 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:37:39 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "../../expander/expander.h"
 # include "../../libft/libft.h"
 # include "../../env/env_parser.h"
-# include "../../syntax/syntax.h"
 # include "../../execute/execute.h"
 # include "../../signals/signals.h"
 # include <readline/history.h>

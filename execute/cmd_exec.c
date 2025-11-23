@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:19:14 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 15:43:34 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:53:37 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	launch_process(t_ast *ast, t_shell *shell, int extra_fd, bool wait)
 	ignore_signals();
 	waitpid(pid, &status, 0);
 	reset_signals();
-	// if (WIFSIGNALED(status))
-		// write(1, "\n", 1);
+	if (WIFSIGNALED(status))
+		write(1, "\n", 1);
 	return (get_exit_code(status));
 }

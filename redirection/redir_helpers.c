@@ -29,17 +29,17 @@ t_redir	*init_redir(int type, char *filename)
 	return (redir);
 }
 
-void	add_redir(t_redir *redirs, t_redir *new_node)
+void	add_redir(t_redir **redirs, t_redir *new_node)
 {
 	t_redir	*temp;
 
 	if (!new_node)
 		return ;
-	if (!redirs)
-		redirs = new_node;
+	if (!redirs || !*redirs)
+		*redirs = new_node;
 	else
 	{
-		temp = redirs;
+		temp = *redirs;
 		while (temp->next)
 			temp = temp->next;
 		temp->next = new_node;

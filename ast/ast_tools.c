@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:55:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 00:57:23 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:35:44 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,11 @@ int	count_args(t_token *current)
 		current = current->next;
 	}
 	return (count);
+}
+
+void	throw_error(char *target)
+{
+	ft_putstr_fd(ERR_MSG, 2);
+	ft_putstr_fd(target, 2);
+	ft_putstr_fd("'\n", 2);
 }

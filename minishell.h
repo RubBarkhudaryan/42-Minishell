@@ -19,7 +19,6 @@
 
 void	free_shell(t_shell *shell, int flag_unlink_heredoc);
 t_shell	*init_shell_struct(char **envp);
-void	adding_redirs(t_ast *ast, t_shell *shell);
 void	minishell_loop_logic(t_shell *shell, t_token *token_list);
 void	minishell_loop(t_shell *shell);
 

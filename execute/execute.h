@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:40:29 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 16:01:08 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:35:10 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		get_exit_code(int status);
 int		execute_pipe(t_ast *ast, t_shell *shell, bool last_pipe);
 int		execute_node(t_shell *shell);
 int		execute_ast(t_ast *ast, t_shell *shell, bool wait, int extra_fd);
-int		exe_builtin_process(t_ast *ast, t_shell *shell, bool wait, int extra_fd);
+int		exe_builtin_process(t_ast *ast, t_shell *shell,
+			bool wait, int extra_fd);
 int		execute_builtin(t_ast *ast, t_shell *shell, int extra_fd);
 char	**tokens_to_args(t_token *tokens);
 char	*find_executable_path(t_ast *ast, char **env_str, t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 19:23:36 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/16 18:36:52 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:33:59 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*handle_absolute_path(t_ast *ast, char **env_str, t_shell *shell)
 	return (result);
 }
 
-static char  *handle_relative_path(t_ast *ast, char **env_str, t_shell *shell)
+static char	*handle_relative_path(t_ast *ast, char **env_str, t_shell *shell)
 {
 	char	**split_path;
 	char	*result;

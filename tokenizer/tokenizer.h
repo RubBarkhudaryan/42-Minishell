@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/17 02:15:00 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:54:29 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include "../libft/libft.h"
 # include "../env/env_parser.h"
 # include "../signals/signals.h"
-# include "../syntax/syntax.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
@@ -82,10 +81,11 @@ void	print_token_list(t_token *head);
 int		get_parenthesis_token_type(char *value);
 int		get_token_type(char *value);
 int		ft_is_word_part(char c);
+int		check_quoted_str(t_token *head);
 
 /*redirs list builders*/
-t_redir			*init_redir(int type, char *filename);
-void			add_redir(t_redir *redirs, t_redir *new_node);
-void			free_redir_list(t_redir *redir, int flag_unlink_heredoc);
+t_redir	*init_redir(int type, char *filename);
+void	add_redir(t_redir **redirs, t_redir *new_node);
+void	free_redir_list(t_redir *redir, int flag_unlink_heredoc);
 
 #endif
