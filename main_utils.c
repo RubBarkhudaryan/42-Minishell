@@ -12,17 +12,6 @@
 
 #include "./minishell.h"
 
-/*
-void	print_token_list(t_token *head)
-{
-	while (head)
-	{
-		printf("token: %s type: %d\n", head->token, head->type);
-		head = head->next;
-	}
-}
-*/
-
 void	free_shell(t_shell *shell, int flag_unlink_heredoc)
 {
 	if (shell->env)
@@ -87,6 +76,25 @@ void	minishell_loop_logic(t_shell *shell, t_token *lst)
 	}
 }
 
+int cheak_line(char *line)
+{
+	int i;
+	int count;
+
+	count = 0;
+	i = -1;
+	if(!line || !*line)
+		return (0);
+	while (line[++i])
+	{
+		if(line[i] == ' ')
+			count++;
+	}
+	if(count == i)
+		return (0);
+	return (1);
+}
+
 void	minishell_loop(t_shell *shell)
 {
 	t_token	*token_list;
@@ -102,7 +110,7 @@ void	minishell_loop(t_shell *shell)
 			ft_putstr_fd("exit\n", 2);
 			break ;
 		}
-		if (line[0])
+		if (cheak_line(line))
 		{
 			add_history(line);
 			token_list = tokenize(line);
