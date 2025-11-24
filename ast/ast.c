@@ -6,7 +6,7 @@
 /*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/24 15:39:48 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:50:06 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_ast	*build_ast(t_token **list, t_shell *shell)
 	t_ast	*res;
 
 	res = parse_ast(list, shell);
-	// print_ast(res, 0);
 	if ((*list) || !res)
 	{
 		if ((*list))

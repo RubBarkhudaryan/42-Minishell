@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
 /*   Updated: 2025/11/17 16:00:38 by apatvaka         ###   ########.fr       */
 /*                                                                            */
@@ -12,9 +15,10 @@
 
 #include "./ast.h"
 
+
 t_cmd	*init_cmd(void)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -30,7 +34,7 @@ t_cmd	*init_cmd(void)
 
 void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 {
-	int	i;
+	int i;
 
 	if (!cmd)
 		return ;
@@ -55,11 +59,13 @@ void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 
 t_cmd	*make_cmd(t_token **list, t_shell *shell)
 {
-	t_cmd	*cmd;
-	int		type;
-	int		i;
+	t_cmd *cmd;
+	int type;
+	int i;
 
 	(void)shell;
+	if (count_args(*list) == 0)
+		return (NULL);
 	cmd = init_cmd();
 	if (!cmd)
 		return (NULL);
