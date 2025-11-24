@@ -3,36 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ast_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:59:39 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/09 14:03:05 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:46:16 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-static bool	setup_cmd_from_redirs(t_cmd *cmd)
+int	is_redir(t_token *token)
 {
-	if (cmd->redirs_cmd->argv)
-	{
-		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
-		cmd->args = ft_splitdup(cmd->redirs_cmd->argv);
-	}
-	else
-	{
-		cmd->args = NULL;
-		cmd->cmd_name = NULL;
-	}
-	return (cmd->cmd_name != NULL || cmd->args == NULL);
+	if (!token)
+		return (0);
+	return ((token->type >= TK_REDIR_INPUT && token->type <= TK_HEREDOC));
 }
 
-static bool	process_heredocs(t_cmd *cmd, t_shell *shell)
+bool	process_heredocs(t_cmd *cmd, t_shell *shell)
 {
 	t_redir	*tmp_red;
 	char	*tmp;
 
-	tmp_red = cmd->redirs_cmd->redirs;
+	tmp_red = cmd->redirs_cmd;
 	while (tmp_red && tmp_red->type == TK_HEREDOC)
 	{
 		tmp = here_doc(cmd, ft_strdup(tmp_red->filename), shell);
@@ -45,39 +37,38 @@ static bool	process_heredocs(t_cmd *cmd, t_shell *shell)
 	return (true);
 }
 
-static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
-{
-	if (!setup_cmd_from_redirs(cmd))
-		return (NULL);
-	if (!process_heredocs(cmd, shell))
-		return (free_cmd(cmd, 1), NULL);
-	cmd->in_pipeline = -1;
-	cmd->out_pipeline = -1;
-	return (cmd);
-}
+// static t_cmd	*handle_heredoc_redir(t_cmd *cmd, t_shell *shell)
+// {
+// 	if (!process_heredocs(cmd, shell))
+// 		return (free_cmd(cmd, 1), NULL);
+// 	return (cmd);
+// }
 
-static t_cmd	*handle_other_redirs(t_cmd *cmd)
+t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list)
 {
-	if (cmd->redirs_cmd->argv && cmd->redirs_cmd->argv[0])
-		cmd->cmd_name = ft_strdup(cmd->redirs_cmd->argv[0]);
-	else
-		cmd->cmd_name = NULL;
-	if (cmd->redirs_cmd->argv)
-		cmd->args = ft_splitdup(cmd->redirs_cmd->argv);
-	else
-		cmd->args = NULL;
-	cmd->in_pipeline = -1;
-	cmd->out_pipeline = -1;
-	return (cmd);
-}
+	int		type;
+	t_redir	*last_redir;
 
-t_cmd	*parse_redirs_ast(t_cmd *cmd, t_token **token_list, t_shell *shell)
-{
-	cmd->redirs_cmd = parse_redirs(token_list);
-	if (!cmd->redirs_cmd)
-		return (free_redir_cmd(cmd->redirs_cmd, 0), free(cmd), NULL);
-	if (cmd->redirs_cmd->redirs && cmd->redirs_cmd->redirs->type == TK_HEREDOC)
-		return (handle_heredoc_redir(cmd, shell));
-	else
-		return (handle_other_redirs(cmd));
+	last_redir = NULL;
+	while (*token_list && is_redir(*token_list))
+	{
+		type = (*token_list)->type;
+		*token_list = (*token_list)->next;
+		if (!(*token_list) || (*token_list)->type != TK_WORD)
+			return (free_cmd(cmd, 0), NULL);
+		if (!cmd->redirs_cmd)
+		{
+			cmd->redirs_cmd = init_redir(type, (*token_list)->token);
+			last_redir = cmd->redirs_cmd;
+		}
+		else
+		{
+			last_redir->next = init_redir(type, (*token_list)->token);
+			last_redir = last_redir->next;
+		}
+		if (!last_redir)
+			return (free_cmd(cmd, 0), NULL);
+		*token_list = (*token_list)->next;
+	}
+	return (cmd->in_pipeline = -1, cmd->out_pipeline = -1, cmd);
 }

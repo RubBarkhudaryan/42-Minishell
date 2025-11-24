@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:55:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/10 17:42:56 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:40:31 by apatvaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ t_token	*find_matching_parenthesis(t_token *start, int *ret_count)
 	current = start;
 	while (current != NULL)
 	{
-		if (current->token_type == TK_L_PARENTHESIS)
+		if (current->type == TK_L_PARENTHESIS)
 			count++;
-		else if (current->token_type == TK_R_PARENTHESIS)
+		else if (current->type == TK_R_PARENTHESIS)
 		{
 			if (!flag)
 			{
@@ -46,7 +46,7 @@ int	count_args(t_token *current)
 	int	count;
 
 	count = 0;
-	while (current && is_valid_token_type(current->token_type))
+	while (current && is_valid_token_type(current->type))
 	{
 		count++;
 		current = current->next;
@@ -54,23 +54,11 @@ int	count_args(t_token *current)
 	return (count);
 }
 
-void	set_type(t_ast *node, int type)
+void	throw_error(char *target)
 {
-	if (type == TK_OR)
-		node->type = NODE_OR;
-	else
-		node->type = NODE_AND;
+	ft_putstr_fd(ERR_MSG, 2);
+	ft_putstr_fd(target, 2);
+	ft_putstr_fd("'\n", 2);
 }
 
-void	set_cmd(t_ast *node)
-{
-	node->cmd = malloc(sizeof(t_cmd));
-	node->cmd->args = NULL;
-	node->cmd->redirs_cmd = NULL;
-	node->cmd->cmd_name = NULL;
-	node->cmd->token_list = NULL;
-	node->cmd->redirs_cmd = NULL;
-	node->cmd->in_pipeline = -1;
-	node->cmd->in_subshell = false;
-	node->cmd->out_pipeline = -1;
-}
+

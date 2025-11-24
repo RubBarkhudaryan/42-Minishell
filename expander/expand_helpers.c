@@ -43,6 +43,8 @@ void	change_val(char **target, char **source)
 
 void	refresh_val(char **target, char *source)
 {
+	if (!target || !(*target))
+		return ;
 	free(*target);
 	*target = ft_strdup(source);
 }

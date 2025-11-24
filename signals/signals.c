@@ -17,13 +17,12 @@
 
 void	parent_sigint_handler(int signo)
 {
-	(void)signo;
 	write(STDOUT_FILENO, "\n", 1);
 	if (rl_line_buffer)
 		rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	g_status = 130;
+	g_status = signo;
 }
 
 void	setup_signals(void)

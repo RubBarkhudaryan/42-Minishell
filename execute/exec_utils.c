@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 19:23:36 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/13 17:58:15 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:33:59 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ static char	*handle_relative_path(t_ast *ast, char **env_str, t_shell *shell)
 	char	*result;
 	char	*path;
 
+	if (ast->cmd && !(*ast->cmd->cmd_name))
+		return (NULL);
 	path = get_value_from_env(shell->env, "PATH");
 	if (!path)
 	{
@@ -102,9 +104,8 @@ static char	*handle_relative_path(t_ast *ast, char **env_str, t_shell *shell)
 		free_shell(shell, 0);
 		exit(1);
 	}
-	result = search_path_dirs(ast->cmd->cmd_name, split_path);
-	free_split(split_path);
-	return (result);
+	return (result = search_path_dirs(ast->cmd->cmd_name, split_path),
+		free_split(split_path), result);
 }
 
 char	*find_executable_path(t_ast *ast, char **env_str, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:30:06 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/05 21:19:04 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 16:35:27 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,5 @@ void	free_redir_list(t_redir *redir, int flag_unlink_heredoc)
 		free(redir->filename);
 		free(redir);
 		redir = next;
-	}
-}
-
-void	free_redir_cmd(t_redir_cmd *cmd, int flag_unlink_heredoc)
-{
-	int			i;
-	t_redir_cmd	*temp_cmd;
-	t_redir_cmd	*temp_next_cmd;
-
-	temp_cmd = cmd;
-	while (temp_cmd)
-	{
-		free_redir_list(temp_cmd->redirs, flag_unlink_heredoc);
-		if (temp_cmd->argv)
-		{
-			i = -1;
-			while (temp_cmd->argv && temp_cmd->argv[++i])
-				free(temp_cmd->argv[i]);
-			free(temp_cmd->argv);
-		}
-		temp_next_cmd = temp_cmd->next;
-		free(temp_cmd);
-		temp_cmd = temp_next_cmd;
 	}
 }

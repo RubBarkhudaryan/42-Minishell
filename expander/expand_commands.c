@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 19:26:57 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/23 21:58:43 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:15:01 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	expand_command_redirections(t_cmd *cmd, t_shell *shell)
 
 	if (cmd->redirs_cmd)
 	{
-		redirs = cmd->redirs_cmd->redirs;
+		redirs = cmd->redirs_cmd;
 		while (redirs)
 		{
 			if (redirs->type != TK_HEREDOC)
@@ -60,8 +60,8 @@ void	expand_command_redirections(t_cmd *cmd, t_shell *shell)
 
 void	expand_command_variables(t_ast *ast, t_shell *shell)
 {
-	int			i;
-	char		**arr;
+	int		i;
+	char	**arr;
 
 	i = -1;
 	expand_command_redirections(ast->cmd, shell);

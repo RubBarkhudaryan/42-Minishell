@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:09:32 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/13 03:27:54 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/17 02:15:01 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*here_doc(t_cmd *cmd, char *delimiter, t_shell *shell)
 	file_name = open_check_filename();
 	if (!file_name)
 		return (NULL);
-	cmd->redirs_cmd->redirs->is_expanded = check_expand_heredoc(&delimiter);
+	cmd->redirs_cmd->is_expanded = check_expand_heredoc(&delimiter);
 	here_doc_data.delimiter = delimiter;
 	here_doc_data.filename = file_name;
 	shell->last_exit_code = run_here_doc(cmd, here_doc_data, shell);

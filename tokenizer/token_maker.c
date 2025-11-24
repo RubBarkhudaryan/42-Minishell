@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:52:28 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 16:22:42 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/16 20:00:11 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	add_token(t_token **head, char *value)
 		return ;
 	}
 	new_node->next = NULL;
-	new_node->token_type = get_token_type(value);
+	new_node->type = get_token_type(value);
 	new_node->token = value;
 	new_node->is_subshell = false;
 	if (!(*head))

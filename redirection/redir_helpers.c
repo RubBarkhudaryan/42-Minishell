@@ -12,77 +12,36 @@
 
 #include "../tokenizer/tokenizer.h"
 
-t_redir_cmd	*init_redir_cmd(void)
-{
-	t_redir_cmd	*cmd;
-
-	cmd = (t_redir_cmd *)malloc(sizeof(t_redir_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->argv = NULL;
-	cmd->redirs = NULL;
-	cmd->next = NULL;
-	return (cmd);
-}
-
-void	add_redir(t_redir_cmd *cmd, int type, char *filename)
+t_redir	*init_redir(int type, char *filename)
 {
 	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->filename = ft_strdup(filename);
+	if (!redir->filename)
+		return (free(redir), NULL);
+	redir->type = type;
+	redir->next = NULL;
+	redir->is_expanded = 1;
+	redir->heredoc_fd = -1;
+	return (redir);
+}
+
+void	add_redir(t_redir **redirs, t_redir *new_node)
+{
 	t_redir	*temp;
 
-	redir = (t_redir *)malloc(sizeof(t_redir));
-	if (!redir)
+	if (!new_node)
 		return ;
-	redir->is_expanded = 1;
-	redir->type = type;
-	redir->is_expanded = 1;
-	if (filename)
-		redir->filename = ft_strdup(filename);
-	else
-		redir->filename = NULL;
-	redir->next = NULL;
-	if (!cmd->redirs)
-		cmd->redirs = redir;
+	if (!redirs || !*redirs)
+		*redirs = new_node;
 	else
 	{
-		temp = cmd->redirs;
+		temp = *redirs;
 		while (temp->next)
 			temp = temp->next;
-		temp->next = redir;
+		temp->next = new_node;
 	}
-}
-
-int	arg_count(char **argv)
-{
-	int	i;
-
-	if (!argv || !(*argv))
-		return (0);
-	i = 0;
-	while (argv[i])
-		++i;
-	return (i);
-}
-
-void	add_arg(t_redir_cmd *cmd, char *arg)
-{
-	char	**temp;
-	int		count;
-	int		i;
-
-	i = 0;
-	count = arg_count(cmd->argv);
-	temp = (char **)malloc(sizeof(char *) * (count + 2));
-	if (!temp)
-		return ;
-	while (i < count)
-	{
-		temp[i] = cmd->argv[i];
-		++i;
-	}
-	temp[count] = ft_strdup(arg);
-	temp[count + 1] = NULL;
-	if (cmd->argv)
-		free(cmd->argv);
-	cmd->argv = temp;
 }

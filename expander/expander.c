@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 22:43:30 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/15 19:38:12 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/15 23:43:33 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	dollar_handler(char *token, int *i, t_shell *shell, t_expand *exp)
 	while (token[*i + j] && is_var_name_char(token[*i + j]))
 		++j;
 	if (token[*i + j] == '?')
-		refresh_args_val(exp, ft_itoa(g_status), i, 2);
+		refresh_args_val(exp, ft_itoa(shell->last_exit_code), i, 2);
 	else if (j == 1)
 		refresh_args_val(exp, ft_strdup("$"), i, 1);
 	else

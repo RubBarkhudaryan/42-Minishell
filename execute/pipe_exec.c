@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:25:57 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/13 17:59:28 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/16 00:11:32 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	last_pipe_exec(t_ast *ast, t_shell *shell, int pipe_fd)
 	close(pipe_fd);
 	while (wait(&status) != -1)
 		;
-	g_status = exit_code;
+	shell->last_exit_code = exit_code;
 	return (exit_code);
 }
 

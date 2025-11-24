@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:21:01 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/10 16:21:56 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:37:34 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,27 @@ int	ft_inset(char c, char *set)
 		if (c == set[i])
 			return (1);
 		++i;
+	}
+	return (0);
+}
+
+int	check_quoted_str(t_token *head)
+{
+	t_token	*list;
+
+	if (!head)
+		return (0);
+	list = head;
+	while (list)
+	{
+		if (list->type == TK_ERROR)
+		{
+			ft_putstr_fd("minishell: syntax error unexpected token near `", 2);
+			ft_putstr_fd(list->token, 2);
+			ft_putstr_fd("'\n", 2);
+			return (1);
+		}
+		list = list->next;
 	}
 	return (0);
 }
