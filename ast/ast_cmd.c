@@ -6,18 +6,18 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:18:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/23 21:41:37 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:23:50 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
-t_ast	*parse_regular_command(t_token **list, t_shell *shell)
+t_ast	*parse_regular_command(t_token **list)
 {
 	t_cmd	*cmd_tmp;
 	t_ast	*node;
 
-	cmd_tmp = make_cmd(list, shell);
+	cmd_tmp = make_cmd(list);
 	if (!cmd_tmp)
 		return (NULL);
 	node = create_ast_node(NULL, NULL, NODE_COMMAND, cmd_tmp);
@@ -29,7 +29,6 @@ t_ast	*parse_regular_command(t_token **list, t_shell *shell)
 t_ast	*parse_subshell(t_token **list, t_shell *shell)
 {
 	t_ast	*subshell;
-	int		type;
 
 	subshell = create_ast_node(NULL, NULL, NODE_SUBSHELL, NULL);
 	if (!subshell)
@@ -44,24 +43,11 @@ t_ast	*parse_subshell(t_token **list, t_shell *shell)
 	subshell->cmd = init_cmd();
 	if (!subshell->cmd)
 		return (free_ast(subshell, 1), NULL);
-	while((*list) && is_redir(*list))
+	while ((*list) && is_redir(*list))
 	{
-		type = (*list)->type;
-		(*list) = (*list)->next;
-		if (!(*list))
+		if (!add_redir(&subshell->cmd->redirs_cmd, list))
 			return (free_ast(subshell, 1), NULL);
-		add_redir(&subshell->cmd->redirs_cmd, init_redir(type, (*list)->token));
 		(*list) = (*list)->next;
 	}
 	return (subshell);
 }
-
-// while((*list) && is_redir(*list))
-// {
-// 	type = (*list)->type;
-// 	(*list) = (*list)->next;
-// 	if (!(*list))
-// 		return (free_ast(subshell, 1), NULL);
-// 	add_redir(subshell->cmd->redirs_cmd, init_redir(type, (*list)->token));
-// 	(*list) = (*list)->next;
-// }

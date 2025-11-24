@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:45:25 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/24 15:50:06 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:13:40 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_ast	*parse_cmd(t_token **token_list, t_shell *shell)
 	if (*token_list && (*token_list)->type == TK_L_PARENTHESIS)
 		return (parse_subshell(token_list, shell));
 	else
-		return (parse_regular_command(token_list, shell));
+		return (parse_regular_command(token_list));
 }
 
 t_ast	*parse_pipe(t_token **list, t_shell *shell)

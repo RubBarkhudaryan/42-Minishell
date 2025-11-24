@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 15:42:00 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/24 15:39:16 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:05:59 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_ast
 int							is_redir(t_token *token);
 void						free_ast(t_ast *node, int flag_unlink_heredoc);
 t_ast						*build_ast(t_token **token_list, t_shell *shell);
-t_cmd						*make_cmd(t_token **list, t_shell *shell);
+t_cmd						*make_cmd(t_token **list);
 t_token						*find_matching_parenthesis(t_token *start,
 								int *ret_count);
 int							count_args(t_token *current);
@@ -67,8 +67,7 @@ int							fill_args(t_cmd *cmd, t_token **token_list,
 								int arg_count);
 t_cmd						*parse_redirs_ast(t_cmd *cmd, t_token **token_list);
 int							is_valid_token_type(t_token_type type);
-t_ast						*parse_regular_command(t_token **token_list,
-								t_shell *shell);
+t_ast						*parse_regular_command(t_token **token_list);
 t_ast						*parse_subshell(t_token **token_list,
 								t_shell *shell);
 t_ast						*create_ast_node(t_ast *left, t_ast *right,

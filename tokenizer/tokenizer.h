@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/23 20:54:29 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/24 16:22:07 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		check_quoted_str(t_token *head);
 
 /*redirs list builders*/
 t_redir	*init_redir(int type, char *filename);
-void	add_redir(t_redir **redirs, t_redir *new_node);
+int		add_redir(t_redir **redirs, t_token **list);
 void	free_redir_list(t_redir *redir, int flag_unlink_heredoc);
 
 #endif

@@ -29,12 +29,19 @@ t_redir	*init_redir(int type, char *filename)
 	return (redir);
 }
 
-void	add_redir(t_redir **redirs, t_redir *new_node)
+int	add_redir(t_redir **redirs, t_token **list)
 {
+	int		type;
 	t_redir	*temp;
+	t_redir	*new_node;
 
+	type = (*list)->type;
+	(*list) = (*list)->next;
+	if (!(*list))
+		return (0);
+	new_node = init_redir(type, (*list)->token);
 	if (!new_node)
-		return ;
+		return (0);
 	if (!redirs || !*redirs)
 		*redirs = new_node;
 	else
@@ -44,4 +51,5 @@ void	add_redir(t_redir **redirs, t_redir *new_node)
 			temp = temp->next;
 		temp->next = new_node;
 	}
+	return (1);
 }

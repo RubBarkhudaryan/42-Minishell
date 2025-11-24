@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:55:35 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/24 15:40:31 by apatvaka         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:58:52 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,3 @@ void	throw_error(char *target)
 	ft_putstr_fd(target, 2);
 	ft_putstr_fd("'\n", 2);
 }
-
-

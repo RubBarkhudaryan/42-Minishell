@@ -2,23 +2,27 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ast_helper.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: apatvaka <apatvaka@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/08/24 15:58:49 by apatvaka          #+#    #+#             */
-/*   Updated: 2025/11/17 16:00:38 by apatvaka         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 15:58:14 by rbarkhud          #+#    #+#             */
+/*   Updated: 2025/11/24 15:58:14 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./ast.h"
 
+static int	add_arg(t_cmd **cmd, int index, char *value)
+{
+	(*cmd)->args[index] = ft_strdup(value);
+	if (!(*cmd)->args[index])
+		return (0);
+	return (1);
+}
 
 t_cmd	*init_cmd(void)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -34,7 +38,7 @@ t_cmd	*init_cmd(void)
 
 void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 {
-	int i;
+	int	i;
 
 	if (!cmd)
 		return ;
@@ -57,17 +61,13 @@ void	free_cmd(t_cmd *cmd, int flag_unlink_heredoc)
 	free(cmd);
 }
 
-t_cmd	*make_cmd(t_token **list, t_shell *shell)
+t_cmd	*make_cmd(t_token **list)
 {
-	t_cmd *cmd;
-	int type;
-	int i;
+	t_cmd	*cmd;
+	int		i;
 
-	(void)shell;
-	if (count_args(*list) == 0)
-		return (NULL);
 	cmd = init_cmd();
-	if (!cmd)
+	if (!cmd || count_args(*list) == 0)
 		return (NULL);
 	cmd->args = ft_calloc((count_args(*list) + 1), sizeof(char *));
 	if (!cmd->args)
@@ -77,19 +77,12 @@ t_cmd	*make_cmd(t_token **list, t_shell *shell)
 	{
 		if ((*list)->type == TK_WORD)
 		{
-			cmd->args[i] = ft_strdup((*list)->token);
-			if (!cmd->args[i])
+			if (!add_arg(&cmd, i, (*list)->token))
 				return (free_cmd(cmd, 1), NULL);
-			i++;
+			++i;
 		}
-		else
-		{
-			type = (*list)->type;
-			(*list) = (*list)->next;
-			if (!(*list))
-				return (free_cmd(cmd, 1), NULL);
-			add_redir(&cmd->redirs_cmd, init_redir(type, (*list)->token));
-		}
+		else if (!add_redir(&cmd->redirs_cmd, list))
+			return (free_cmd(cmd, 1), NULL);
 		(*list) = (*list)->next;
 	}
 	if (i > 0)
