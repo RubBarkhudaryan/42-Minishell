@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:54:07 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/24 16:22:07 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:47:17 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int		ft_inset(char c, char *set);
 int		ft_isspace(char c);
 void	add_token(t_token **last_elem, char *value);
 void	free_token_list(t_token *head);
-void	print_token_list(t_token *head);
 int		get_parenthesis_token_type(char *value);
 int		get_token_type(char *value);
 int		ft_is_word_part(char c);
+int		check_quoted_token_type(char *value);
 int		check_quoted_str(t_token *head);
 
 /*redirs list builders*/

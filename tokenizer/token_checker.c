@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 22:21:01 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/23 20:37:34 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:17:05 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_quoted_str(t_token *head)
 	list = head;
 	while (list)
 	{
-		if (list->type == TK_ERROR)
+		if (check_quoted_token_type(list->token) == TK_ERROR)
 		{
 			ft_putstr_fd("minishell: syntax error unexpected token near `", 2);
 			ft_putstr_fd(list->token, 2);

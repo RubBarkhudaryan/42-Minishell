@@ -6,7 +6,7 @@
 /*   By: rbarkhud <rbarkhud@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:10:31 by rbarkhud          #+#    #+#             */
-/*   Updated: 2025/11/15 19:55:01 by rbarkhud         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:47:44 by rbarkhud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,20 @@
 
 int	check_quoted_token_type(char *value)
 {
-	int		i;
-	int		quote;
 	char	q;
+	int		i;
 
+	q = 0;
 	i = 0;
-	quote = 0;
-	q = ' ';
 	while (value[i])
 	{
-		if (!quote && ft_inset(value[i], "\'\""))
-		{
-			quote = 1;
+		if (!q && (value[i] == '"' || value[i] == '\''))
 			q = value[i];
-		}
-		else if (quote && ft_inset(value[i], "\'\"") && q == value[i])
-		{
-			quote = 0;
-			q = ' ';
-		}
+		else if (q && value[i] == q)
+			q = 0;
 		++i;
 	}
-	if (ft_inset(q, "\'\""))
+	if (q != 0)
 		return (TK_ERROR);
 	return (TK_WORD);
 }
@@ -101,5 +93,5 @@ int	get_token_type(char *value)
 		return (TK_ERROR);
 	else if (parenthesis_type != -1 && ft_inset(*value, "<>()"))
 		return (parenthesis_type);
-	return (check_quoted_token_type(value));
+	return (TK_WORD);
 }

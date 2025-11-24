@@ -12,15 +12,6 @@
 
 #include "./minishell.h"
 
-void	free_shell(t_shell *shell, int flag_unlink_heredoc)
-{
-	if (shell->env)
-		free_env_list(shell->env);
-	if (shell->ast)
-		free_ast(shell->ast, flag_unlink_heredoc);
-	free(shell);
-}
-
 t_shell	*init_shell_struct(char **envp)
 {
 	t_shell	*shell;
@@ -59,7 +50,7 @@ void	minishell_loop_logic(t_shell *shell, t_token *lst)
 		shell->token_list = lst;
 		shell->ast = build_ast(&tmp, shell);
 		find_heredoc_in_ast(shell->ast, shell);
-		if (!shell->ast || check_quoted_str(lst))
+		if (check_quoted_str(lst) || !shell->ast)
 		{
 			shell->last_exit_code = 2;
 			if (shell->ast)
@@ -76,21 +67,21 @@ void	minishell_loop_logic(t_shell *shell, t_token *lst)
 	}
 }
 
-int cheak_line(char *line)
+int	check_line(char *line)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	count = 0;
 	i = -1;
-	if(!line || !*line)
+	if (!line || !*line)
 		return (0);
 	while (line[++i])
 	{
-		if(line[i] == ' ')
+		if (line[i] == ' ')
 			count++;
 	}
-	if(count == i)
+	if (count == i)
 		return (0);
 	return (1);
 }
@@ -110,7 +101,7 @@ void	minishell_loop(t_shell *shell)
 			ft_putstr_fd("exit\n", 2);
 			break ;
 		}
-		if (cheak_line(line))
+		if (check_line(line))
 		{
 			add_history(line);
 			token_list = tokenize(line);
